@@ -1,4 +1,4 @@
-var Asteroid = function( poem, x, y, radius ) {
+var Asteroid = module.exports = function( poem, x, y, radius ) {
 	
 	this.poem = poem;
 	this.object = null;

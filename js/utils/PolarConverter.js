@@ -1,6 +1,6 @@
 // Translates 2d points into 3d polar space
 
-var PolarConverter = function( poem ) {
+var PolarConverter = module.exports = function( poem ) {
 	this.poem = poem;
 };
 

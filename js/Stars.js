@@ -1,4 +1,4 @@
-var Stars = function( poem ) {
+var Stars = module.exports = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	

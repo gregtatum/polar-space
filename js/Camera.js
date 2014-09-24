@@ -1,4 +1,4 @@
-var Camera = function( poem ) {
+var Camera = module.exports = function( poem ) {
 	
 	this.poem = poem;
 	

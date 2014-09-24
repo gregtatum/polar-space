@@ -1,4 +1,12 @@
-var Poem = function() {
+var PolarConverter = require('./utils/PolarConverter');
+var Camera = require('./Camera');
+var Gun = require('./Gun');
+var Ship = require('./Ship');
+var Stars = require('./Stars');
+var AsteroidField = require('./AsteroidField');
+var Stats = require('./utils/Stats')
+
+var Poem = module.exports = function() {
 	
 	//The current selected material saved to the hash
 	var selectedMaterial = window.location.hash.substring(1) || "MeshPhongMaterial";

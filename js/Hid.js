@@ -1,4 +1,6 @@
-var HID = function() {
+var EventDispatcher = require('./utils/EventDispatcher');
+
+var HID = module.exports = function() {
 	
 	var states = {
 		up: false,
@@ -57,8 +59,6 @@ HID.prototype = {
 		};
 		
 	}()
-	
-	
 	
 };
 

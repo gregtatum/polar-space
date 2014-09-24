@@ -1,4 +1,6 @@
-var Gun = function( poem ) {
+var Bullet = require('./Bullet');
+
+var Gun = module.exports = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	

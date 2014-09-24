@@ -1,4 +1,6 @@
-var AsteroidField = function( poem, count ) {
+var Asteroid = require('./Asteroid');
+
+var AsteroidField = module.exports = function( poem, count ) {
 	
 	this.poem = poem;
 	this.asteroids = []

@@ -105,3 +105,9 @@ EventDispatcher.prototype = {
 	}
 
 };
+
+if ( typeof module === 'object' ) {
+
+	module.exports = EventDispatcher;
+
+}

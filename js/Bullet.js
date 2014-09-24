@@ -1,4 +1,4 @@
-var Bullet = function( poem, gun, vertex ) {
+var Bullet = module.exports = function( poem, gun, vertex ) {
 	this.poem = poem;
 	this.gun = gun;
 	this.vertex = vertex;

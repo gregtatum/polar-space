@@ -1,4 +1,6 @@
-var Ship = function( poem ) {
+var HID = require('./Hid');
+
+var Ship = module.exports = function( poem ) {
 	
 	this.poem = poem;
 	this.scene = poem.scene;

@@ -2,10 +2,10 @@ var Gun = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	
-	this.count = 200;
+	this.count = 350;
 	this.bulletAge = 5000;
 	this.liveBullets = [];
-	this.deadBullets = [];
+	this.bullets = [];
 	this.bornAt = 0;
 
 	this.addObject();
@@ -13,17 +13,23 @@ var Gun = function( poem ) {
 
 Gun.prototype = {
 	
-	fire : function(x, y, speed, theta) {
-		var bullet;
+	fire : function() {
 		
-		if( this.deadBullets.length === 0 ) return;
+		var isDead = function( bullet ) {
+			return !bullet.alive;
+		}
 		
-		bullet = this.deadBullets.pop();
-		this.liveBullets.push( bullet );
+		return function(x, y, speed, theta) {
 		
-		bullet.fire(x, y, speed, theta);
+			var bullet = _.find( this.bullets, isDead );
 		
-	},
+			if( !bullet ) return;
+		
+			this.liveBullets.push( bullet );
+		
+			bullet.fire(x, y, speed, theta);
+		};
+	}(),
 	
 	generateGeometry : function() {
 		
@@ -37,7 +43,7 @@ Gun.prototype = {
 			bullet = new Bullet( this.poem, this, vertex );
 			
 			geometry.vertices.push( vertex );
-			this.deadBullets.push( bullet );
+			this.bullets.push( bullet );
 			
 			bullet.kill();
 					
@@ -46,14 +52,15 @@ Gun.prototype = {
 		return geometry;
 	},
 	
-	reportDead : function( bullet ) {
+	killBullet : function( bullet ) {
+		
 		var i = this.liveBullets.indexOf( bullet );
 		
 		if( i >= 0 ) {
 			this.liveBullets.splice( i, 1 );
 		}
 		
-		this.deadBullets.push( bullet );
+		bullet.kill();
 		
 		if( this.object ) this.object.geometry.verticesNeedUpdate = true;
 		
@@ -82,18 +89,18 @@ Gun.prototype = {
 		
 		now = new Date().getTime();
 		
-		for(var i=0, il=this.liveBullets.length; i<il; i++) {
+		for(var i=0; i<this.liveBullets.length; i++) {
 			bullet = this.liveBullets[i];
 			
 			if(bullet.bornAt + this.bulletAge < now) {
-				bullet.kill();
+				this.killBullet( bullet );
+				i--;
 			} else {
 				bullet.update( dt );
 			}
 		}
 		if(this.liveBullets.length > 0) {
 			this.object.geometry.verticesNeedUpdate = true;
-			
 		}
 		
 	}

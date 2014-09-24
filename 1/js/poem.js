@@ -3,23 +3,29 @@ var Poem = function() {
 	//The current selected material saved to the hash
 	var selectedMaterial = window.location.hash.substring(1) || "MeshPhongMaterial";
 
-	this.r = 120;
-	this.rSpeed = 1 / 75;
+	this.r = 240;
+	this.rSpeed = 1 / 120; //Map 2d X coordinates to polar coordinates
+	this.width = 2 * Math.PI / this.rSpeed;
+	this.height = 120;
 	this.ratio = window.devicePixelRatio >= 1 ? window.devicePixelRatio : 1;
 	
 	this.renderer = undefined;
 	this.controls = undefined;
 	this.div = document.getElementById( 'container' );
 	this.scene = new THREE.Scene();
+
+	this.polarConverter = new PolarConverter( this );
 	this.camera = new Camera( this );
-	
+	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2.5 );
 	
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
-	this.starts = new Stars( this );
+	this.stars = new Stars( this );
+	this.asteroidField = new AsteroidField( this, 50 );
+	
 
 	this.addRenderer();
-	this.addLights();
+	//this.addLights();
 
 	// this.addGrid();
 	this.addStats();
@@ -109,6 +115,7 @@ Poem.prototype = {
 		this.ship.update( 16.666 );
 		this.gun.update( 16.666 );
 		this.camera.update( 16.666 );
+		this.asteroidField.update( 16.666 );
 		
 		this.renderer.render( this.scene, this.camera.object );
 	},

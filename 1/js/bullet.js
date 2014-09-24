@@ -7,13 +7,14 @@ var Bullet = function( poem, gun, vertex ) {
 	this.position = new THREE.Vector2(0,0);
 	
 	this.bornAt = 0;
+	this.alive = false;
 };
 
 Bullet.prototype = {
 	
 	kill : function() {
 		this.vertex.set(0, 0 ,1000);
-		this.gun.reportDead( this );
+		this.alive = false;
 	},
 	
 	update : function( dt ) {
@@ -23,19 +24,13 @@ Bullet.prototype = {
 		this.position.x += this.speed.x;
 		this.position.y += this.speed.y;
 		
-		this.vertex.z = Math.cos( this.position.x * this.poem.rSpeed ) * this.poem.r;
-		this.vertex.x = Math.sin( this.position.x * this.poem.rSpeed ) * this.poem.r;
-		this.vertex.y = this.position.y;
+		this.poem.polarConverter.setVector( this.vertex, this.position );
 		
 	},
 	
 	fire : function(x, y, speed, theta) {
-		
-		console.log('bullet fired', x, y, speed, theta);
 				
-		this.vertex.z = Math.cos( x * this.poem.rSpeed ) * this.poem.r;
-		this.vertex.x = Math.sin( x * this.poem.rSpeed ) * this.poem.r;
-		this.vertex.y = y;
+		this.poem.polarConverter.setVector( this.vertex, x, y );
 		
 		this.position.set(x,y);
 		
@@ -43,6 +38,6 @@ Bullet.prototype = {
 		this.speed.y = Math.sin( theta ) * speed;
 		
 		this.bornAt = new Date().getTime();
-
+		this.alive = true;
 	}
 };

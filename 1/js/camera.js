@@ -4,15 +4,15 @@ var Camera = function( poem ) {
 	
 	this.polarObj = new THREE.Object3D();
 	
-	this.speed = 0.008;
+	this.speed = 0.016;
 	
 	this.object = new THREE.PerspectiveCamera(
 		50,										// fov
 		window.innerWidth / window.innerHeight,	// aspect ratio
-		1,										// near frustum
+		3,										// near frustum
 		1000									// far frustum
 	);
-	this.object.position.z = this.poem.r * 2;
+	this.object.position.z = this.poem.r * 1.5;
 	
 	this.polarObj.add( this.object );
 	this.poem.scene.add( this.polarObj );

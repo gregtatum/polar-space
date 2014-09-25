@@ -4,7 +4,7 @@ var Gun = require('./Gun');
 var Ship = require('./Ship');
 var Stars = require('./Stars');
 var AsteroidField = require('./AsteroidField');
-var Stats = require('./utils/Stats')
+var Stats = require('./utils/Stats');
 
 var Poem = module.exports = function() {
 	
@@ -24,12 +24,12 @@ var Poem = module.exports = function() {
 
 	this.polarConverter = new PolarConverter( this );
 	this.camera = new Camera( this );
-	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2.5 );
+	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
 	
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );
-	this.asteroidField = new AsteroidField( this, 50 );
+	this.asteroidField = new AsteroidField( this, 10 );
 	
 
 	this.addRenderer();

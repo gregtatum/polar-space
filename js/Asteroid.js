@@ -12,8 +12,9 @@ var Asteroid = module.exports = function( poem, x, y, radius ) {
 	this.rotationSpeed = new THREE.Vector3();
 	this.maxSpeed = 0.5;
 	this.maxRotationSpeed = 0.1;
-	
-	
+	this.oscillationSpeed = 50;
+	this.strokeColor = 0xdddddd;
+	this.fillColor = 0xffffff;
 	this.addObject(x, y);
 	this.update();
 	
@@ -32,10 +33,10 @@ Asteroid.prototype = {
 			vertex.z += (this.radius / 2) * (Math.random() - 0.5);
 		}, this);
 		
-		var material = new THREE.MeshBasicMaterial({color:0x111111});
+		var material = new THREE.MeshBasicMaterial({color:this.strokeColor});
 		this.object = new THREE.Mesh( geometry, material );
 		
-		var outlineMat = new THREE.MeshBasicMaterial({color:0xffffff, side: THREE.BackSide});
+		var outlineMat = new THREE.MeshBasicMaterial({color:this.fillColor, side: THREE.BackSide});
 		var outlineObj = new THREE.Mesh( geometry, outlineMat );
 		outlineObj.scale.multiplyScalar( 1.05);
 		
@@ -50,14 +51,14 @@ Asteroid.prototype = {
 		this.rotationSpeed.y = (0.5 - Math.random()) * this.maxRotationSpeed;
 		this.rotationSpeed.z = (0.5 - Math.random()) * this.maxRotationSpeed;
 		
-		this.oscillation = Math.random() * Math.PI * 2;
+		this.oscillation = Math.random() * Math.PI * 2 * this.oscillationSpeed;
 	},
 	
 	update : function() {
 		
 		this.oscillation += this.speed.y;
 		this.position.x += this.speed.x;
-		this.position.y = Math.sin( this.oscillation / 50 ) * this.poem.height;
+		this.position.y = Math.sin( this.oscillation / this.oscillationSpeed ) * this.poem.height;
 		
 		this.object.rotation.x += this.rotationSpeed.x;	
 		this.object.rotation.y += this.rotationSpeed.y;	

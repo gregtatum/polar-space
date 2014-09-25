@@ -2,8 +2,9 @@ var Stars = module.exports = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	
-	this.count = 20000;
+	this.count = 40000;
 	this.depth = 10;
+	this.color = 0x999999;
 	
 	this.addObject();
 };
@@ -45,12 +46,10 @@ Stars.prototype = {
 			geometry,
 			new THREE.PointCloudMaterial({
 				 size: 0.5 * this.poem.ratio,
-				 color: 0x999999,
+				 color: this.color,
 				 fog: false
 			}
 		) );
-		
-		
 		
 		this.poem.scene.add( this.object ) ;
 		

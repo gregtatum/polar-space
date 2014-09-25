@@ -4,7 +4,7 @@ var AsteroidField = module.exports = function( poem, count ) {
 	
 	this.poem = poem;
 	this.asteroids = []
-	this.maxRadius = 20;
+	this.maxRadius = 50;
 	this.originClearance = 30;
 	
 	this.generate( count );
@@ -67,19 +67,22 @@ AsteroidField.prototype = {
 		return Math.sqrt(x*x + y*y) > radius + this.originClearance;
 	},
 	
-	checkCollision : function( x, y, radius ) {
+	checkCollision : function( xRaw, yRaw, radius ) {
+		
+		var x = this.poem.polarConverter.keepInRangeX( x );
+		var y = this.poem.polarConverter.keepInRangeY( y );
 		
 		var collision = _.find( this.asteroids, function( asteroid ) {
 			
 			var dx, dy, distance;
 			
-			dx = x - asteroid.position.x;
-			dy = y - asteroid.position.y;
+			dx = x - this.poem.polarConverter.keepInRangeX( asteroid.position.x );
+			dy = y - this.poem.polarConverter.keepInRangeY( asteroid.position.y );
 			distance = Math.sqrt(dx * dx + dy * dy);
 
 			return distance < radius + asteroid.radius;
 			
-		});
+		}, this);
 		
 		return !!collision;
 	}

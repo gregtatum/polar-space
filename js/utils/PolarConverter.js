@@ -2,6 +2,7 @@
 
 var PolarConverter = module.exports = function( poem ) {
 	this.poem = poem;
+	this.twoRSquared = 2 * (this.poem.r * this.poem.r);
 };
 
 PolarConverter.prototype = {
@@ -59,6 +60,29 @@ PolarConverter.prototype = {
 		var vector = new THREE.Vector3();
 		return this.setVector( vector, x, y );
 		
+	},
+	
+	keepInRangeX : function( x ) {
+		if( x >= 0 ) {
+			return x % this.poem.width;
+		} else {
+			return x + (x % this.poem.width)
+		}
+	},
+	
+	keepInRangeY : function( y ) {
+		if( y >= 0 ) {
+			return y % this.poem.height;
+		} else {
+			return y + (y % this.poem.height)
+		}
+	},
+	
+	keepInRange : function( vector ) {
+		vector.x = this.keepInRangeX( vector.x );
+		vector.y = this.keepInRangeX( vector.y );
+		return vector;
 	}
+	
 	
 };

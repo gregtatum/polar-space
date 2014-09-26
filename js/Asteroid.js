@@ -1,4 +1,4 @@
-var Asteroid = module.exports = function( poem, x, y, radius ) {
+var Asteroid = function( poem, x, y, radius ) {
 	
 	this.poem = poem;
 	this.object = null;
@@ -19,6 +19,8 @@ var Asteroid = module.exports = function( poem, x, y, radius ) {
 	this.update();
 	
 };
+
+module.exports = Asteroid;
 
 Asteroid.prototype = {
 
@@ -64,7 +66,7 @@ Asteroid.prototype = {
 		this.object.rotation.y += this.rotationSpeed.y;	
 		this.object.rotation.z += this.rotationSpeed.z;	
 		
-		this.poem.polarConverter.setVector( this.object.position, this.position );
+		this.poem.coordinates.setVector( this.object.position, this.position );
 	}
 	
 }

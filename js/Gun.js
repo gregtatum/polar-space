@@ -1,17 +1,23 @@
 var Bullet = require('./Bullet');
+var Collider = require('./utils/Collider');
 
-var Gun = module.exports = function( poem ) {
+var Gun = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	
 	this.count = 350;
 	this.bulletAge = 5000;
+	this.fireDelayMilliseconds = 100;
+	this.lastFireTimestamp = 0;
 	this.liveBullets = [];
 	this.bullets = [];
 	this.bornAt = 0;
 
 	this.addObject();
+	this.configureCollider();
 };
+
+module.exports = Gun;
 
 Gun.prototype = {
 	
@@ -22,6 +28,14 @@ Gun.prototype = {
 		}
 		
 		return function(x, y, speed, theta) {
+			
+			var now = new Date().getTime();
+			
+			if( now - this.lastFireTimestamp < this.fireDelayMilliseconds ) {
+				return;
+			}
+			
+			this.lastFireTimestamp = now;
 		
 			var bullet = _.find( this.bullets, isDead );
 		
@@ -105,5 +119,27 @@ Gun.prototype = {
 			this.object.geometry.verticesNeedUpdate = true;
 		}
 		
+	},
+	
+	configureCollider : function() {
+		
+		//Collide bullets with asteroids
+		new Collider(
+			
+			this.poem,
+			
+			function() {
+				return this.poem.asteroidField.asteroids;
+			}.bind(this),
+			
+			function() {
+				return this.liveBullets;
+			}.bind(this),
+			
+			function(asteroid, bullet) {
+				this.killBullet( bullet )
+			}.bind(this)
+			
+		);
 	}
 };

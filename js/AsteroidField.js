@@ -1,6 +1,6 @@
 var Asteroid = require('./Asteroid');
 
-var AsteroidField = module.exports = function( poem, count ) {
+var AsteroidField = function( poem, count ) {
 	
 	this.poem = poem;
 	this.asteroids = []
@@ -11,6 +11,8 @@ var AsteroidField = module.exports = function( poem, count ) {
 	
 };
 
+module.exports = AsteroidField;
+
 AsteroidField.prototype = {
 	
 	generate : function( count ) {
@@ -18,9 +20,8 @@ AsteroidField.prototype = {
 		var i, x, y, height, width;
 		
 		height = this.poem.height * 4;
-		width = this.poem.width;
+		width = this.poem.circumference;
 		
-
 		for( i=0; i < count; i++ ) {
 			
 			do {
@@ -51,14 +52,17 @@ AsteroidField.prototype = {
 			
 		}, this);
 		
-		var shipCollision = this.checkCollision(
-			this.poem.ship.position.x,
-			this.poem.ship.position.y,
-			2
-		);
+		if( !this.poem.ship.dead ) {
+			var shipCollision = this.checkCollision(
+				this.poem.ship.position.x,
+				this.poem.ship.position.y,
+				2
+			);
 		
-		if( shipCollision ) {
-			this.poem.ship.reset();
+			if( shipCollision ) {
+				console.log('ship hit by asteroid');
+				this.poem.ship.kill();
+			}
 		}
 		
 	},
@@ -67,17 +71,15 @@ AsteroidField.prototype = {
 		return Math.sqrt(x*x + y*y) > radius + this.originClearance;
 	},
 	
-	checkCollision : function( xRaw, yRaw, radius ) {
-		
-		var x = this.poem.polarConverter.keepInRangeX( x );
-		var y = this.poem.polarConverter.keepInRangeY( y );
+	checkCollision : function( x, y, radius ) {
 		
 		var collision = _.find( this.asteroids, function( asteroid ) {
 			
 			var dx, dy, distance;
 			
-			dx = x - this.poem.polarConverter.keepInRangeX( asteroid.position.x );
-			dy = y - this.poem.polarConverter.keepInRangeY( asteroid.position.y );
+			dx = this.poem.coordinates.circumferenceDistance( x, asteroid.position.x );
+			dy = y - asteroid.position.y;
+			
 			distance = Math.sqrt(dx * dx + dy * dy);
 
 			return distance < radius + asteroid.radius;

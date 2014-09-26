@@ -1,20 +1,19 @@
-var PolarConverter = require('./utils/PolarConverter');
+var Coordinates = require('./utils/Coordinates');
 var Camera = require('./Camera');
 var Gun = require('./Gun');
 var Ship = require('./Ship');
 var Stars = require('./Stars');
 var AsteroidField = require('./AsteroidField');
 var Stats = require('./utils/Stats');
+var EventDispatcher = require('./utils/EventDispatcher');
 
-var Poem = module.exports = function() {
+var Poem = function() {
 	
-	//The current selected material saved to the hash
-	var selectedMaterial = window.location.hash.substring(1) || "MeshPhongMaterial";
 
-	this.r = 240;
-	this.rSpeed = 1 / 120; //Map 2d X coordinates to polar coordinates
-	this.width = 2 * Math.PI / this.rSpeed;
+	this.circumference = 750;
 	this.height = 120;
+	this.r = 240;
+	this.circumferenceRatio = (2 * Math.PI) / this.circumference; //Map 2d X coordinates to polar coordinates
 	this.ratio = window.devicePixelRatio >= 1 ? window.devicePixelRatio : 1;
 	
 	this.renderer = undefined;
@@ -22,45 +21,28 @@ var Poem = module.exports = function() {
 	this.div = document.getElementById( 'container' );
 	this.scene = new THREE.Scene();
 
-	this.polarConverter = new PolarConverter( this );
+	this.clock = new THREE.Clock( true );
+	this.coordinates = new Coordinates( this );
 	this.camera = new Camera( this );
 	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
 	
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );
-	this.asteroidField = new AsteroidField( this, 10 );
+	this.asteroidField = new AsteroidField( this, 50 );
 	
-
 	this.addRenderer();
-	//this.addLights();
-
-	// this.addGrid();
 	this.addStats();
 	this.addEventListeners();
 	
 	this.loop();
 	
-};
-		
-Poem.prototype = {
 	
-	addLights : function() {
-		this.lights = [];
-		this.lights[0] = new THREE.AmbientLight( 0xffffff );
-		this.lights[1] = new THREE.PointLight( 0xffffff, 1, 0 );
-		this.lights[2] = new THREE.PointLight( 0xffffff, 1, 0 );
-		this.lights[3] = new THREE.PointLight( 0xffffff, 1, 0 );
-		
-		this.lights[1].position.set(0, 200, 0);
-		this.lights[2].position.set(100, 200, 100);
-		this.lights[3].position.set(-100, -200, -100);
-		
-		//this.scene.add( this.lights[0] );
-		this.scene.add( this.lights[1] );
-		this.scene.add( this.lights[2] );
-		this.scene.add( this.lights[3] );
-	},
+};
+
+module.exports = Poem;
+
+Poem.prototype = {
 	
 	addRenderer : function() {
 		this.renderer = new THREE.WebGLRenderer({
@@ -117,21 +99,28 @@ Poem.prototype = {
 	},
 			
 	update : function() {
-		//this.controls.update();
+		
+		var dt = Math.min( this.clock.getDelta(), 50 );
+		
 		this.stats.update();
 		
-		this.ship.update( 16.666 );
-		this.gun.update( 16.666 );
-		this.camera.update( 16.666 );
-		this.asteroidField.update( 16.666 );
+		this.dispatch({
+			type: "update",
+			dt: dt
+		});
+		
+		this.ship.update( dt );
+		this.gun.update( dt );
+		this.camera.update( dt );
+		this.asteroidField.update( dt );
 		
 		this.renderer.render( this.scene, this.camera.object );
 	},
 	
 };
 
-var poem;
+EventDispatcher.prototype.apply( Poem.prototype );
 
 $(function() {
-	poem = new Poem();
+	window.poem = new Poem();
 });

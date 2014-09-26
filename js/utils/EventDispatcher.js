@@ -1,5 +1,24 @@
 /**
  * @author mrdoob / http://mrdoob.com/
+ *
+ * Modifications: Greg Tatum
+ *
+ * usage:
+ * 
+ * 		EventDispatcher.prototype.apply( MyObject.prototype );
+ * 
+ * 		MyObject.dispatch({
+ * 			type: "click",
+ * 			datum1: "foo",
+ * 			datum2: "bar"
+ * 		});
+ * 
+ * 		MyObject.on( "click", function( event ) {
+ * 			event.datum1; //Foo
+ * 			event.target; //MyObject
+ * 		});
+ * 
+ *
  */
 
 var EventDispatcher = function () {}
@@ -10,14 +29,14 @@ EventDispatcher.prototype = {
 
 	apply: function ( object ) {
 
-		object.addEventListener = EventDispatcher.prototype.addEventListener;
-		object.hasEventListener = EventDispatcher.prototype.hasEventListener;
-		object.removeEventListener = EventDispatcher.prototype.removeEventListener;
-		object.dispatchEvent = EventDispatcher.prototype.dispatchEvent;
+		object.on					= EventDispatcher.prototype.on;
+		object.hasEventListener		= EventDispatcher.prototype.hasEventListener;
+		object.off					= EventDispatcher.prototype.off;
+		object.dispatch				= EventDispatcher.prototype.dispatch;
 
 	},
 
-	addEventListener: function ( type, listener ) {
+	on: function ( type, listener ) {
 
 		if ( this._listeners === undefined ) this._listeners = {};
 
@@ -53,7 +72,7 @@ EventDispatcher.prototype = {
 
 	},
 
-	removeEventListener: function ( type, listener ) {
+	off: function ( type, listener ) {
 
 		if ( this._listeners === undefined ) return;
 
@@ -74,7 +93,7 @@ EventDispatcher.prototype = {
 
 	},
 
-	dispatchEvent: function ( event ) {
+	dispatch: function ( event ) {
 			
 		if ( this._listeners === undefined ) return;
 

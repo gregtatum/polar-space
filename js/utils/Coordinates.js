@@ -1,14 +1,16 @@
 // Translates 2d points into 3d polar space
 
-var PolarConverter = module.exports = function( poem ) {
+var Coordinates = function( poem ) {
 	this.poem = poem;
 	this.twoRSquared = 2 * (this.poem.r * this.poem.r);
 };
 
-PolarConverter.prototype = {
+module.exports = Coordinates;
+
+Coordinates.prototype = {
 	
 	x : function( x ) {
-		return Math.sin( x * this.poem.rSpeed ) * this.poem.r;
+		return Math.sin( x * this.poem.circumferenceRatio ) * this.poem.r;
 	},
 	
 	y : function( y ) {
@@ -16,7 +18,7 @@ PolarConverter.prototype = {
 	},
 	
 	z : function( x ) {
-		return Math.cos( x * this.poem.rSpeed ) * this.poem.r;
+		return Math.cos( x * this.poem.circumferenceRatio ) * this.poem.r;
 	},
 	
 	r : function(x, z) {
@@ -27,7 +29,7 @@ PolarConverter.prototype = {
 		return Math.atan( z / x );
 	},
 	
-	setVector : function( vector /* x, y OR vector */) {
+	setVector : function( vector ) {
 		
 		var x, y, vector2;
 		
@@ -64,9 +66,9 @@ PolarConverter.prototype = {
 	
 	keepInRangeX : function( x ) {
 		if( x >= 0 ) {
-			return x % this.poem.width;
+			return x % this.poem.circumference;
 		} else {
-			return x + (x % this.poem.width)
+			return x + (x % this.poem.circumference)
 		}
 	},
 	
@@ -82,7 +84,18 @@ PolarConverter.prototype = {
 		vector.x = this.keepInRangeX( vector.x );
 		vector.y = this.keepInRangeX( vector.y );
 		return vector;
-	}
+	},
 	
+	twoXToTheta : function( x ) {
+		return x * this.poem.circumferenceRatio;
+	},
+	
+	circumferenceDistance : function (x1, x2) {
+		
+		var ratio = this.poem.circumferenceRatio;
+		
+		return this.twoRSquared - this.twoRSquared * Math.cos( x1 * ratio - x2 * ratio );
+		
+	}
 	
 };

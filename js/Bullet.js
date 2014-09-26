@@ -1,14 +1,17 @@
-var Bullet = module.exports = function( poem, gun, vertex ) {
+var Bullet = function( poem, gun, vertex ) {
 	this.poem = poem;
 	this.gun = gun;
 	this.vertex = vertex;
 	
 	this.speed = new THREE.Vector2(0,0);
 	this.position = new THREE.Vector2(0,0);
+	this.radius = 1;
 	
 	this.bornAt = 0;
 	this.alive = false;
 };
+
+module.exports = Bullet;
 
 Bullet.prototype = {
 	
@@ -24,13 +27,13 @@ Bullet.prototype = {
 		this.position.x += this.speed.x;
 		this.position.y += this.speed.y;
 		
-		this.poem.polarConverter.setVector( this.vertex, this.position );
+		this.poem.coordinates.setVector( this.vertex, this.position );
 		
 	},
 	
 	fire : function(x, y, speed, theta) {
 				
-		this.poem.polarConverter.setVector( this.vertex, x, y );
+		this.poem.coordinates.setVector( this.vertex, x, y );
 		
 		this.position.set(x,y);
 		

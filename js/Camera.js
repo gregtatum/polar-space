@@ -1,10 +1,10 @@
-var Camera = module.exports = function( poem ) {
+var Camera = function( poem ) {
 	
 	this.poem = poem;
 	
 	this.polarObj = new THREE.Object3D();
 	
-	this.speed = 0.016;
+	this.speed = 0.032;
 	
 	this.object = new THREE.PerspectiveCamera(
 		50,										// fov
@@ -18,6 +18,8 @@ var Camera = module.exports = function( poem ) {
 	this.poem.scene.add( this.polarObj );
 	
 };
+
+module.exports = Camera;
 
 Camera.prototype = {
 	

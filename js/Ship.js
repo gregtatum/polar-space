@@ -1,6 +1,7 @@
 var HID = require('./Hid');
+var ShipDamage = require('./ShipDamage');
 
-var Ship = module.exports = function( poem ) {
+var Ship = function( poem ) {
 	
 	this.poem = poem;
 	this.scene = poem.scene;
@@ -12,14 +13,15 @@ var Ship = module.exports = function( poem ) {
 	
 	this.position = new THREE.Vector2();
 	
-	
+	this.dead = false;
+	this.lives = 3;
 	
 	this.speed = 0;
 	
 	this.edgeAvoidanceBankSpeed = 0.04;
 	this.edgeAvoidanceThrustSpeed = 0.001;
 	
-	this.thrustSpeed = 0.001;
+	this.thrustSpeed = 1;
 	this.thrust = 0;
 	
 	this.bankSpeed = 0.06;
@@ -27,9 +29,10 @@ var Ship = module.exports = function( poem ) {
 	this.maxSpeed = 1000;
 
 	this.addObject();
-
+	this.shipDamage = new ShipDamage(this.poem, this);
 };
 
+module.exports = Ship;
 
 Ship.prototype = {
 	
@@ -88,6 +91,20 @@ Ship.prototype = {
 		this.scene.add( this.polarObj );
 	},
 	
+	kill : function() {
+		this.dead = true;
+		this.object.visible = false;
+		this.shipDamage.explode();
+		
+		setTimeout(function() {
+			
+			this.dead = false;
+			this.object.visible = true;
+			this.reset();
+			
+		}.bind(this), 2000);
+	},
+	
 	reset : function() {
 		this.position.x = 0;
 		this.position.y = 0;
@@ -98,12 +115,20 @@ Ship.prototype = {
 	
 	update : function( dt ) {
 		
-		this.updateThrustAndBank( dt );
-		this.updateEdgeAvoidance( dt );
-		this.updatePosition( dt );
-		this.updateFiring( dt );
+		if( this.dead ) {
+			
+			
+		} else {
+			
+			this.updateThrustAndBank( dt );
+			this.updateEdgeAvoidance( dt );
+			this.updatePosition( dt );
+			this.updateFiring( dt );
+			
+		}
+		this.shipDamage.update( dt );
 		this.hid.update( dt );
-		
+
 	},
 	
 	updateThrustAndBank : function( dt ) {
@@ -114,7 +139,7 @@ Ship.prototype = {
 			
 		if( pressed.up ) {
 			this.thrust += this.thrustSpeed * dt;
-			}
+		}
 		
 		if( pressed.down ) {
 			this.thrust -= this.thrustSpeed * dt;	
@@ -134,7 +159,7 @@ Ship.prototype = {
 		var nearEdge, farEdge, position, normalizedEdgePosition, bankDirection, absPosition;
 		
 		farEdge = this.poem.height / 2;
-		nearEdge = 4/5 * farEdge;
+		nearEdge = 4 / 5 * farEdge;
 		position = this.object.position.y;
 		absPosition = Math.abs( position );
 
@@ -205,9 +230,9 @@ Ship.prototype = {
 			this.object.position.y = this.position.y;
 			
 			//Polar coordinates
-			// this.object.position.x = Math.cos( this.position.x * this.poem.rSpeed ) * this.poem.r;
-			// this.object.position.z = Math.sin( this.position.x * this.poem.rSpeed ) * this.poem.r;
-			this.polarObj.rotation.y = this.position.x * this.poem.rSpeed;
+			// this.object.position.x = Math.cos( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
+			// this.object.position.z = Math.sin( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
+			this.polarObj.rotation.y = this.position.x * this.poem.circumferenceRatio;
 			
 		};
 		

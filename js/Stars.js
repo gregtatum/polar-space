@@ -1,13 +1,15 @@
-var Stars = module.exports = function( poem ) {
+var Stars = function( poem ) {
 	this.poem = poem;
 	this.object = null;
 	
 	this.count = 40000;
-	this.depth = 10;
-	this.color = 0x999999;
+	this.depth = 7.5;
+	this.color = 0xaaaaaa;
 	
 	this.addObject();
 };
+
+module.exports = Stars;
 
 Stars.prototype = {
 	

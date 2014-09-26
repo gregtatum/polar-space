@@ -1,6 +1,6 @@
 var EventDispatcher = require('./utils/EventDispatcher');
 
-var HID = module.exports = function() {
+var HID = function() {
 	
 	var states = {
 		up: false,
@@ -26,6 +26,8 @@ var HID = module.exports = function() {
 	$(window).on('keyup', this.keyup.bind(this));
 	
 };
+
+module.exports = HID;
 
 HID.prototype = {
 	

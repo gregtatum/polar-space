@@ -1,1 +1,1 @@
-var require('./poem');
+require('./poem');

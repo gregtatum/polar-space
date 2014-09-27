@@ -52,7 +52,7 @@ AsteroidField.prototype = {
 			
 		}, this);
 		
-		if( !this.poem.ship.dead ) {
+		if( !this.poem.ship.dead && !this.poem.ship.invulnerable ) {
 			var shipCollision = this.checkCollision(
 				this.poem.ship.position.x,
 				this.poem.ship.position.y,

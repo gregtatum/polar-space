@@ -15,6 +15,12 @@ var Ship = function( poem ) {
 	
 	this.dead = false;
 	this.lives = 3;
+	this.invulnerable = true;
+	this.invulnerableLength = 3000;
+	this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
+	this.invulnerableflipFlop = false;
+	this.invulnerableflipFlopLength = 100;
+	this.invulnerableflipFlopTime = 0;
 	
 	this.speed = 0;
 	
@@ -99,6 +105,8 @@ Ship.prototype = {
 		setTimeout(function() {
 			
 			this.dead = false;
+			this.invulnerable = true;
+			this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
 			this.object.visible = true;
 			this.reset();
 			
@@ -124,11 +132,39 @@ Ship.prototype = {
 			this.updateEdgeAvoidance( dt );
 			this.updatePosition( dt );
 			this.updateFiring( dt );
+			this.updateInvulnerability( dt );
 			
 		}
 		this.shipDamage.update( dt );
 		this.hid.update( dt );
 
+	},
+	
+	updateInvulnerability : function( dt ) {
+		
+		if( this.invulnerable ) {
+			
+			var time = new Date().getTime()
+			
+			if( time < this.invulnerableTime ) {
+				
+				
+				if( time > this.invulnerableflipFlopTime ) {
+
+					this.invulnerableflipFlopTime = new Date().getTime() + this.invulnerableflipFlopLength;
+					this.invulnerableflipFlop = !this.invulnerableflipFlop;	
+					this.object.visible = this.invulnerableflipFlop;
+					
+				}
+					
+			} else {
+				
+				this.object.visible = true;
+				this.invulnerable = false;
+			}
+			
+		}
+		
 	},
 	
 	updateThrustAndBank : function( dt ) {

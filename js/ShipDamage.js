@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var random = require('./utils/random.js');
 var Bullet = require('./Bullet');
+var SoundGenerator = require('./sound/SoundGenerator');
 
 ShipDamage = function( poem, ship ) {
 	
@@ -13,9 +14,11 @@ ShipDamage = function( poem, ship ) {
 	this.explodeSpeed = 3;
 	
 	this.explosionCount = 0;
+	this.explosionSound = null;
 	
 	
 	this.addObject();
+	this.addSound();
 };
 	
 ShipDamage.prototype = {
@@ -60,6 +63,21 @@ ShipDamage.prototype = {
 		
 	},
 	
+	addSound : function() {
+		
+		var sound = this.explosionSound = new SoundGenerator();
+		
+		sound.connectNodes([
+			sound.makeOscillator( "sawtooth" ),
+			sound.makeGain(),
+			sound.getDestination()
+		]);
+		
+		sound.setGain(0,0,0);
+		sound.start();
+		
+	},
+	
 	reset : function() {
 		
 		_.each( this.bullets, function( bullet ) {
@@ -69,6 +87,8 @@ ShipDamage.prototype = {
 	},
 	
 	explode : function() {
+		
+		this.playExplosionSound();
 		
 		_.each( _.sample( this.bullets, this.perExplosion ), function( bullet) {
 
@@ -83,6 +103,28 @@ ShipDamage.prototype = {
 						
 		}.bind(this));
 		
+	},
+	
+	playExplosionSound : function() {
+		
+		var freq = 500;
+		var sound = this.explosionSound
+
+		//Start sound
+		sound.setGain(0.5, 0, 0.001);
+		sound.setFrequency(freq, 0, 0);
+		
+		var step = 0.02;
+		var times = 6;
+		var i=1;
+		
+		for(i=1; i < times; i++) {
+			sound.setFrequency(freq * Math.random(), step * i, step);
+		}
+
+		//End sound
+		sound.setGain(0, step * times, 0.2);
+		sound.setFrequency(freq * 0.21, step * times, 0.05);
 	},
 	
 	update : function( dt )  {

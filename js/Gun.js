@@ -1,9 +1,11 @@
 var Bullet = require('./Bullet');
 var Collider = require('./utils/Collider');
+var SoundGenerator = require('./sound/SoundGenerator');
 
 var Gun = function( poem ) {
 	this.poem = poem;
 	this.object = null;
+	this.sound = null;
 	
 	this.count = 350;
 	this.bulletAge = 5000;
@@ -15,6 +17,7 @@ var Gun = function( poem ) {
 
 	this.addObject();
 	this.configureCollider();
+	this.addSound();
 };
 
 module.exports = Gun;
@@ -44,6 +47,19 @@ Gun.prototype = {
 			this.liveBullets.push( bullet );
 		
 			bullet.fire(x, y, speed, theta);
+
+
+			var freq = 1900;
+			
+			//Start sound
+			this.sound.setGain(0.1, 0, 0.001);
+			this.sound.setFrequency(freq, 0, 0);
+			
+
+			//End sound
+			this.sound.setGain(0, 0.01, 0.05);
+			this.sound.setFrequency(freq * 0.1, 0.01, 0.05);
+			
 		};
 	}(),
 	
@@ -141,5 +157,20 @@ Gun.prototype = {
 			}.bind(this)
 			
 		);
+	},
+	
+	addSound : function() {
+		
+		var sound = this.sound = new SoundGenerator()
+		
+		sound.connectNodes([
+			sound.makeOscillator( "square" ),
+			sound.makeGain(),
+			sound.getDestination()
+		]);
+		
+		sound.setGain(0,0,0);
+		sound.start();
+		
 	}
 };

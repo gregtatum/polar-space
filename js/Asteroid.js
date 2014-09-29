@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var Asteroid = function( poem, x, y, radius ) {
 	
 	this.poem = poem;
@@ -69,4 +71,4 @@ Asteroid.prototype = {
 		this.poem.coordinates.setVector( this.object.position, this.position );
 	}
 	
-}
+};

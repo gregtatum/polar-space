@@ -117,6 +117,32 @@ a:hover {
 	padding: 0 6%;
 	pointer-events:none;
 }
+.score {
+	position: absolute;
+	bottom: 1em;
+	left: 1em;
+}
+.score strong {
+	color: #4A9DE7;
+}
+.win {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    color: #fff;
+    opacity: 0;
+	display:none;
+    margin-top: -3em;
+    font-size: 1.5em;
+    transition: opacity 1000ms;
+}
+.win h1 {
+    font-weight: 800;
+}
+.win strong {
+    color: #4A9DE7;
+}
 @media screen and (max-width: 600px) {
 
 	.arrow-prev:after {

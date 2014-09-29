@@ -11,7 +11,7 @@ var Stats = function () {
 
 	var container = document.createElement( 'div' );
 	container.id = 'stats';
-	container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ) }, false );
+	container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ); }, false );
 	container.style.cssText = 'width:80px;opacity:0.9;cursor:pointer';
 
 	var fpsDiv = document.createElement( 'div' );
@@ -56,9 +56,9 @@ var Stats = function () {
 
 	while ( msGraph.children.length < 74 ) {
 
-		var bar = document.createElement( 'span' );
-		bar.style.cssText = 'width:1px;height:30px;float:left;background-color:#131';
-		msGraph.appendChild( bar );
+		var bar2 = document.createElement( 'span' );
+		bar2.style.cssText = 'width:1px;height:30px;float:left;background-color:#131';
+		msGraph.appendChild( bar2 );
 
 	}
 
@@ -138,7 +138,7 @@ var Stats = function () {
 
 		}
 
-	}
+	};
 
 };
 

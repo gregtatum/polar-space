@@ -3,7 +3,7 @@ var Asteroid = require('./Asteroid');
 var AsteroidField = function( poem, count ) {
 	
 	this.poem = poem;
-	this.asteroids = []
+	this.asteroids = [];
 	this.maxRadius = 50;
 	this.originClearance = 30;
 	
@@ -17,7 +17,7 @@ AsteroidField.prototype = {
 	
 	generate : function( count ) {
 		
-		var i, x, y, height, width;
+		var i, x, y, height, width, radius;
 		
 		height = this.poem.height * 4;
 		width = this.poem.circumference;
@@ -27,7 +27,7 @@ AsteroidField.prototype = {
 			do {
 				
 				x = Math.random() * width;
-				y = Math.random() * height - (height / 2)
+				y = Math.random() * height - (height / 2);
 			
 				radius = Math.random() * this.maxRadius;
 				

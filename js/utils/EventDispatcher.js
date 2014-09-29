@@ -21,7 +21,7 @@
  *
  */
 
-var EventDispatcher = function () {}
+var EventDispatcher = function () {};
 
 EventDispatcher.prototype = {
 
@@ -106,14 +106,15 @@ EventDispatcher.prototype = {
 
 			var array = [];
 			var length = listenerArray.length;
+			var i;
 
-			for ( var i = 0; i < length; i ++ ) {
+			for ( i = 0; i < length; i ++ ) {
 
 				array[ i ] = listenerArray[ i ];
 
 			}
 
-			for ( var i = 0; i < length; i ++ ) {
+			for ( i = 0; i < length; i ++ ) {
 
 				array[ i ].call( this, event );
 

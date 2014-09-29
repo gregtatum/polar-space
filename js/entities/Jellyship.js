@@ -1,208 +1,145 @@
-var HID = require('./Hid');
-var ShipDamage = require('./ShipDamage');
+var ShipDamage = require('../ShipDamage');
+var random = require('../utils/random');
 
-var Ship = function( poem ) {
-	
+var Jellyship = function( poem, manager, x, y ) {
+
 	this.poem = poem;
+	this.manager = manager;
 	this.scene = poem.scene;
 	this.polarObj = new THREE.Object3D();
 	this.object = null;
-	this.hid = new HID();
-	this.color = 0x4A9DE7;
+
+	this.color = 0xcb36ea;
 	this.linewidth = 2 * this.poem.ratio;
-	this.radius = 3;
-	
-	this.position = new THREE.Vector2();
+	this.scoreValue = 13;
+
+	this.spawnPoint = new THREE.Vector2(x,y);
+	this.position = new THREE.Vector2(x,y);
 	
 	this.dead = false;
-	this.lives = 3;
-	this.invulnerable = true;
-	this.invulnerableLength = 3000;
-	this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
-	this.invulnerableflipFlop = false;
-	this.invulnerableflipFlopLength = 100;
-	this.invulnerableflipFlopTime = 0;
-	
+
 	this.speed = 0;
-	
+
 	this.edgeAvoidanceBankSpeed = 0.04;
 	this.edgeAvoidanceThrustSpeed = 0.001;
-	
+
 	this.thrustSpeed = 1;
 	this.thrust = 0;
-	
+
 	this.bankSpeed = 0.06;
 	this.bank = 0;
 	this.maxSpeed = 1000;
+	
+	this.radius = 3;
 
 	this.addObject();
-	this.shipDamage = new ShipDamage(this.poem, this);
+	this.shipDamage = new ShipDamage(this.poem, this, {
+		transparent: true,
+		opacity: 0.5,
+		retainExplosionsCount: 3,
+		perExplosion: 50
+	});
 };
 
-module.exports = Ship;
+module.exports = Jellyship;
 
-Ship.prototype = {
-	
+Jellyship.prototype = {
+
 	createGeometry : function() {
-		
+	
 		var geometry, verts, manhattanLength, center;
-		
+	
 		geometry = new THREE.Geometry(),
+	
+		verts = [[355.7,211.7], [375.8,195.9], [368.5,155.4], [361.4,190.8], [341.3,205.9], [320.4,201.8], [298.9,206], [278.6,190.8], [271.5,155.4], [264.2,195.9], [284.7,212], [258.3,239.2], [242.3,228.5], [238.3,168.9], [226.1,237.1], [246.7,266.2], [233.7,316.4], [259.2,321.2], [237.4,429.6], [253.1,432.7], [274.9,324.2], [293,327.6], [286.6,484], [302.6,484.6], [308.9,330.6], [320.4,332.8], [331.1,330.8], [337.4,484.6], [353.4,484], [347,327.8], [365.1,324.3], [386.9,432.7], [402.6,429.6], [380.9,321.4], [407,316.4], [393.8,265.5], [413.9,237.1], [401.7,168.9], [397.7,228.5], [382.1,238.9], [355.9,211.8] ];
 		
-		verts = [[50,36.9], [39.8,59.6], [47.1,53.9], [50,57.5], [53,53.9], [60.2,59.6], [50,36.9]];
-
+			
 		manhattanLength = _.reduce( verts, function( memo, vert2d ) {
-			
-			return [memo[0] + vert2d[0], memo[1] + vert2d[1]];
-			
-		}, [0,0]);
 		
+			return [memo[0] + vert2d[0], memo[1] + vert2d[1]];
+		
+		}, [0,0]);
+	
 		center = [
 			manhattanLength[0] / verts.length,
 			manhattanLength[1] / verts.length
 		];
-		
+	
 		geometry.vertices = _.map( verts, function( vec2 ) {
-			var scale = 1 / 4;
+			var scale = 1 / 32;
 			return new THREE.Vector3(
 				(vec2[1] - center[1]) * scale * -1,
 				(vec2[0] - center[0]) * scale,
 				0
 			);
 		});
-		
-		return geometry;
-		
-	},
 	
+		return geometry;
+	
+	},
+
 	addObject : function() {
-		
+	
 		var geometry, lineMaterial;
-		
+	
 		geometry = this.createGeometry();
-				
+			
 		lineMaterial = new THREE.LineBasicMaterial({
 			color: this.color,
 			linewidth : this.linewidth
 		});
-		
+	
 		this.object = new THREE.Line(
 			geometry,
 			lineMaterial,
 			THREE.LineStrip
 		);
 		this.object.position.z += this.poem.r;
-		
+	
 		this.polarObj.add( this.object );
 		this.reset();
 		this.scene.add( this.polarObj );
 	},
-	
-	kill : function( force ) {
-		
-		if( !force && !this.dead && !this.invulnerable ) {
-			this.dead = true;
-			this.object.visible = false;
-			this.shipDamage.explode();
-			
-			this.poem.score.adjustScore(
-				Math.ceil( this.poem.score.score / -2 )
-			);
-			
-		
-			setTimeout(function() {
-			
-				this.dead = false;
-				this.invulnerable = true;
-				this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
-				this.object.visible = true;
-				this.reset();
-			
-			}.bind(this), 2000);
-		}
+
+	kill : function() {
+		this.dead = true;
+		this.object.visible = false;
+		this.shipDamage.explode();
 	},
-	
+
 	reset : function() {
-		this.position.x = 0;
-		this.position.y = 0;
+		this.position.copy( this.spawnPoint );
 		this.speed = 0.2;
 		this.bank = 0;
 		//this.object.rotation.z = Math.PI * 0.25;		
 	},
-	
+
 	update : function( dt ) {
 		
+		this.bank *= 0.9;
+		this.thrust = 0.01;
+		
+		this.bank += random.range(-0.01, 0.01);
+		
+		//this.bank += this.bankSpeed * Math.sin( dt / 500 );
+		
 		if( this.dead ) {
-			
-			
+		
+		
 		} else {
-			
-			this.updateThrustAndBank( dt );
+		
 			this.updateEdgeAvoidance( dt );
 			this.updatePosition( dt );
-			this.updateFiring( dt );
-			this.updateInvulnerability( dt );
-			
+		
 		}
 		this.shipDamage.update( dt );
-		this.hid.update( dt );
 
 	},
-	
-	updateInvulnerability : function( dt ) {
-		
-		if( this.invulnerable ) {
-			
-			var time = new Date().getTime()
-			
-			if( time < this.invulnerableTime ) {
-				
-				
-				if( time > this.invulnerableflipFlopTime ) {
 
-					this.invulnerableflipFlopTime = new Date().getTime() + this.invulnerableflipFlopLength;
-					this.invulnerableflipFlop = !this.invulnerableflipFlop;	
-					this.object.visible = this.invulnerableflipFlop;
-					
-				}
-					
-			} else {
-				
-				this.object.visible = true;
-				this.invulnerable = false;
-			}
-			
-		}
-		
-	},
-	
-	updateThrustAndBank : function( dt ) {
-		var pressed = this.hid.pressed;
-			
-		this.bank *= 0.9;
-		this.thrust = 0;
-			
-		if( pressed.up ) {
-			this.thrust += this.thrustSpeed * dt;
-		}
-		
-		if( pressed.down ) {
-			this.thrust -= this.thrustSpeed * dt;	
-		}
-		
-		if( pressed.left ) {
-			this.bank = this.bankSpeed;
-		}
-		
-		if( pressed.right ) {
-			this.bank = this.bankSpeed * -1;
-		}
-	},
-	
 	updateEdgeAvoidance : function( dt ) {
-		
+	
 		var nearEdge, farEdge, position, normalizedEdgePosition, bankDirection, absPosition;
-		
+	
 		farEdge = this.poem.height / 2;
 		nearEdge = 4 / 5 * farEdge;
 		position = this.object.position.y;
@@ -211,17 +148,17 @@ Ship.prototype = {
 		var rotation = this.object.rotation.z / Math.PI;
 
 		this.object.rotation.z %= 2 * Math.PI;
-		
+	
 		if( this.object.rotation.z < 0 ) {
 			this.object.rotation.z += 2 * Math.PI;
 		}
-		
+	
 		if( Math.abs( position ) > nearEdge ) {
-			
+		
 			var isPointingLeft = this.object.rotation.z >= Math.PI * 0.5 && this.object.rotation.z < Math.PI * 1.5;
-			
+		
 			if( position > 0 ) {
-				
+			
 				if( isPointingLeft ) {
 					bankDirection = 1;
 				} else {
@@ -234,54 +171,48 @@ Ship.prototype = {
 					bankDirection = 1;
 				}
 			}
-			
+		
 			normalizedEdgePosition = (absPosition - nearEdge) / (farEdge - nearEdge);
 			this.thrust += normalizedEdgePosition * this.edgeAvoidanceThrustSpeed;
 			this.object.rotation.z += bankDirection * normalizedEdgePosition * this.edgeAvoidanceBankSpeed;
-			
-		}
 		
+		}
+	
 		this.object.rotation.z;
-		
-		
-	},
 	
-	updateFiring : function() {
-		if( this.hid.pressed.spacebar ) {
-			this.poem.gun.fire( this.position.x, this.position.y, 2, this.object.rotation.z );
-		}
-	},
 	
+	},
+
 	updatePosition : function( dt ) {
-		
+	
 		var movement = new THREE.Vector3();
-		
+	
 		return function() {
-		
+	
 			var theta, x, y;
-			
+		
 			this.object.rotation.z += this.bank;
-			
+		
 			theta = this.object.rotation.z;
-			
+		
 			this.speed *= 0.98;
 			this.speed += this.thrust;
 			this.speed = Math.min( this.maxSpeed, this.speed );
 			this.speed = Math.max( 0, this.speed );
-						
+					
 			this.position.x += this.speed * Math.cos( theta );
 			this.position.y += this.speed * Math.sin( theta );
-			
+		
 			this.object.position.y = this.position.y;
-			
+		
 			//Polar coordinates
 			// this.object.position.x = Math.cos( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
 			// this.object.position.z = Math.sin( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
 			this.polarObj.rotation.y = this.position.x * this.poem.circumferenceRatio;
-			
-		};
 		
+		};
+	
 	}()
-	
-	
+
+
 };

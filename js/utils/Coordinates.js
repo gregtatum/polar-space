@@ -68,7 +68,7 @@ Coordinates.prototype = {
 		if( x >= 0 ) {
 			return x % this.poem.circumference;
 		} else {
-			return x + (x % this.poem.circumference)
+			return x + (x % this.poem.circumference);
 		}
 	},
 	
@@ -76,7 +76,7 @@ Coordinates.prototype = {
 		if( y >= 0 ) {
 			return y % this.poem.height;
 		} else {
-			return y + (y % this.poem.height)
+			return y + (y % this.poem.height);
 		}
 	},
 	

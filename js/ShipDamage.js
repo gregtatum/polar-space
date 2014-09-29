@@ -3,19 +3,25 @@ var random = require('./utils/random.js');
 var Bullet = require('./Bullet');
 var SoundGenerator = require('./sound/SoundGenerator');
 
-ShipDamage = function( poem, ship ) {
+ShipDamage = function( poem, ship, settings ) {
 	
 	this.poem = poem;
 	this.ship = ship;
 	this.perExplosion = 100;
 	this.retainExplosionsCount = 3;
-	this.count = this.perExplosion * this.retainExplosionsCount;
 	this.bullets = [];
 	this.explodeSpeed = 3;
+	this.transparent = false;
+	this.opacity = 1;
 	
 	this.explosionCount = 0;
 	this.explosionSound = null;
 	
+	if( _.isObject( settings ) ) {
+		_.extend( this, settings );
+	}
+	
+	this.count = this.perExplosion * this.retainExplosionsCount;
 	
 	this.addObject();
 	this.addSound();
@@ -55,7 +61,9 @@ ShipDamage.prototype = {
 			geometry,
 			new THREE.PointCloudMaterial({
 				 size: 1 * this.poem.ratio,
-				 color: this.ship.color
+				 color: this.ship.color,
+				 transparent: this.transparent,
+				 opacity: this.opacity
 			}
 		));
 		this.object.frustumCulled = false;

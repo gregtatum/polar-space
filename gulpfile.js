@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var watchify = require('watchify');
-var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var minifyify = require('minifyify');
 var sourcemaps = require('gulp-sourcemaps');
@@ -9,8 +8,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
-var react = require('gulp-react');
-var sass = require('gulp-sass')
+var sass = require('gulp-sass');
 
 var paths = {
 	entry	: './js/poem.js',
@@ -47,7 +45,6 @@ function bundle( enableWatching ) {
 		//gulp.start('jshint');
 		
 		var stream = bundler
-			.transform(reactify)
 			.bundle()
 			.pipe( source( paths.bundleName ))
 			.pipe( gulp.dest( paths.build ));
@@ -108,7 +105,6 @@ gulp.task('minify', function() {
 gulp.task('jshint', function() {
 	
 	return gulp.src(paths.js)
-		.pipe( react() )
 	    .pipe( jshint('./.jshintrc') )
 	    .pipe( jshint.reporter('jshint-stylish') );
 		

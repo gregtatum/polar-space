@@ -6,6 +6,9 @@ var Stars = require('./Stars');
 var AsteroidField = require('./AsteroidField');
 var Stats = require('./utils/Stats');
 var EventDispatcher = require('./utils/EventDispatcher');
+var JellyShip = require('./entities/JellyShip');
+var ShipManager = require('./entities/ShipManager');
+var Score = require('./Score');
 
 var Poem = function() {
 	
@@ -26,10 +29,12 @@ var Poem = function() {
 	this.camera = new Camera( this );
 	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
 	
+	this.score = new Score();
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );
-	this.asteroidField = new AsteroidField( this, 50 );
+	this.asteroidField = new AsteroidField( this, 20 );
+	this.shipManager = new ShipManager( this, JellyShip, 25 );
 	
 	this.addRenderer();
 	this.addStats();
@@ -113,6 +118,7 @@ Poem.prototype = {
 		this.gun.update( dt );
 		this.camera.update( dt );
 		this.asteroidField.update( dt );
+		this.shipManager.update( dt );
 		
 		this.renderer.render( this.scene, this.camera.object );
 	},

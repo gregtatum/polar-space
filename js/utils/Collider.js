@@ -20,7 +20,9 @@ module.exports = Collider;
 Collider.prototype = {
 	
 	update : function() {
-		
+
+		var collisions = [];
+
 		_.each( this.getCollectionA(), function( itemFromA ) {
 			
 			var collidedItemFromB = _.find( this.getCollectionB(), function( itemFromB ) {
@@ -38,11 +40,16 @@ Collider.prototype = {
 				
 			}, this);
 			
+			
 			if( collidedItemFromB ) {
-				this.onCollision( itemFromA, collidedItemFromB );
+				collisions.push([itemFromA, collidedItemFromB]);
 			}
 			
 		}, this);
+		
+		_.each( collisions, function( items ) {
+			this.onCollision( items[0], items[1] );
+		}, this);
 	}
 	
-}
+};

@@ -9,7 +9,7 @@ var random = {
 	},
 	
 	rangeInt : function(min, max) {
-		return Math.floor( Utils.random(min, max + 1) );
+		return Math.floor( this.range(min, max + 1) );
 	},
 	
 	rangeLow : function(min, max) {

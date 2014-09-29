@@ -41,7 +41,7 @@ SoundGenerator.prototype = {
 				output[i] *= 0.11; // (roughly) compensate for gain
 				b6 = white * 0.115926;
 			}
-		}
+		};
 		
 		return node;
 	
@@ -58,7 +58,7 @@ SoundGenerator.prototype = {
 			}
 		*/
 		
-		node = this.oscillator = this.context.createOscillator();
+		var node = this.oscillator = this.context.createOscillator();
 		
 		node.type = type || "sawtooth";
 		node.frequency.value = frequency || 2000;
@@ -90,7 +90,7 @@ SoundGenerator.prototype = {
 	
 	makeBandpass : function() {
 
-		var bandpass = this.bandpass = this.context.createBiquadFilter();
+		var node = this.bandpass = this.context.createBiquadFilter();
 		
 		node.type = "bandpass";
 		node.frequency.value = 440;

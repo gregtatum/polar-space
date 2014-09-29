@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var context = AudioContext || webkitAudioContext || null;
+var context = window.AudioContext || window.webkitAudioContext || null;
 
 var SoundGenerator = function() {
 	

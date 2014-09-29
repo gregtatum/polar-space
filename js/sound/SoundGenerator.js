@@ -3,7 +3,7 @@ var context = window.AudioContext || window.webkitAudioContext || null;
 
 var SoundGenerator = function() {
 	
-	this.enabled = AudioContext !== undefined;
+	this.enabled = context !== undefined;
 	
 	if(!this.enabled) return;
 	

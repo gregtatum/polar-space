@@ -40,11 +40,11 @@ ShipManager.prototype = {
 		
 	},
 	
-	update : function() {
+	update : function( dt ) {
 		
 		_.each( this.ships, function(ship) {
 			
-			ship.update();
+			ship.update( dt );
 			
 		}, this);
 		

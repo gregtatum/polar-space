@@ -119,11 +119,13 @@ a:hover {
 }
 .score {
 	position: absolute;
-	bottom: 1em;
-	left: 1em;
+	bottom: 0.5em;
+	left: 0.5em;
+	font-size:2em;
 }
 .score strong {
 	color: #4A9DE7;
+	font-weight:100;
 }
 .win {
     text-align: center;

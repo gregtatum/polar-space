@@ -8,11 +8,7 @@ var Collider = function( poem, getCollectionA, getCollectionB, onCollision ) {
 	this.getCollectionB = getCollectionB;
 	this.onCollision = onCollision;
 	
-	this.poem.on('update', function() {
-		
-		this.update();
-		
-	}.bind(this));
+	this.poem.on('update', this.update.bind(this) );
 };
 
 module.exports = Collider;

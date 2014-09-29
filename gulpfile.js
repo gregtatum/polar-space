@@ -11,7 +11,7 @@ var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
 
 var paths = {
-	entry	: './js/poem.js',
+	entry	: './js/Main.js',
 	js		: ['js/**/*.js', 'js/**/*.jsx', "gulpfile.js"],
 	hint	: ['assets/build/bundle.js', 'gulpfile.js'],
 	build	: './assets/build/',

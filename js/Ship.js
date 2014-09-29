@@ -18,7 +18,7 @@ var Ship = function( poem ) {
 	this.lives = 3;
 	this.invulnerable = true;
 	this.invulnerableLength = 3000;
-	this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
+	this.invulnerableTime = 0 + this.invulnerableLength;
 	this.invulnerableflipFlop = false;
 	this.invulnerableflipFlopLength = 100;
 	this.invulnerableflipFlopTime = 0;
@@ -37,6 +37,9 @@ var Ship = function( poem ) {
 
 	this.addObject();
 	this.shipDamage = new ShipDamage(this.poem, this);
+	
+	this.poem.on('update', this.update.bind(this) );
+	
 };
 
 module.exports = Ship;
@@ -114,7 +117,7 @@ Ship.prototype = {
 			
 				this.dead = false;
 				this.invulnerable = true;
-				this.invulnerableTime = new Date().getTime() + this.invulnerableLength;
+				this.invulnerableTime = this.poem.clock.getElapsedTime() + this.invulnerableLength;
 				this.object.visible = true;
 				this.reset();
 			
@@ -130,37 +133,35 @@ Ship.prototype = {
 		//this.object.rotation.z = Math.PI * 0.25;		
 	},
 	
-	update : function( dt ) {
+	update : function( e ) {
 		
 		if( this.dead ) {
 			
 			
 		} else {
 			
-			this.updateThrustAndBank( dt );
-			this.updateEdgeAvoidance( dt );
-			this.updatePosition( dt );
-			this.updateFiring( dt );
-			this.updateInvulnerability( dt );
+			this.updateThrustAndBank( e );
+			this.updateEdgeAvoidance( e );
+			this.updatePosition( e );
+			this.updateFiring( e );
+			this.updateInvulnerability( e );
 			
 		}
-		this.shipDamage.update( dt );
-		this.hid.update( dt );
+		this.shipDamage.update( e );
+		this.hid.update( e );
 
 	},
 	
-	updateInvulnerability : function( dt ) {
+	updateInvulnerability : function( e ) {
 		
 		if( this.invulnerable ) {
 			
-			var time = new Date().getTime()
-			
-			if( time < this.invulnerableTime ) {
+			if( e.time < this.invulnerableTime ) {
 				
 				
-				if( time > this.invulnerableflipFlopTime ) {
+				if( e.time > this.invulnerableflipFlopTime ) {
 
-					this.invulnerableflipFlopTime = new Date().getTime() + this.invulnerableflipFlopLength;
+					this.invulnerableflipFlopTime = e.time + this.invulnerableflipFlopLength;
 					this.invulnerableflipFlop = !this.invulnerableflipFlop;	
 					this.object.visible = this.invulnerableflipFlop;
 					
@@ -176,18 +177,18 @@ Ship.prototype = {
 		
 	},
 	
-	updateThrustAndBank : function( dt ) {
+	updateThrustAndBank : function( e ) {
 		var pressed = this.hid.pressed;
 			
 		this.bank *= 0.9;
 		this.thrust = 0;
 			
 		if( pressed.up ) {
-			this.thrust += this.thrustSpeed * dt;
+			this.thrust += this.thrustSpeed * e.dt;
 		}
 		
 		if( pressed.down ) {
-			this.thrust -= this.thrustSpeed * dt;	
+			this.thrust -= this.thrustSpeed * e.dt;	
 		}
 		
 		if( pressed.left ) {
@@ -199,7 +200,7 @@ Ship.prototype = {
 		}
 	},
 	
-	updateEdgeAvoidance : function( dt ) {
+	updateEdgeAvoidance : function( e ) {
 		
 		var nearEdge, farEdge, position, normalizedEdgePosition, bankDirection, absPosition;
 		
@@ -241,9 +242,6 @@ Ship.prototype = {
 			
 		}
 		
-		this.object.rotation.z;
-		
-		
 	},
 	
 	updateFiring : function() {
@@ -252,11 +250,11 @@ Ship.prototype = {
 		}
 	},
 	
-	updatePosition : function( dt ) {
+	updatePosition : function() {
 		
 		var movement = new THREE.Vector3();
 		
-		return function() {
+		return function( e ) {
 		
 			var theta, x, y;
 			
@@ -275,8 +273,6 @@ Ship.prototype = {
 			this.object.position.y = this.position.y;
 			
 			//Polar coordinates
-			// this.object.position.x = Math.cos( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
-			// this.object.position.z = Math.sin( this.position.x * this.poem.circumferenceRatio ) * this.poem.r;
 			this.polarObj.rotation.y = this.position.x * this.poem.circumferenceRatio;
 			
 		};

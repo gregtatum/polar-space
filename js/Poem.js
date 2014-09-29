@@ -111,10 +111,10 @@ Poem.prototype = {
 		
 		this.dispatch({
 			type: "update",
-			dt: dt
+			dt: dt,
+			time: this.clock.getElapsedTime()
 		});
 		
-		this.ship.update( dt );
 		this.gun.update( dt );
 		this.camera.update( dt );
 		this.asteroidField.update( dt );
@@ -126,7 +126,3 @@ Poem.prototype = {
 };
 
 EventDispatcher.prototype.apply( Poem.prototype );
-
-$(function() {
-	window.poem = new Poem();
-});

@@ -60,7 +60,6 @@ AsteroidField.prototype = {
 			);
 		
 			if( shipCollision ) {
-				console.log('ship hit by asteroid');
 				this.poem.ship.kill();
 			}
 		}

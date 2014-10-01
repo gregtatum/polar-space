@@ -1,13 +1,16 @@
-var Asteroid = require('./Asteroid');
+var Asteroid = require('../entities/Asteroid');
 
-var AsteroidField = function( poem, count ) {
+var AsteroidField = function( poem, properties ) {
 	
 	this.poem = poem;
 	this.asteroids = [];
 	this.maxRadius = 50;
 	this.originClearance = 30;
+	this.count = 20;
 	
-	this.generate( count );
+	_.extend( this, properties ) ;
+	
+	this.generate( this.count );
 	
 	this.poem.on('update', this.update.bind(this) );
 	

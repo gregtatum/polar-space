@@ -1,4 +1,4 @@
-var ShipDamage = require('../ShipDamage');
+var Damage = require('../components/Damage');
 var random = require('../utils/random');
 
 var Jellyship = function( poem, manager, x, y ) {
@@ -33,7 +33,7 @@ var Jellyship = function( poem, manager, x, y ) {
 	this.radius = 3;
 
 	this.addObject();
-	this.shipDamage = new ShipDamage(this.poem, this, {
+	this.damage = new Damage(this.poem, this, {
 		transparent: true,
 		opacity: 0.5,
 		retainExplosionsCount: 3,
@@ -132,7 +132,7 @@ Jellyship.prototype = {
 	kill : function() {
 		this.dead = true;
 		this.object.visible = false;
-		this.shipDamage.explode();
+		this.damage.explode();
 	},
 
 	reset : function() {
@@ -169,7 +169,7 @@ Jellyship.prototype = {
 			this.updatePosition( e );
 		
 		}
-		this.shipDamage.update( e );
+		this.damage.update( e );
 
 	},
 

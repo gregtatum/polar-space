@@ -1,4 +1,4 @@
-var EventDispatcher = require('./utils/EventDispatcher');
+var EventDispatcher = require('../utils/EventDispatcher');
 
 var HID = function() {
 	

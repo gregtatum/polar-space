@@ -1,5 +1,5 @@
-var HID = require('./Hid');
-var ShipDamage = require('./ShipDamage');
+var HID = require('./components/Hid');
+var Damage = require('./components/Damage');
 
 var Ship = function( poem ) {
 	
@@ -36,7 +36,7 @@ var Ship = function( poem ) {
 	this.maxSpeed = 1000;
 
 	this.addObject();
-	this.shipDamage = new ShipDamage(this.poem, this);
+	this.damage = new Damage(this.poem, this);
 	
 	this.poem.on('update', this.update.bind(this) );
 	
@@ -106,7 +106,7 @@ Ship.prototype = {
 		if( !force && !this.dead && !this.invulnerable ) {
 			this.dead = true;
 			this.object.visible = false;
-			this.shipDamage.explode();
+			this.damage.explode();
 			
 			this.poem.score.adjustScore(
 				Math.ceil( this.poem.score.score / -2 )
@@ -147,7 +147,7 @@ Ship.prototype = {
 			this.updateInvulnerability( e );
 			
 		}
-		this.shipDamage.update( e );
+		this.damage.update( e );
 		this.hid.update( e );
 
 	},

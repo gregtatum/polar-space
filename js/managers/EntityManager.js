@@ -1,22 +1,26 @@
 var Collider = require('../utils/Collider');
+var DefaultJellyShip = require('../entities/JellyShip');
 
-var ShipManager = function( poem, shipType, count ) {
+var EntityManager = function( poem, properties ) {
 	
 	this.poem = poem;
-	this.shipType = shipType;
+	this.shipType = DefaultJellyShip;
+	this.count = 20;
 	this.ships = [];
 	this.liveShips = [];
 	this.originClearance = 300;
 	
-	this.generate( count );
+	_.extend( this, properties ) ;
+	
+	this.generate( this.count );
 	this.configureCollider();
 	
 	this.poem.on('update', this.update.bind(this) );
 };
 
-module.exports = ShipManager;
+module.exports = EntityManager;
 
-ShipManager.prototype = {
+EntityManager.prototype = {
 	
 	generate : function( count ) {
 		

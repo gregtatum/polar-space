@@ -1,6 +1,6 @@
-var Bullet = require('./Bullet');
-var Collider = require('./utils/Collider');
-var SoundGenerator = require('./sound/SoundGenerator');
+var Bullet = require('../entities/Bullet');
+var Collider = require('../utils/Collider');
+var SoundGenerator = require('../sound/SoundGenerator');
 
 var Gun = function( poem ) {
 	this.poem = poem;

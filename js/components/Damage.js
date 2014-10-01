@@ -1,9 +1,9 @@
 var _ = require('underscore');
-var random = require('./utils/random.js');
-var Bullet = require('./Bullet');
-var SoundGenerator = require('./sound/SoundGenerator');
+var random = require('../utils/random.js');
+var Bullet = require('../entities/Bullet');
+var SoundGenerator = require('../sound/SoundGenerator');
 
-ShipDamage = function( poem, ship, settings ) {
+Damage = function( poem, ship, settings ) {
 	
 	this.poem = poem;
 	this.ship = ship;
@@ -27,7 +27,7 @@ ShipDamage = function( poem, ship, settings ) {
 	this.addSound();
 };
 	
-ShipDamage.prototype = {
+Damage.prototype = {
 	
 	generateGeometry : function() {
 		
@@ -148,4 +148,4 @@ ShipDamage.prototype = {
 	
 };
 
-module.exports = ShipDamage;
+module.exports = Damage;

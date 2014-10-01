@@ -1,18 +1,17 @@
 var Coordinates = require('./utils/Coordinates');
-var Camera = require('./Camera');
-var Gun = require('./Gun');
+var Camera = require('./components/Camera');
+var Gun = require('./managers/Gun');
 var Ship = require('./Ship');
-var Stars = require('./Stars');
-var AsteroidField = require('./AsteroidField');
+var Stars = require('./components/Stars');
+var AsteroidField = require('./managers/AsteroidField');
 var Stats = require('./utils/Stats');
 var EventDispatcher = require('./utils/EventDispatcher');
 var JellyShip = require('./entities/JellyShip');
-var ShipManager = require('./entities/ShipManager');
-var Score = require('./Score');
+var EntityManager = require('./managers/EntityManager');
+var Score = require('./components/Score');
 var Clock = require('./utils/Clock');
 
-var Poem = function() {
-	
+var Poem = function( levelObject ) {
 
 	this.circumference = 750;
 	this.height = 120;
@@ -34,8 +33,8 @@ var Poem = function() {
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );
-	this.asteroidField = new AsteroidField( this, 20 );
-	this.shipManager = new ShipManager( this, JellyShip, 25 );
+	
+	this.parseLevel( levelObject );
 	
 	this.addRenderer();
 	this.addStats();
@@ -49,6 +48,20 @@ var Poem = function() {
 module.exports = Poem;
 
 Poem.prototype = {
+	
+	parseLevel : function( levelObject ) {
+		
+		
+		_.each( levelObject, function( value, key ) {
+			
+			if(_.isObject( value )) {
+				this[ key ] = new value.object( this, value.properties );
+			} else {
+				this[ key ] = value;
+			}
+			
+		}, this);
+	},
 	
 	addRenderer : function() {
 		this.renderer = new THREE.WebGLRenderer({

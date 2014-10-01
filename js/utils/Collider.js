@@ -15,7 +15,7 @@ module.exports = Collider;
 
 Collider.prototype = {
 	
-	update : function() {
+	update : function( e ) {
 
 		var collisions = [];
 

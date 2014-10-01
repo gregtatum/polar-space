@@ -28,7 +28,7 @@ var Ship = function( poem ) {
 	this.edgeAvoidanceBankSpeed = 0.04;
 	this.edgeAvoidanceThrustSpeed = 0.001;
 	
-	this.thrustSpeed = 1;
+	this.thrustSpeed = 0.001;
 	this.thrust = 0;
 	
 	this.bankSpeed = 0.06;
@@ -117,7 +117,7 @@ Ship.prototype = {
 			
 				this.dead = false;
 				this.invulnerable = true;
-				this.invulnerableTime = this.poem.clock.getElapsedTime() + this.invulnerableLength;
+				this.invulnerableTime = this.poem.clock.time + this.invulnerableLength;
 				this.object.visible = true;
 				this.reset();
 			
@@ -244,7 +244,7 @@ Ship.prototype = {
 		
 	},
 	
-	updateFiring : function() {
+	updateFiring : function( e ) {
 		if( this.hid.pressed.spacebar ) {
 			this.poem.gun.fire( this.position.x, this.position.y, 2, this.object.rotation.z );
 		}

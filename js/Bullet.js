@@ -20,9 +20,10 @@ Bullet.prototype = {
 		this.alive = false;
 	},
 	
-	update : function( dt ) {
-		
+	update : function( e ) {
 		var x,y,z;
+
+		//console.log(this.speed.x, this.speed.y);
 		
 		this.position.x += this.speed.x;
 		this.position.y += this.speed.y;
@@ -40,7 +41,7 @@ Bullet.prototype = {
 		this.speed.x = Math.cos( theta ) * speed;
 		this.speed.y = Math.sin( theta ) * speed;
 		
-		this.bornAt = new Date().getTime();
+		this.bornAt = this.poem.clock.time;
 		this.alive = true;
 	}
 };

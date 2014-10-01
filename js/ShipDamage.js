@@ -135,10 +135,10 @@ ShipDamage.prototype = {
 		sound.setFrequency(freq * 0.21, step * times, 0.05);
 	},
 	
-	update : function( dt )  {
+	update : function( e )  {
 		
 		_.each( this.bullets, function( bullet ) {
-			bullet.update( dt );
+			bullet.update( e );
 			bullet.speed.multiplyScalar(0.999);
 		});
 		

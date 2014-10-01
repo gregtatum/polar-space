@@ -9,6 +9,8 @@ var AsteroidField = function( poem, count ) {
 	
 	this.generate( count );
 	
+	this.poem.on('update', this.update.bind(this) );
+	
 };
 
 module.exports = AsteroidField;
@@ -44,11 +46,11 @@ AsteroidField.prototype = {
 		
 	},
 	
-	update : function() {
+	update : function( e ) {
 		
 		_.each( this.asteroids, function(asteroid) {
 			
-			asteroid.update();
+			asteroid.update( e );
 			
 		}, this);
 		

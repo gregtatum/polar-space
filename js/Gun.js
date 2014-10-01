@@ -10,7 +10,7 @@ var Gun = function( poem ) {
 	this.count = 350;
 	this.bulletAge = 5000;
 	this.fireDelayMilliseconds = 100;
-	this.lastFireTimestamp = 0;
+	this.lastFireTimestamp = this.poem.clock.time;
 	this.liveBullets = [];
 	this.bullets = [];
 	this.bornAt = 0;
@@ -18,6 +18,9 @@ var Gun = function( poem ) {
 	this.addObject();
 	this.configureCollider();
 	this.addSound();
+	
+	console.log('update');
+	this.poem.on('update', this.update.bind(this) );
 };
 
 module.exports = Gun;
@@ -32,7 +35,7 @@ Gun.prototype = {
 		
 		return function(x, y, speed, theta) {
 			
-			var now = new Date().getTime();
+			var now = this.poem.clock.time;
 			
 			if( now - this.lastFireTimestamp < this.fireDelayMilliseconds ) {
 				return;
@@ -116,19 +119,17 @@ Gun.prototype = {
 		
 	},
 	
-	update : function( dt )  {
+	update : function( e )  {
 		var bullet, time;
-		
-		now = new Date().getTime();
 		
 		for(var i=0; i<this.liveBullets.length; i++) {
 			bullet = this.liveBullets[i];
 			
-			if(bullet.bornAt + this.bulletAge < now) {
+			if(bullet.bornAt + this.bulletAge < e.time) {
 				this.killBullet( bullet );
 				i--;
 			} else {
-				bullet.update( dt );
+				bullet.update( e.dt );
 			}
 		}
 		if(this.liveBullets.length > 0) {

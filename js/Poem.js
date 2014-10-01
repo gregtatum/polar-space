@@ -9,6 +9,7 @@ var EventDispatcher = require('./utils/EventDispatcher');
 var JellyShip = require('./entities/JellyShip');
 var ShipManager = require('./entities/ShipManager');
 var Score = require('./Score');
+var Clock = require('./utils/Clock');
 
 var Poem = function() {
 	
@@ -24,7 +25,7 @@ var Poem = function() {
 	this.div = document.getElementById( 'container' );
 	this.scene = new THREE.Scene();
 
-	this.clock = new THREE.Clock( true );
+	this.clock = new Clock();
 	this.coordinates = new Coordinates( this );
 	this.camera = new Camera( this );
 	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
@@ -105,20 +106,13 @@ Poem.prototype = {
 			
 	update : function() {
 		
-		var dt = Math.min( this.clock.getDelta(), 50 );
-		
 		this.stats.update();
 		
 		this.dispatch({
 			type: "update",
-			dt: dt,
-			time: this.clock.getElapsedTime()
+			dt: this.clock.getDelta(),
+			time: this.clock.time
 		});
-		
-		this.gun.update( dt );
-		this.camera.update( dt );
-		this.asteroidField.update( dt );
-		this.shipManager.update( dt );
 		
 		this.renderer.render( this.scene, this.camera.object );
 	},

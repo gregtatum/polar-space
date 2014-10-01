@@ -58,7 +58,7 @@ Asteroid.prototype = {
 		this.oscillation = Math.random() * Math.PI * 2 * this.oscillationSpeed;
 	},
 	
-	update : function() {
+	update : function( e ) {
 		
 		this.oscillation += this.speed.y;
 		this.position.x += this.speed.x;

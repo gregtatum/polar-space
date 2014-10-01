@@ -17,6 +17,7 @@ var Camera = function( poem ) {
 	this.polarObj.add( this.object );
 	this.poem.scene.add( this.polarObj );
 	
+	this.poem.on('update', this.update.bind(this) );
 };
 
 module.exports = Camera;
@@ -28,7 +29,7 @@ Camera.prototype = {
 		this.object.updateProjectionMatrix();
 	},
 	
-	update : function( dt ) {
+	update : function( e ) {
 		
 		var thisTheta = this.polarObj.rotation.y;
 		var thatTheta = this.poem.ship.polarObj.rotation.y;

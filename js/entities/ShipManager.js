@@ -11,6 +11,7 @@ var ShipManager = function( poem, shipType, count ) {
 	this.generate( count );
 	this.configureCollider();
 	
+	this.poem.on('update', this.update.bind(this) );
 };
 
 module.exports = ShipManager;
@@ -40,11 +41,11 @@ ShipManager.prototype = {
 		
 	},
 	
-	update : function( dt ) {
+	update : function( e ) {
 		
 		_.each( this.ships, function(ship) {
 			
-			ship.update( dt );
+			ship.update( e );
 			
 		}, this);
 		

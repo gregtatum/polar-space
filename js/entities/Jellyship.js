@@ -142,22 +142,20 @@ Jellyship.prototype = {
 		//this.object.rotation.z = Math.PI * 0.25;		
 	},
 
-	update : function( dt ) {
+	update : function( e ) {
 		
 		//TODO CLEAN ME UP!!!
-		
-		var t = new Date().getTime();
 		
 		this.bank *= 0.9;
 		this.thrust = 0.01;
 		
 		this.bank += random.range(-0.01, 0.01);
 		
-		//this.bank += this.bankSpeed * Math.sin( dt / 500 );
+		//this.bank += this.bankSpeed * Math.sin( e.dt / 500 );
 		
 		_.each( this.waveyVerts, function( vec ) {
 			//TODO - Share this with all objects
-			vec.y = 0.8 * Math.sin( t / 100 + vec.x ) + vec.original.y;
+			vec.y = 0.8 * Math.sin( e.time / 100 + vec.x ) + vec.original.y;
 		});
 		
 		this.object.geometry.verticesNeedUpdate = true;
@@ -167,15 +165,15 @@ Jellyship.prototype = {
 		
 		} else {
 		
-			this.updateEdgeAvoidance( dt );
-			this.updatePosition( dt );
+			this.updateEdgeAvoidance( e );
+			this.updatePosition( e );
 		
 		}
-		this.shipDamage.update( dt );
+		this.shipDamage.update( e );
 
 	},
 
-	updateEdgeAvoidance : function( dt ) {
+	updateEdgeAvoidance : function( e ) {
 	
 		var nearEdge, farEdge, position, normalizedEdgePosition, bankDirection, absPosition;
 	
@@ -222,7 +220,7 @@ Jellyship.prototype = {
 	
 	},
 
-	updatePosition : function( dt ) {
+	updatePosition : function( e ) {
 	
 		var movement = new THREE.Vector3();
 	

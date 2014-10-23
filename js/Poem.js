@@ -37,7 +37,7 @@ var Poem = function( levelObject ) {
 	this.parseLevel( levelObject );
 	
 	this.addRenderer();
-	this.addStats();
+//	this.addStats();
 	this.addEventListeners();
 	
 	this.loop();
@@ -119,7 +119,7 @@ Poem.prototype = {
 			
 	update : function() {
 		
-		this.stats.update();
+		// this.stats.update();
 		
 		this.dispatch({
 			type: "update",

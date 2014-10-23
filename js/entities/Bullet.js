@@ -22,8 +22,6 @@ Bullet.prototype = {
 	
 	update : function( e ) {
 		var x,y,z;
-
-		//console.log(this.speed.x, this.speed.y);
 		
 		this.position.x += this.speed.x;
 		this.position.y += this.speed.y;

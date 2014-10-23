@@ -1,19 +1,25 @@
 var Collider = require('../utils/Collider');
 var DefaultJellyShip = require('../entities/JellyShip');
+var EventDispatcher = require('../utils/EventDispatcher');
 
 var EntityManager = function( poem, properties ) {
 	
 	this.poem = poem;
-	this.shipType = DefaultJellyShip;
+	this.entityType = DefaultJellyShip;
 	this.count = 20;
-	this.ships = [];
-	this.liveShips = [];
+	this.entities = [];
+	this.liveEntities = [];
 	this.originClearance = 300;
+	this.shared = {};
+		
+	_.extend( this, properties );
 	
-	_.extend( this, properties ) ;
-	
+	if( _.isFunction( this.entityType.prototype.initSharedAssets ) ) {
+		this.entityType.prototype.initSharedAssets( this );
+	}
 	this.generate( this.count );
 	this.configureCollider();
+
 	
 	this.poem.on('update', this.update.bind(this) );
 };
@@ -24,7 +30,7 @@ EntityManager.prototype = {
 	
 	generate : function( count ) {
 		
-		var i, x, y, height, width, ship;
+		var i, x, y, height, width, entity;
 		
 		height = this.poem.height * 4;
 		width = this.poem.circumference;
@@ -34,10 +40,10 @@ EntityManager.prototype = {
 			x = Math.random() * width;
 			y = Math.random() * height - (height / 2)
 			
-			ship = new this.shipType( this.poem, this, x, y );
+			entity = new this.entityType( this.poem, this, x, y );
 			
-			this.ships.push( ship );
-			this.liveShips.push( ship );
+			this.entities.push( entity );
+			this.liveEntities.push( entity );
 		
 		}
 		
@@ -47,45 +53,40 @@ EntityManager.prototype = {
 	
 	update : function( e ) {
 		
-		_.each( this.ships, function(ship) {
-			
-			ship.update( e );
-			
-		}, this);
+		this.dispatch( e );
 		
 	},
 	
-	killShip : function( ship ) {
+	killEntity : function( entity ) {
 		
-		var i = this.liveShips.indexOf( ship );
+		var i = this.liveEntities.indexOf( entity );
 		
 		if( i >= 0 ) {
-			this.liveShips.splice( i, 1 );
+			this.liveEntities.splice( i, 1 );
 		}
 		
-		ship.kill();		
+		entity.kill();		
 	},
 	
 	configureCollider : function() {
-		
 		new Collider(
 			
 			this.poem,
 			
 			function() {
-				return this.liveShips;
+				return this.liveEntities;
 			}.bind(this),
 			
 			function() {
 				return this.poem.gun.liveBullets;
 			}.bind(this),
 			
-			function(ship, bullet) {
+			function(entity, bullet) {
 				
-				this.killShip( ship );
+				this.killEntity( entity );
 				this.poem.gun.killBullet( bullet );
 				
-				this.poem.score.adjustScore( ship.scoreValue );
+				this.poem.score.adjustScore( entity.scoreValue );
 				this.poem.score.adjustEnemies( -1 );
 				
 			}.bind(this)
@@ -97,18 +98,18 @@ EntityManager.prototype = {
 			this.poem,
 			
 			function() {
-				return this.liveShips;
+				return this.liveEntities;
 			}.bind(this),
 			
 			function() {
 				return [this.poem.ship];
 			}.bind(this),
 			
-			function(ship, bullet) {
+			function(entity, bullet) {
 				
 				if( !this.poem.ship.dead && !this.poem.ship.invulnerable ) {
 					
-					this.killShip( ship );
+					this.killEntity( entity );
 					this.poem.ship.kill();
 					
 					this.poem.score.adjustEnemies( -1 );
@@ -124,3 +125,5 @@ EntityManager.prototype = {
 	
 	
 };
+
+EventDispatcher.prototype.apply( EntityManager.prototype );

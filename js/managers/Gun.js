@@ -19,7 +19,6 @@ var Gun = function( poem ) {
 	this.configureCollider();
 	this.addSound();
 	
-	console.log('update');
 	this.poem.on('update', this.update.bind(this) );
 };
 

@@ -23,7 +23,7 @@ h1 {
 }
 .info {
 	position: absolute;
-	bottom: 1em;
+	bottom: 2.1em;
 	right: 1em;	
 }
 p {
@@ -35,10 +35,13 @@ p {
 }
 .credits {
     position: absolute;
-    top: 0.5em;
-    right: 0.5em;
+    bottom: 0.5em;
+    left: 0;
+	padding: 0 1.6em;
     font-size: 0.7em;
     color: #777;
+    text-align: left;
+    width: 100%;
 }
 a {
     color: #4A9DE7;
@@ -46,24 +49,6 @@ a {
 a:hover {
     color: #007BE9;
     text-decoration: none;
-}
-@media screen and (min-width:1200px) {
-	.info {
-		font-size:1.3em;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	.info {
-		font-size:0.6em;
-		width:100%;
-		text-align:center;
-		right:0;
-	}
-	.credits {
-		right:0;
-		text-align:center;
-	}
 }
 
 .info {
@@ -119,7 +104,7 @@ a:hover {
 }
 .score {
 	position: absolute;
-	bottom: 0.5em;
+	bottom: 1em;
 	left: 0.5em;
 	font-size:2em;
 }
@@ -145,7 +130,51 @@ a:hover {
 .win strong {
     color: #4A9DE7;
 }
+.npm-scb-now-playing {
+	left: 0;
+	padding-left: 138px;
+	width: 100%;
+}
+.npm-scb-wrap {
+	width: 100%;
+}
+.npm-scb-wrap p {
+	letter-spacing:0;
+}
+.npm-scb-info {
+	max-width: 300px;
+	width: 100%;
+	left: 0;
+	padding-left: 120px;
+	font-size: 0.9em;
+}
+@media screen and (min-width:1200px) {
+	.info {
+		font-size:1.3em;
+	}
+}
+
 @media screen and (max-width: 600px) {
+	.score {
+		text-align: left;
+		width:100%;
+	
+		font-size: 1em;
+		bottom: 4.7em;
+		padding: 0 0.9em;
+}
+	.info {
+		font-size:0.6em;
+		width:100%;
+		text-align: left;
+		right:0;
+	}
+	.credits {
+		right:0;
+		text-align: left;
+		padding: 0 19px;
+		font-size: 0.6em;
+	}
 
 	.arrow-prev:after {
 	    right: 0;

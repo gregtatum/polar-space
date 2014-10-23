@@ -39,16 +39,38 @@ var Jellyship = function( poem, manager, x, y ) {
 		retainExplosionsCount: 3,
 		perExplosion: 50
 	});
+	
+	this.handleUpdate = this.update.bind(this);
+	this.manager.on('update', this.handleUpdate );
+	
 };
 
 module.exports = Jellyship;
 
 Jellyship.prototype = {
+	
+	initSharedAssets : function( manager ) {
+		
+		var geometry = this.createGeometry();
+		
+		manager.shared.geometry = geometry;
+		
+		manager.on('update', Jellyship.prototype.updateWaveyVerts( geometry ) );
+	},
+	
+	updateWaveyVerts : function( geometry ) {
+
+		return function( e ) {
+			
+			_.each( geometry.waveyVerts, function( vec ) {
+				vec.y = 0.8 * Math.sin( e.time / 100 + vec.x ) + vec.original.y;
+			});
+			
+		}
+	},
 
 	createGeometry : function() {
-		
-		//TODO - Share geometry
-	
+
 		var geometry, verts, manhattanLength, center;
 	
 		geometry = new THREE.Geometry(),
@@ -81,7 +103,7 @@ Jellyship.prototype = {
 			manhattanLength[1] / verts.length
 		];
 		
-		this.waveyVerts = [];
+		geometry.waveyVerts = [];
 	
 		geometry.vertices = _.map( verts, function( vec2 ) {
 			
@@ -95,7 +117,7 @@ Jellyship.prototype = {
 			vec3.original = new THREE.Vector3().copy( vec3 );
 			
 			if( vec2[1] > 330.8 ) {
-				this.waveyVerts.push( vec3 )
+				geometry.waveyVerts.push( vec3 )
 			}
 			
 			return vec3;
@@ -110,7 +132,7 @@ Jellyship.prototype = {
 	
 		var geometry, lineMaterial;
 	
-		geometry = this.createGeometry();
+		geometry = this.manager.shared.geometry;
 			
 		lineMaterial = new THREE.LineBasicMaterial({
 			color: this.color,
@@ -144,32 +166,22 @@ Jellyship.prototype = {
 
 	update : function( e ) {
 		
-		//TODO CLEAN ME UP!!!
-		
-		this.bank *= 0.9;
-		this.thrust = 0.01;
-		
-		this.bank += random.range(-0.01, 0.01);
-		
-		//this.bank += this.bankSpeed * Math.sin( e.dt / 500 );
-		
-		_.each( this.waveyVerts, function( vec ) {
-			//TODO - Share this with all objects
-			vec.y = 0.8 * Math.sin( e.time / 100 + vec.x ) + vec.original.y;
-		});
-		
-		this.object.geometry.verticesNeedUpdate = true;
-		
 		if( this.dead ) {
 		
-		
+			this.damage.update( e );
+			
 		} else {
+			
+			this.bank *= 0.9;
+			this.thrust = 0.01;
+			this.bank += random.range(-0.01, 0.01);
+		
+			this.object.geometry.verticesNeedUpdate = true;
 		
 			this.updateEdgeAvoidance( e );
 			this.updatePosition( e );
 		
 		}
-		this.damage.update( e );
 
 	},
 

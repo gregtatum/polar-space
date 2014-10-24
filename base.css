@@ -107,6 +107,7 @@ a:hover {
 	bottom: 1em;
 	left: 0.5em;
 	font-size:2em;
+	display:none;
 }
 .score strong {
 	color: #4A9DE7;
@@ -148,6 +149,48 @@ a:hover {
 	padding-left: 120px;
 	font-size: 0.9em;
 }
+.title {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+	transition: transform 1000ms, opacity 1000ms;
+	transform: scale(1);
+	opacity: 1;
+}
+.title.hide {
+	transform: scale(2);
+	opacity: 0;
+}
+.title-logo {
+    max-width: 84%;
+	-webkit-animation: grow 15000ms;
+	-moz-animation: grow 15000ms;
+	-o-animation: grow 15000ms;
+	animation: grow 15000ms;
+    margin-top: 10%;
+    max-height: 40%;
+}
+.title-left, .title-right {
+	position:absolute;
+	width:50%;
+	bottom: 6%;
+	height: 38%;
+}
+.title-left img, .title-right img {
+    padding-bottom: 2em;
+    margin-top: 12%;
+    height: 57%;
+    width: auto;
+}
+.title-left {
+	left:0;
+}
+.title-right {
+	right:0;
+}
+
 @media screen and (min-width:1200px) {
 	.info {
 		font-size:1.3em;
@@ -184,4 +227,24 @@ a:hover {
 	    left: 0;
 		right: auto;
 	}	
+}
+@-webkit-keyframes grow {  
+	0% {transform: scale(0.7);}
+	100% {transform: scale(1);}
+}
+@-moz-keyframes grow {  
+	0% {transform: scale(0.7);}
+	100% {transform: scale(1);}
+}
+@-ms-keyframes grow {  
+	0% {transform: scale(0.7);}
+	100% {transform: scale(1);}
+}
+@-o-keyframes grow {  
+	0% {transform: scale(0.7);}
+	100% {transform: scale(1);}
+}
+@keyframes grow {  
+	0% {transform: scale(0.7);}
+	100% {transform: scale(1);}
 }

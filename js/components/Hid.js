@@ -1,6 +1,10 @@
 var EventDispatcher = require('../utils/EventDispatcher');
 
-var HID = function() {
+window.HIDtype = "keys";
+
+var HID = function( poem ) {
+
+	this.poem = poem;
 	
 	var states = {
 		up: false,
@@ -18,18 +22,58 @@ var HID = function() {
 		"k32" : "spacebar"
 	}
 	
+	this.rotation = {};
 	this.pressed = _.clone(states);
 	this.down = _.clone(states);
 	this.up = _.clone(states);
 	
-	$(window).on('keydown', this.keydown.bind(this));
-	$(window).on('keyup', this.keyup.bind(this));
+	if( window.HIDtype === "keys" ) {
+		this.setKeyHandlers();
+	} else {
+		this.setTiltHandlers();
+	}
 	
 };
 
-module.exports = HID;
-
 HID.prototype = {
+	
+	setKeyHandlers : function() {
+		
+		$(window).on( 'keydown.HID', this.keydown.bind(this) );
+		$(window).on( 'keyup.HID', this.keyup.bind(this) );
+	
+		this.poem.on( "destroy", function() {
+			$(window).off( 'keydown.HID' );
+			$(window).off( 'keyup.HID' );
+		});
+		
+	},
+	
+	setTiltHandlers : function() {
+
+		$(window).on( 'devicemotion.HID', this.handleTilt.bind(this) );
+		$("canvas").on( 'touchstar.HID', this.handleTouchStart.bind(this) );
+		$("canvas").on( 'touchend.HID', this.handleTouchEnd.bind(this) );
+
+		this.poem.on( "destroy", function() {
+			$(window).off( 'devicemotion.HID' );
+			$("canvas").off( 'touchstart.HID' );
+			$("canvas").off( 'touchend.HID' );
+		});
+		
+	},
+	
+	type : function() {
+		return window.HIDtype;
+	},
+	
+	setKeys : function() {
+		window.HIDtype = "keys";
+	},
+	
+	setTilt : function() {
+		window.HIDtype = "tilt";		
+	},
 	
 	keydown : function( e ) {
 		var code = this.keyCodes[ "k" + e.keyCode ];
@@ -49,6 +93,23 @@ HID.prototype = {
 		}
 	},
 	
+	handleTilt : function(e) {
+		
+		this.rotation = e.originalEvent.rotationRate;
+		
+	},
+	
+	handleTouchStart : function(e) {
+		this.pressed.spacebar = true;
+	},
+	
+	handleTouchEnd : function(e) {
+		
+		var touches = e.originalEvent.touches
+		this.pressed.spacebar = (touches.length === 0);
+		
+	},
+	
 	update : function() {
 		
 		var falsify = function (value, key, list) {
@@ -65,3 +126,5 @@ HID.prototype = {
 };
 
 EventDispatcher.prototype.apply( HID.prototype );
+
+module.exports = HID;

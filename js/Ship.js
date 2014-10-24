@@ -7,7 +7,7 @@ var Ship = function( poem ) {
 	this.scene = poem.scene;
 	this.polarObj = new THREE.Object3D();
 	this.object = null;
-	this.hid = new HID();
+	this.hid = new HID( this.poem );
 	this.color = 0x4A9DE7;
 	this.linewidth = 2 * this.poem.ratio;
 	this.radius = 3;
@@ -101,27 +101,30 @@ Ship.prototype = {
 		this.scene.add( this.polarObj );
 	},
 	
-	kill : function( force ) {
-		
+	kill : function( force, forever, noExplosion ) {
+
 		if( !force && !this.dead && !this.invulnerable ) {
 			this.dead = true;
 			this.object.visible = false;
-			this.damage.explode();
+			
+			if( !noExplosion ) this.damage.explode();
 			
 			this.poem.score.adjustScore(
 				Math.ceil( this.poem.score.score / -2 )
 			);
 			
 		
-			setTimeout(function() {
+			if( !forever ) {
+				setTimeout(function() {
 			
-				this.dead = false;
-				this.invulnerable = true;
-				this.invulnerableTime = this.poem.clock.time + this.invulnerableLength;
-				this.object.visible = true;
-				this.reset();
+					this.dead = false;
+					this.invulnerable = true;
+					this.invulnerableTime = this.poem.clock.time + this.invulnerableLength;
+					this.object.visible = true;
+					this.reset();
 			
-			}.bind(this), 2000);
+				}.bind(this), 2000);
+			}
 		}
 	},
 	
@@ -178,25 +181,39 @@ Ship.prototype = {
 	},
 	
 	updateThrustAndBank : function( e ) {
+		
 		var pressed = this.hid.pressed;
-			
+		var rotation = this.hid.rotation;
+		
 		this.bank *= 0.9;
 		this.thrust = 0;
+		
+		console.log(this.hid.type());
+		
+		if( this.hid.type() === "keys" ) {
 			
-		if( pressed.up ) {
-			this.thrust += this.thrustSpeed * e.dt;
-		}
+			if( pressed.up ) {
+				this.thrust += this.thrustSpeed * e.dt;
+			}
 		
-		if( pressed.down ) {
-			this.thrust -= this.thrustSpeed * e.dt;	
-		}
+			if( pressed.down ) {
+				this.thrust -= this.thrustSpeed * e.dt;	
+			}
 		
-		if( pressed.left ) {
-			this.bank = this.bankSpeed;
-		}
+			if( pressed.left ) {
+				this.bank = this.bankSpeed;
+			}
 		
-		if( pressed.right ) {
-			this.bank = this.bankSpeed * -1;
+			if( pressed.right ) {
+				this.bank = this.bankSpeed * -1;
+			}
+			
+		} else {
+			
+			this.thrust = rotation.beta * e.dt * -1 + 20;
+
+			this.bank = rotation.gamma / 30;
+			
 		}
 	},
 	

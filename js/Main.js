@@ -1,7 +1,5 @@
-var Poem = require('./Poem');
-var asteroidJelliesLevel = require('./levels/asteroids-jellies');
+var LevelLoader = require('./LevelLoader');
 
 $(function() {
-	window.poem = new Poem( asteroidJelliesLevel );
+	LevelLoader("titles");
 });
-

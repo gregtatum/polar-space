@@ -11,18 +11,20 @@ var EntityManager = require('./managers/EntityManager');
 var Score = require('./components/Score');
 var Clock = require('./utils/Clock');
 
-var Poem = function( levelObject ) {
+var renderer;
 
-	this.circumference = 750;
-	this.height = 120;
-	this.r = 240;
+var Poem = function( level ) {
+
+	this.circumference = level.config.circumference || 750;
+	this.height = level.config.height || 120;
+	this.r = level.config.r || 240;
 	this.circumferenceRatio = (2 * Math.PI) / this.circumference; //Map 2d X coordinates to polar coordinates
 	this.ratio = window.devicePixelRatio >= 1 ? window.devicePixelRatio : 1;
 	
-	this.renderer = undefined;
 	this.controls = undefined;
 	this.div = document.getElementById( 'container' );
 	this.scene = new THREE.Scene();
+	this.requestedFrame = undefined;
 
 	this.clock = new Clock();
 	this.coordinates = new Coordinates( this );
@@ -34,14 +36,15 @@ var Poem = function( levelObject ) {
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );
 	
-	this.parseLevel( levelObject );
+	this.parseLevel( level );
 	
-	this.addRenderer();
+	if(!renderer) {
+		this.addRenderer();
+	}
 //	this.addStats();
 	this.addEventListeners();
 	
 	this.loop();
-	
 	
 };
 
@@ -49,11 +52,8 @@ module.exports = Poem;
 
 Poem.prototype = {
 	
-	parseLevel : function( levelObject ) {
-		
-		
-		_.each( levelObject, function( value, key ) {
-			
+	parseLevel : function( level ) {
+		_.each( level.objects, function( value, key ) {
 			if(_.isObject( value )) {
 				this[ key ] = new value.object( this, value.properties );
 			} else {
@@ -64,11 +64,11 @@ Poem.prototype = {
 	},
 	
 	addRenderer : function() {
-		this.renderer = new THREE.WebGLRenderer({
+		renderer = new THREE.WebGLRenderer({
 			alpha : true
 		});
-		this.renderer.setSize( window.innerWidth, window.innerHeight );
-		this.div.appendChild( this.renderer.domElement );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		this.div.appendChild( renderer.domElement );
 	},
 	
 	addStats : function() {
@@ -106,13 +106,13 @@ Poem.prototype = {
 	resizeHandler : function() {
 		
 		this.camera.resize();
-		this.renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( window.innerWidth, window.innerHeight );
 
 	},
 			
 	loop : function() {
 
-		requestAnimationFrame( this.loop.bind(this) );
+		this.requestedFrame = requestAnimationFrame( this.loop.bind(this) );
 		this.update();
 
 	},
@@ -127,9 +127,18 @@ Poem.prototype = {
 			time: this.clock.time
 		});
 		
-		this.renderer.render( this.scene, this.camera.object );
+		renderer.render( this.scene, this.camera.object );
+
 	},
 	
+	destroy : function() {
+		
+		window.cancelAnimationFrame( this.requestedFrame );
+		
+		this.dispatch({
+			type: "destroy"
+		});
+	}
 };
 
 EventDispatcher.prototype.apply( Poem.prototype );

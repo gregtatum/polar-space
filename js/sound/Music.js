@@ -2,6 +2,9 @@ var soundcloud = require('soundcloud-badge');
 
 var Music = function( poem, properties ) {
 
+	var audio;
+	var alive = true;
+
 	soundcloud({
 		client_id: '6057c9af862bf245d4c402179e317f52',
 		song: properties.url,
@@ -9,9 +12,10 @@ var Music = function( poem, properties ) {
 		getFonts: false
 	}, function(err, src, data, div) {
 
-		if (err) throw err
+		if( !alive ) return;
+		if( err ) throw err;
 
-		var audio = new Audio();
+		audio = new Audio();
 		audio.src = src;
 		audio.play();
 		audio.loop = true;
@@ -20,8 +24,7 @@ var Music = function( poem, properties ) {
 		
 		var playing = true;
 		
-		$(window).on('keydown', function(e) {
-			console.log(e.keyCode);
+		$(window).on('keydown.Music', function(e) {
 			if( e.keyCode != 83 ) return;
 			if( playing ) {
 				audio.pause();
@@ -31,8 +34,16 @@ var Music = function( poem, properties ) {
 				playing = true;
 			}
 		});
-		
 	})
+	
+	poem.on('destroy', function() {
+		if(audio) {
+			audio.pause();
+			audio = null;
+		}
+		$(window).off('keydown.Music');
+		$('.npm-scb-white').remove();
+	});
 	
 };
 

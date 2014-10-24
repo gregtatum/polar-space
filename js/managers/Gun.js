@@ -16,7 +16,6 @@ var Gun = function( poem ) {
 	this.bornAt = 0;
 
 	this.addObject();
-	this.configureCollider();
 	this.addSound();
 	
 	this.poem.on('update', this.update.bind(this) );
@@ -137,7 +136,7 @@ Gun.prototype = {
 		
 	},
 	
-	configureCollider : function() {
+	setBarrierCollider : function( collection ) {
 		
 		//Collide bullets with asteroids
 		new Collider(
@@ -145,14 +144,14 @@ Gun.prototype = {
 			this.poem,
 			
 			function() {
-				return this.poem.asteroidField.asteroids;
+				return collection;
 			}.bind(this),
 			
 			function() {
 				return this.liveBullets;
 			}.bind(this),
 			
-			function(asteroid, bullet) {
+			function(barrier, bullet) {
 				this.killBullet( bullet )
 			}.bind(this)
 			

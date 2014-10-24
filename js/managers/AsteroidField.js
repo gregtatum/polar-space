@@ -13,7 +13,7 @@ var AsteroidField = function( poem, properties ) {
 	this.generate( this.count );
 	
 	this.poem.on('update', this.update.bind(this) );
-	
+	this.poem.gun.setBarrierCollider( this.asteroids );
 };
 
 module.exports = AsteroidField;

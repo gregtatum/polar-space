@@ -42,6 +42,5 @@ Camera.prototype = {
 				thisTheta * (1 - this.speed);
 				
 		// }
-		
 	}
 };

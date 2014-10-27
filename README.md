@@ -5,8 +5,6 @@
 This project is still in development. Demo is online at http://gregtatum.com/poems/polar/
 
 ####TODO:
-* Finish title/intro screen
-* Mobile controls
 * Finalize first level
 * Optimize GL draw calls
 

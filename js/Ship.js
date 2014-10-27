@@ -101,30 +101,39 @@ Ship.prototype = {
 		this.scene.add( this.polarObj );
 	},
 	
-	kill : function( force, forever, noExplosion ) {
+	disable : function() {
+		this.dead = true;
+		this.object.visible = false;
+	},
+	
+	kill : function( force ) {
 
 		if( !force && !this.dead && !this.invulnerable ) {
 			this.dead = true;
 			this.object.visible = false;
 			
-			if( !noExplosion ) this.damage.explode();
+			this.damage.explode();
+			
+			var lostPoints = Math.ceil( this.poem.score.score / -2 );
 			
 			this.poem.score.adjustScore(
-				Math.ceil( this.poem.score.score / -2 )
+				lostPoints,
+				lostPoints + " points",
+				{
+					"font-size" : "2em",
+					"color": "red"
+				}
 			);
-			
 		
-			if( !forever ) {
-				setTimeout(function() {
-			
-					this.dead = false;
-					this.invulnerable = true;
-					this.invulnerableTime = this.poem.clock.time + this.invulnerableLength;
-					this.object.visible = true;
-					this.reset();
-			
-				}.bind(this), 2000);
-			}
+			setTimeout(function() {
+		
+				this.dead = false;
+				this.invulnerable = true;
+				this.invulnerableTime = this.poem.clock.time + this.invulnerableLength;
+				this.object.visible = true;
+				this.reset();
+		
+			}.bind(this), 2000);
 		}
 	},
 	

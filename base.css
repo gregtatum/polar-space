@@ -114,6 +114,24 @@ a:hover {
 	color: #4A9DE7;
 	font-weight:100;
 }
+.score span {
+	color:#fff;
+}
+.score-message {
+	display:block;
+	transform: translateX( 0 );
+	opacity:1;
+	transition:opacity 500ms ease-out, transform 500ms ease-out;
+}
+.score-message.fadein {
+	transform: translateX( 50% );
+	opacity:0;
+}
+.score-message.fadeout {
+	transform: translateX( -50% );
+	opacity:0;
+	transition:opacity 100ms ease-in, transform 100ms ease-in;
+}
 .win {
     text-align: center;
     width: 100%;

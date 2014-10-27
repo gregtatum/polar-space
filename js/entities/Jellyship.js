@@ -9,7 +9,9 @@ var Jellyship = function( poem, manager, x, y ) {
 	this.polarObj = new THREE.Object3D();
 	this.object = null;
 
+	this.name = "Jellyship";
 	this.color = 0xcb36ea;
+	this.cssColor = "#CB36EA"
 	this.linewidth = 2 * this.poem.ratio;
 	this.scoreValue = 13;
 

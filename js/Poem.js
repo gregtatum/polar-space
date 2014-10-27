@@ -31,7 +31,7 @@ var Poem = function( level ) {
 	this.camera = new Camera( this );
 	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
 	
-	this.score = new Score();
+	this.score = new Score( this );
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
 	this.stars = new Stars( this );

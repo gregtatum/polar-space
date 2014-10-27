@@ -4,7 +4,7 @@ var HID = require('../Components/Hid')
 var Titles = function( poem, properties ) {
 	this.poem = poem;
 	
-	this.disableShip();
+	this.poem.ship.disable();
 	this.rotateStars();
 	
 	$('a[href=#keys]').click(this.handleKeysClick.bind(this));
@@ -52,13 +52,6 @@ Titles.prototype = {
 			$('#title').hide();
 			
 		}.bind(this), 1000);
-	},
-	
-	disableShip : function() {
-		var ship = this.poem.ship;
-		
-		ship.invulnerable = false;
-		ship.kill( false, true, true );
 	},
 	
 	rotateStars : function() {

@@ -86,7 +86,13 @@ EntityManager.prototype = {
 				this.killEntity( entity );
 				this.poem.gun.killBullet( bullet );
 				
-				this.poem.score.adjustScore( entity.scoreValue );
+				this.poem.score.adjustScore(
+					entity.scoreValue,
+					"+" + entity.scoreValue + " " + entity.name, 
+					{
+						"color" : entity.cssColor
+					}
+				);
 				this.poem.score.adjustEnemies( -1 );
 				
 			}.bind(this)

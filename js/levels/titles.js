@@ -10,7 +10,9 @@ module.exports = {
 		music : {
 			object: require("../sound/Music"),
 			properties: {
-				url: "https://soundcloud.com/thecarrotfreak-1/chiptune-space"
+				url: "https://soundcloud.com/theelectrochippers/chiptune-space",
+				startTime: 12,
+				volume: 1
 			}
 		}
 	}

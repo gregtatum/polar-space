@@ -104,10 +104,11 @@ a:hover {
 }
 .score {
 	position: absolute;
-	bottom: 1em;
+	bottom: 0.5em;
 	left: 0.5em;
 	font-size:2em;
-	display:none;
+	opacity:0;
+	transition:1s;
 }
 .score strong {
 	color: #4A9DE7;
@@ -190,6 +191,68 @@ a:hover {
 .title-right {
 	right:0;
 }
+.title-webgl-error {
+	text-transform:none;
+	letter-spacing:0;
+	max-width:80%;
+	margin:8% auto 0;
+	display:none;
+}
+.title-webgl-error p {
+	margin:1em 0;
+}
+.title-right img {
+	-webkit-animation:tiltA 10s infinite ease-in-out;
+	   -moz-animation:tiltA 10s infinite ease-in-out;
+	    -ms-animation:tiltA 10s infinite ease-in-out;
+	     -o-animation:tiltA 10s infinite ease-in-out;
+	        animation:tiltA 10s infinite ease-in-out;
+}
+@-webkit-keyframes tiltA {
+    0%		{transform: rotateY(-30deg) rotateX(-20deg)}
+    16%		{transform: rotateY( 30deg) rotateX(  0deg)}
+    33%		{transform: rotateY(-30deg) rotateX( 30deg)}
+    50%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    66%		{transform: rotateY(-30deg) rotateX(-10deg)}
+    82%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    100%	{transform: rotateY(-30deg) rotateX(-20deg)}
+}
+@-moz-keyframes tiltA {
+    0%		{transform: rotateY(-30deg) rotateX(-20deg)}
+    16%		{transform: rotateY( 30deg) rotateX(  0deg)}
+    33%		{transform: rotateY(-30deg) rotateX( 30deg)}
+    50%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    66%		{transform: rotateY(-30deg) rotateX(-10deg)}
+    82%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    100%	{transform: rotateY(-30deg) rotateX(-20deg)}
+}
+@-ms-keyframes tiltA {
+    0%		{transform: rotateY(-30deg) rotateX(-20deg)}
+    16%		{transform: rotateY( 30deg) rotateX(  0deg)}
+    33%		{transform: rotateY(-30deg) rotateX( 30deg)}
+    50%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    66%		{transform: rotateY(-30deg) rotateX(-10deg)}
+    82%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    100%	{transform: rotateY(-30deg) rotateX(-20deg)}
+}
+@-o-keyframes tiltA {
+    0%		{transform: rotateY(-30deg) rotateX(-20deg)}
+    16%		{transform: rotateY( 30deg) rotateX(  0deg)}
+    33%		{transform: rotateY(-30deg) rotateX( 30deg)}
+    50%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    66%		{transform: rotateY(-30deg) rotateX(-10deg)}
+    82%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    100%	{transform: rotateY(-30deg) rotateX(-20deg)}
+}
+@keyframes tiltA {
+    0%		{transform: rotateY(-30deg) rotateX(-20deg)}
+    16%		{transform: rotateY( 30deg) rotateX(  0deg)}
+    33%		{transform: rotateY(-30deg) rotateX( 30deg)}
+    50%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    66%		{transform: rotateY(-30deg) rotateX(-10deg)}
+    82%		{transform: rotateY( 30deg) rotateX( 10deg)}
+    100%	{transform: rotateY(-30deg) rotateX(-20deg)}
+}
 
 @media screen and (min-width:1200px) {
 	.info {
@@ -201,11 +264,8 @@ a:hover {
 	.score {
 		text-align: left;
 		width:100%;
-	
 		font-size: 1em;
-		bottom: 4.7em;
-		padding: 0 0.9em;
-}
+	}
 	.info {
 		font-size:0.6em;
 		width:100%;

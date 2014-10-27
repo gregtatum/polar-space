@@ -2,6 +2,8 @@ var soundcloud = require('soundcloud-badge');
 
 var Music = function( poem, properties ) {
 
+	if(window.location.hash === "#musicoff") return;
+
 	var audio;
 	var alive = true;
 
@@ -19,8 +21,11 @@ var Music = function( poem, properties ) {
 		audio.src = src;
 		audio.play();
 		audio.loop = true;
-		audio.volume = 0.6;
+		audio.volume = properties.volume || 0.6;
 		
+		$(audio).on('loadedmetadata', function() {
+			audio.currentTime = properties.startTime || 0;
+		});
 		
 		var playing = true;
 		

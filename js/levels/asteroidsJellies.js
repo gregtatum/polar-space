@@ -19,7 +19,7 @@ module.exports = {
 		music : {
 			object: require("../sound/Music"),
 			properties: {
-				url: "https://soundcloud.com/thecarrotfreak-1/the-end-of-our-journey"
+				url: "https://soundcloud.com/theelectrochippers/the-end-of-our-journey"
 			}
 		}
 	}

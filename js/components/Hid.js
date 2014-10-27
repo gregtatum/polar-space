@@ -22,7 +22,10 @@ var HID = function( poem ) {
 		"k32" : "spacebar"
 	}
 	
-	this.rotation = {};
+	this.tilt = {
+		x: 0,
+		y: 0
+	};
 	this.pressed = _.clone(states);
 	this.down = _.clone(states);
 	this.up = _.clone(states);
@@ -51,12 +54,15 @@ HID.prototype = {
 	
 	setTiltHandlers : function() {
 
-		$(window).on( 'devicemotion.HID', this.handleTilt.bind(this) );
-		$("canvas").on( 'touchstar.HID', this.handleTouchStart.bind(this) );
+
+		$(window).on( 'deviceorientation.HID', this.handleTilt.bind(this) );
+		// window.addEventListener('deviceorientation', this.handleTilt.bind(this), false);
+		
+		$("canvas").on( 'touchstart.HID', this.handleTouchStart.bind(this) );
 		$("canvas").on( 'touchend.HID', this.handleTouchEnd.bind(this) );
 
 		this.poem.on( "destroy", function() {
-			$(window).off( 'devicemotion.HID' );
+			$(window).off( 'deviceorientation.HID' );
 			$("canvas").off( 'touchstart.HID' );
 			$("canvas").off( 'touchend.HID' );
 		});
@@ -95,18 +101,46 @@ HID.prototype = {
 	
 	handleTilt : function(e) {
 		
-		this.rotation = e.originalEvent.rotationRate;
+		var event, orientation, angle;
+		
+		event = e.originalEvent;
+		orientation = window.orientation || screen.orientation;
+		
+		if(_.isObject( screen.orientation ) ) {
+			angle = screen.orientation.angle;
+		} else if ( _.isNumber( window.orientation ) ) {
+			angle = window.orientation;
+		} else {
+			angle = 0;
+		}
+		
+		if(angle === 0) {
+			this.tilt = {
+				x: event.gamma,
+				y: event.beta * -1
+			};
+		} else if (angle > 0) {
+			this.tilt = {
+				x: event.beta,
+				y: event.gamma
+			};
+		} else {
+			this.tilt = {
+				x: event.beta * -1,
+				y: event.gamma * -1
+			};
+		}
 		
 	},
 	
 	handleTouchStart : function(e) {
+		e.preventDefault();
 		this.pressed.spacebar = true;
 	},
 	
 	handleTouchEnd : function(e) {
-		
 		var touches = e.originalEvent.touches
-		this.pressed.spacebar = (touches.length === 0);
+		this.pressed.spacebar = (touches.length !== 0);
 		
 	},
 	

@@ -33,7 +33,7 @@ var Ship = function( poem ) {
 	
 	this.bankSpeed = 0.06;
 	this.bank = 0;
-	this.maxSpeed = 1000;
+	this.maxSpeed = 500;
 
 	this.addObject();
 	this.damage = new Damage(this.poem, this);
@@ -182,16 +182,15 @@ Ship.prototype = {
 	
 	updateThrustAndBank : function( e ) {
 		
-		var pressed = this.hid.pressed;
-		var rotation = this.hid.rotation;
+		var pressed, tilt, theta, thetaDiff;
 		
 		this.bank *= 0.9;
 		this.thrust = 0;
 		
-		console.log(this.hid.type());
-		
 		if( this.hid.type() === "keys" ) {
 			
+			pressed = this.hid.pressed;
+		
 			if( pressed.up ) {
 				this.thrust += this.thrustSpeed * e.dt;
 			}
@@ -209,10 +208,26 @@ Ship.prototype = {
 			}
 			
 		} else {
+			tilt = this.hid.tilt;
 			
-			this.thrust = rotation.beta * e.dt * -1 + 20;
-
-			this.bank = rotation.gamma / 30;
+			var distance = Math.sqrt(tilt.x * tilt.x + tilt.y * tilt.y)
+		
+			this.thrust = Math.min( 0.0011, distance / 10000 );
+			console.log(this.thrust);
+			
+			this.thrust *= e.dt;
+			
+			theta = Math.atan2( tilt.y, tilt.x );
+			thetaDiff = (theta - this.object.rotation.z) % (2 * Math.PI);
+			
+			if( thetaDiff > Math.PI ) {
+				thetaDiff -= 2 * Math.PI;
+			} else if ( thetaDiff < -Math.PI ) {
+				thetaDiff += 2 * Math.PI;
+			}
+			
+			this.bank = thetaDiff * distance / 2500 * e.dt;
+			
 			
 		}
 	},

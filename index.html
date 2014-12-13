@@ -3,7 +3,8 @@
 <head>
 	<title>Polar Space - Retro vector spaceships</title>
 
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css' />
+	<!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css' /> -->
+	<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
 	<link href='base.css?v=4' rel='stylesheet' type='text/css' />
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,7 +18,7 @@
 	<script src="assets/vendor/underscore-min.js"></script>
 	
 	<!-- Poem -->
-	<script src='assets/build/bundle.js?v=4'></script>
+	<script src='assets/build/bundle.js?v=5'></script>
 </head>
 <body>
 	
@@ -34,8 +35,9 @@
 			<p><strong>Enemies:</strong> <span id='enemies-count'>0</span></p>
 		</div>
 		<div class='win'>
-			<h1>You Win</h1>
-			<strong>Score:</strong> <span id='win-score'>0</div>
+			<h1 class='blink'>You Win</h1>
+			<strong>Score:</strong> <span id='win-score'>0</span>
+			<div><a href='#next' id='next-level' class='next-level'>Continue</a></div>
 		</div>
 		<!-- <audio autoplay loop>
 			<source src="assets/sound/polar.mp3" type="audio/mpeg">
@@ -62,6 +64,9 @@
 			<div class='title-webgl-error'>
 				<p>Sorry, it looks like WebGL is not supported by your browser or graphics card.</p>
 				<p><a href='http://get.webgl.org/'>Find out more about WebGL support here.</a></p>
+			</div>
+			<div class='title-credits'>
+				A game by <a href='http://gregtatum.com/'>Greg Tatum</a>
 			</div>
 		</div>
 	</div>

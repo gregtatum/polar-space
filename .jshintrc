@@ -2,7 +2,8 @@
 	"globals": {
 		"THREE": true,
 		"webkitAudioContext": true,
-		"AudioContext": true
+		"AudioContext": true,
+		"_": true
 	},
 	"node": true,
 	"devel": true,

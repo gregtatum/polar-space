@@ -93,7 +93,7 @@ gulp.task('bundle', function() {
 gulp.task('minify', function() {
 
 	gulp.src( paths.build + paths.bundleName )
-	.pipe(sourcemaps.init({loadMaps: true}))
+	// .pipe(sourcemaps.init({loadMaps: true}))
 		.pipe( uglify() )
 		.pipe( rename( paths.minName ) )
 		.pipe( gulp.dest( paths.build ))

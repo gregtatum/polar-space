@@ -8,7 +8,7 @@ var Stats = require('./utils/Stats');
 var EventDispatcher = require('./utils/EventDispatcher');
 var JellyShip = require('./entities/JellyShip');
 var EntityManager = require('./managers/EntityManager');
-var Score = require('./components/Score');
+var ScoringAndWinning = require('./components/ScoringAndWinning');
 var Clock = require('./utils/Clock');
 
 var renderer;
@@ -28,15 +28,19 @@ var Poem = function( level ) {
 
 	this.clock = new Clock();
 	this.coordinates = new Coordinates( this );
-	this.camera = new Camera( this );
+	this.camera = new Camera( this, level.config );
 	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
 	
-	this.score = new Score( this );
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
-	this.stars = new Stars( this );
+	this.stars = new Stars( this, level.config.stars );
+	this.scoringAndWinning = new ScoringAndWinning( this, level.config.scoringAndWinning );
 	
 	this.parseLevel( level );
+	
+	this.dispatch({
+		type: 'levelParsed'
+	});
 	
 	if(!renderer) {
 		this.addRenderer();
@@ -77,28 +81,7 @@ Poem.prototype = {
 		this.stats.domElement.style.top = '0px';
 		$("#container").append( this.stats.domElement );
 	},
-	
-	addGrid : function() {
-
-		var lineMaterial = new THREE.LineBasicMaterial( { color: 0x303030 } ),
-			geometry = new THREE.Geometry(),
-			floor = -75, step = 25;
-
-		for ( var i = 0; i <= 40; i ++ ) {
-
-			geometry.vertices.push( new THREE.Vector3( - 500, floor, i * step - 500 ) );
-			geometry.vertices.push( new THREE.Vector3(   500, floor, i * step - 500 ) );
-
-			geometry.vertices.push( new THREE.Vector3( i * step - 500, floor, -500 ) );
-			geometry.vertices.push( new THREE.Vector3( i * step - 500, floor,  500 ) );
-
-		}
-
-		this.grid = new THREE.Line( geometry, lineMaterial, THREE.LinePieces );
-		this.scene.add( this.grid );
-
-	},
-	
+		
 	addEventListeners : function() {
 		$(window).on('resize', this.resizeHandler.bind(this));
 	},

@@ -30,7 +30,7 @@ var Music = function( poem, properties ) {
 		var playing = true;
 		
 		$(window).on('keydown.Music', function(e) {
-			if( e.keyCode != 83 ) return;
+			if( e.keyCode !== 83 ) return;
 			if( playing ) {
 				audio.pause();
 				playing = false;
@@ -39,7 +39,7 @@ var Music = function( poem, properties ) {
 				playing = true;
 			}
 		});
-	})
+	});
 	
 	poem.on('destroy', function() {
 		if(audio) {

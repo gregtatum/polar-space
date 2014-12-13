@@ -1,5 +1,4 @@
-var HID = require('../Components/Hid')
-//	LevelLoader = require('../LevelLoader');
+var HID = require('../Components/Hid');
 
 var Titles = function( poem, properties ) {
 	this.poem = poem;
@@ -9,6 +8,10 @@ var Titles = function( poem, properties ) {
 	
 	$('a[href=#keys]').click(this.handleKeysClick.bind(this));
 	$('a[href=#tilt]').click(this.handleTiltClick.bind(this));
+	
+	$('#title').removeClass('hide').show();
+	$('.score').css('opacity', 0);
+	
 	
 	this.webglCheck();
 };
@@ -32,7 +35,7 @@ Titles.prototype = {
 	handleKeysClick : function(e) {
 		e.preventDefault();
 		HID.prototype.setKeys();
-		this.nextLevel()
+		this.nextLevel();
 	},
 	
 	handleTiltClick : function(e) {
@@ -45,7 +48,7 @@ Titles.prototype = {
 		$('#title').addClass('hide');
 		$('.score').css('opacity', 1);
 
-		LevelLoader("asteroidsJellies");
+		LevelLoader("intro");
 		
 		setTimeout(function() {
 			

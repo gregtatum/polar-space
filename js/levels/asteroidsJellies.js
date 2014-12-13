@@ -1,6 +1,16 @@
 module.exports = {
 	config : {
-		
+		scoringAndWinning: {
+			message: "No jellies detected within 5 parsecs.<br/> Follow me on <a href='https://twitter.com/tatumcreative'>Twitter</a> for updates on new levels.",
+			nextLevel: "titles",
+			conditions: [
+				{
+					//Jelly manager has 0 live ships
+					component: "jellyManager",
+					properties: null
+				}		
+			]
+		}
 	},
 	objects : {
 		asteroidField : {
@@ -23,4 +33,4 @@ module.exports = {
 			}
 		}
 	}
-}
+};

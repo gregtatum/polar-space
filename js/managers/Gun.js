@@ -29,7 +29,7 @@ Gun.prototype = {
 		
 		var isDead = function( bullet ) {
 			return !bullet.alive;
-		}
+		};
 		
 		return function(x, y, speed, theta) {
 			
@@ -68,7 +68,7 @@ Gun.prototype = {
 		
 		var vertex, bullet;
 		
-		geometry = new THREE.Geometry();
+		var geometry = new THREE.Geometry();
 		
 		for(var i=0; i < this.count; i++) {
 			
@@ -152,7 +152,7 @@ Gun.prototype = {
 			}.bind(this),
 			
 			function(barrier, bullet) {
-				this.killBullet( bullet )
+				this.killBullet( bullet );
 			}.bind(this)
 			
 		);
@@ -160,7 +160,7 @@ Gun.prototype = {
 	
 	addSound : function() {
 		
-		var sound = this.sound = new SoundGenerator()
+		var sound = this.sound = new SoundGenerator();
 		
 		sound.connectNodes([
 			sound.makeOscillator( "square" ),

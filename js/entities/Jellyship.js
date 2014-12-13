@@ -11,7 +11,7 @@ var Jellyship = function( poem, manager, x, y ) {
 
 	this.name = "Jellyship";
 	this.color = 0xcb36ea;
-	this.cssColor = "#CB36EA"
+	this.cssColor = "#CB36EA";
 	this.linewidth = 2 * this.poem.ratio;
 	this.scoreValue = 13;
 
@@ -68,7 +68,7 @@ Jellyship.prototype = {
 				vec.y = 0.8 * Math.sin( e.time / 100 + vec.x ) + vec.original.y;
 			});
 			
-		}
+		};
 	},
 
 	createGeometry : function() {
@@ -263,7 +263,7 @@ Jellyship.prototype = {
 		
 		};
 	
-	}()
+	}()	
 
 
 };

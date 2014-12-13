@@ -3,7 +3,7 @@ var random = require('../utils/random.js');
 var Bullet = require('../entities/Bullet');
 var SoundGenerator = require('../sound/SoundGenerator');
 
-Damage = function( poem, ship, settings ) {
+var Damage = function( poem, ship, settings ) {
 	
 	this.poem = poem;
 	this.ship = ship;
@@ -116,7 +116,7 @@ Damage.prototype = {
 	playExplosionSound : function() {
 		
 		var freq = 500;
-		var sound = this.explosionSound
+		var sound = this.explosionSound;
 
 		//Start sound
 		sound.setGain(0.5, 0, 0.001);

@@ -1,4 +1,4 @@
-var Camera = function( poem ) {
+var Camera = function( poem, properties ) {
 	
 	this.poem = poem;
 	
@@ -12,7 +12,9 @@ var Camera = function( poem ) {
 		3,										// near frustum
 		1000									// far frustum
 	);
-	this.object.position.z = this.poem.r * 1.5;
+	
+	var multiplier = properties.cameraMultiplier ? properties.cameraMultiplier : 1.5;
+	this.object.position.z = this.poem.r * multiplier;
 	
 	this.polarObj.add( this.object );
 	this.poem.scene.add( this.polarObj );

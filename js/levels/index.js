@@ -1,4 +1,5 @@
 module.exports = {
 	asteroidsJellies : require("./asteroidsJellies"),
-	titles : require("./titles")
+	titles : require("./titles"),
+	intro : require("./intro")
 };

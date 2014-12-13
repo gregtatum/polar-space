@@ -11,6 +11,7 @@ var EntityManager = function( poem, properties ) {
 	this.liveEntities = [];
 	this.originClearance = 300;
 	this.shared = {};
+	this.winCheck = null;
 		
 	_.extend( this, properties );
 	
@@ -20,8 +21,9 @@ var EntityManager = function( poem, properties ) {
 	this.generate( this.count );
 	this.configureCollider();
 
+	this.boundUpdate = this.update.bind(this);
 	
-	this.poem.on('update', this.update.bind(this) );
+	this.poem.on('update', this.boundUpdate );
 };
 
 module.exports = EntityManager;
@@ -38,7 +40,7 @@ EntityManager.prototype = {
 		for( i=0; i < count; i++ ) {
 			
 			x = Math.random() * width;
-			y = Math.random() * height - (height / 2)
+			y = Math.random() * height - (height / 2);
 			
 			entity = new this.entityType( this.poem, this, x, y );
 			
@@ -47,13 +49,14 @@ EntityManager.prototype = {
 		
 		}
 		
-		this.poem.score.adjustEnemies( count );
+		this.poem.scoringAndWinning.adjustEnemies( count );
 		
 	},
 	
 	update : function( e ) {
 		
 		this.dispatch( e );
+		
 		
 	},
 	
@@ -65,7 +68,12 @@ EntityManager.prototype = {
 			this.liveEntities.splice( i, 1 );
 		}
 		
-		entity.kill();		
+		entity.kill();
+		
+		if( this.winCheck && this.liveEntities.length === 0 ) {
+			this.winCheck.reportConditionCompleted();
+			this.winCheck = null;
+		}
 	},
 	
 	configureCollider : function() {
@@ -86,14 +94,14 @@ EntityManager.prototype = {
 				this.killEntity( entity );
 				this.poem.gun.killBullet( bullet );
 				
-				this.poem.score.adjustScore(
+				this.poem.scoringAndWinning.adjustScore(
 					entity.scoreValue,
 					"+" + entity.scoreValue + " " + entity.name, 
 					{
 						"color" : entity.cssColor
 					}
 				);
-				this.poem.score.adjustEnemies( -1 );
+				this.poem.scoringAndWinning.adjustEnemies( -1 );
 				
 			}.bind(this)
 			
@@ -118,7 +126,7 @@ EntityManager.prototype = {
 					this.killEntity( entity );
 					this.poem.ship.kill();
 					
-					this.poem.score.adjustEnemies( -1 );
+					this.poem.scoringAndWinning.adjustEnemies( -1 );
 					
 				}
 				
@@ -129,7 +137,9 @@ EntityManager.prototype = {
 		
 	},
 	
-	
+	watchForCompletion : function( winCheck, properties ) {
+		this.winCheck = winCheck;
+	}
 };
 
 EventDispatcher.prototype.apply( EntityManager.prototype );

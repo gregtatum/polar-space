@@ -20,7 +20,7 @@ var HID = function( poem ) {
 		"k37" : "left",
 		"k39" : "right",
 		"k32" : "spacebar"
-	}
+	};
 	
 	this.tilt = {
 		x: 0,
@@ -139,7 +139,7 @@ HID.prototype = {
 	},
 	
 	handleTouchEnd : function(e) {
-		var touches = e.originalEvent.touches
+		var touches = e.originalEvent.touches;
 		this.pressed.spacebar = (touches.length !== 0);
 		
 	},
@@ -147,8 +147,8 @@ HID.prototype = {
 	update : function() {
 		
 		var falsify = function (value, key, list) {
-			list[key] = false
-		}
+			list[key] = false;
+		};
 		
 		return function() {
 			_.each( this.down, falsify );

@@ -1,8 +1,11 @@
-var Stars = function( poem ) {
+var Stars = function( poem, properties ) {
+	
+	properties = _.isObject( properties ) ? properties : {};
+	
 	this.poem = poem;
 	this.object = null;
 	
-	this.count = 40000;
+	this.count = _.isNumber( properties.count ) ? properties.count : 40000;
 	this.depth = 7.5;
 	this.color = 0xaaaaaa;
 	

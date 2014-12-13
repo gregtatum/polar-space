@@ -114,9 +114,9 @@ Ship.prototype = {
 			
 			this.damage.explode();
 			
-			var lostPoints = Math.ceil( this.poem.score.score / -2 );
+			var lostPoints = Math.ceil( this.poem.scoringAndWinning.score / -2 );
 			
-			this.poem.score.adjustScore(
+			this.poem.scoringAndWinning.adjustScore(
 				lostPoints,
 				lostPoints + " points",
 				{
@@ -219,10 +219,9 @@ Ship.prototype = {
 		} else {
 			tilt = this.hid.tilt;
 			
-			var distance = Math.sqrt(tilt.x * tilt.x + tilt.y * tilt.y)
+			var distance = Math.sqrt(tilt.x * tilt.x + tilt.y * tilt.y);
 		
 			this.thrust = Math.min( 0.0011, distance / 10000 );
-			console.log(this.thrust);
 			
 			this.thrust *= e.dt;
 			

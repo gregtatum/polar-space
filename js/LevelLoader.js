@@ -12,6 +12,6 @@ window.LevelLoader = function( name ) {
 	currentPoem = new Poem( currentLevel );
 	window.poem = currentPoem;
 
-}
+};
 	
 module.exports = LevelLoader;

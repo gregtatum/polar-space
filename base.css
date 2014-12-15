@@ -264,6 +264,8 @@ h1.blink {}
 .title-credits {
 	color: rgba(255, 255, 255, 0.74);
 	padding-top: 0.9em;
+	position: relative;
+	z-index: 1;
 }
 .blink {
   animation: blink 1s steps(5, start) infinite;

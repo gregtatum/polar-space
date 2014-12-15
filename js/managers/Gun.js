@@ -1,7 +1,7 @@
 var Bullet = require('../entities/Bullet');
 var Collider = require('../utils/Collider');
 var SoundGenerator = require('../sound/SoundGenerator');
-
+var destroyMesh = require('../utils/destroyMesh');
 var Gun = function( poem ) {
 	this.poem = poem;
 	this.object = null;
@@ -114,7 +114,7 @@ Gun.prototype = {
 		));
 		this.object.frustumCulled = false;
 		this.poem.scene.add( this.object ) ;
-		
+		this.poem.on('destroy', destroyMesh( this.object ) );
 	},
 	
 	update : function( e )  {

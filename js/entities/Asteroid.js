@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var destroyMesh = require('../utils/destroyMesh');
 
 var Asteroid = function( poem, x, y, radius ) {
 	
@@ -47,6 +48,7 @@ Asteroid.prototype = {
 		this.object.add( outlineObj );
 		
 		this.poem.scene.add( this.object );
+		this.poem.on( 'destroy', destroyMesh( this.object ) );
 		
 		this.speed.x = (0.5 - Math.random()) * this.maxSpeed;
 		this.speed.y = (0.5 - Math.random()) * this.maxSpeed;
@@ -56,6 +58,8 @@ Asteroid.prototype = {
 		this.rotationSpeed.z = (0.5 - Math.random()) * this.maxRotationSpeed;
 		
 		this.oscillation = Math.random() * Math.PI * 2 * this.oscillationSpeed;
+		
+		
 	},
 	
 	update : function( e ) {

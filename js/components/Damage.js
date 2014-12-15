@@ -2,6 +2,7 @@ var _ = require('underscore');
 var random = require('../utils/random.js');
 var Bullet = require('../entities/Bullet');
 var SoundGenerator = require('../sound/SoundGenerator');
+var destroyMesh = require('../utils/destroyMesh');
 
 var Damage = function( poem, ship, settings ) {
 	
@@ -68,7 +69,7 @@ Damage.prototype = {
 		));
 		this.object.frustumCulled = false;
 		this.poem.scene.add( this.object ) ;
-		
+		this.poem.on( 'destroy', destroyMesh( this.object ) );
 	},
 	
 	addSound : function() {

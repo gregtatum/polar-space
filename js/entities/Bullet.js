@@ -41,5 +41,6 @@ Bullet.prototype = {
 		
 		this.bornAt = this.poem.clock.time;
 		this.alive = true;
+		
 	}
 };

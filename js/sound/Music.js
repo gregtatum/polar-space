@@ -24,7 +24,7 @@ var Music = function( poem, properties ) {
 		audio.volume = properties.volume || 0.6;
 		
 		$(audio).on('loadedmetadata', function() {
-			audio.currentTime = properties.startTime || 0;
+			if( audio )	audio.currentTime = properties.startTime || 0;
 		});
 		
 		var playing = true;

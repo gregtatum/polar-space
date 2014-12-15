@@ -1,4 +1,7 @@
 var HID = require('../Components/Hid');
+var hasher = require('hasher');
+
+var titleHideTimeout = null;
 
 var Titles = function( poem, properties ) {
 	this.poem = poem;
@@ -6,12 +9,14 @@ var Titles = function( poem, properties ) {
 	this.poem.ship.disable();
 	this.rotateStars();
 	
+	
+	
 	$('a[href=#keys]').click(this.handleKeysClick.bind(this));
 	$('a[href=#tilt]').click(this.handleTiltClick.bind(this));
 	
-	$('#title').removeClass('hide').show();
-	$('.score').css('opacity', 0);
+	this.poem.on( 'destroy', this.hideDomElements.bind(this) );
 	
+	this.showDomElements();
 	
 	this.webglCheck();
 };
@@ -45,16 +50,44 @@ Titles.prototype = {
 	},
 	
 	nextLevel : function() {
-		$('#title').addClass('hide');
-		$('.score').css('opacity', 1);
-
-		LevelLoader("intro");
 		
+		hasher.setHash("level/intro");
+		
+	},
+	
+	showDomElements : function() {
+		
+		clearTimeout( titleHideTimeout );
+		
+		$('#title')
+			.removeClass('title-transition')
+			.addClass('hide')
+			.addClass('title-transition')
+			.show();
+			
 		setTimeout(function() {
+			$('#title').removeClass('hide');;
+		}, 1);
+		
+		$('.score').css('opacity', 0);
+		
+		
+	},
+	
+	hideDomElements : function() {
+		
+		$('#title')
+			.addClass('title-transition')
+			.addClass('hide');
+			
+		$('.score').css('opacity', 1);
+		
+		titleHideTimeout = setTimeout(function() {
 			
 			$('#title').hide();
 			
 		}.bind(this), 1000);
+		
 	},
 	
 	rotateStars : function() {

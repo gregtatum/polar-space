@@ -1,5 +1,6 @@
 var Damage = require('../components/Damage');
 var random = require('../utils/random');
+var destroyMesh = require('../utils/destroyMesh');
 
 var Jellyship = function( poem, manager, x, y ) {
 
@@ -151,6 +152,7 @@ Jellyship.prototype = {
 		this.polarObj.add( this.object );
 		this.reset();
 		this.scene.add( this.polarObj );
+		this.poem.on( 'destroy', destroyMesh( this.object ) );
 	},
 
 	kill : function() {

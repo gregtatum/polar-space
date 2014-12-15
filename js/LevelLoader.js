@@ -4,11 +4,10 @@ var levels = require('./levels');
 var currentLevel = null;
 var currentPoem = null;
 
-window.LevelLoader = function( name ) {
-	
-	//Track this, but exclude first load
-	if( currentLevel ) {
-		_gaq.push(['_trackPageview', '/polar/'+name]);
+window.levelLoader = function( name ) {
+
+	if( !_.isObject(levels[name]) ) {
+		return false;
 	}
 	
 	if(currentPoem) currentPoem.destroy();
@@ -17,6 +16,8 @@ window.LevelLoader = function( name ) {
 	currentPoem = new Poem( currentLevel );
 	window.poem = currentPoem;
 	
+	return true;
+	
 };
 	
-module.exports = LevelLoader;
+module.exports = levelLoader;

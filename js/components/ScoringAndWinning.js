@@ -19,6 +19,7 @@
 		scoringAndWinning.reportConditionCompleted();
 
 */
+var hasher = require('hasher');
 
 var ScoringAndWinning = function( poem, properties ) {
 	
@@ -139,9 +140,12 @@ ScoringAndWinning.prototype = {
 			opacity: 1
 		});
 		this.$winText.html( this.message );
-		this.$nextLevel.one( 'click', function() {
+		this.$nextLevel.one( 'click', function( e ) {
 			
-			LevelLoader( this.nextLevel );
+			e.preventDefault();
+			
+			hasher.setHash("level/" + this.nextLevel );
+			
 			this.$win.hide();
 			
 		}.bind(this));

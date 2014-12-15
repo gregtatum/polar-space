@@ -201,10 +201,13 @@ h1.blink {}
     width: 100%;
     text-align: center;
     height: 100%;
-	transition: transform 1000ms, opacity 1000ms;
 	transform: scale(1);
 	opacity: 1;
     font-size: 1.3em;
+	display:none;
+}
+.title-transition {
+	transition: transform 1000ms, opacity 1000ms;
 }
 .title a {
     text-decoration: none;

@@ -1,3 +1,5 @@
+var destroyMesh = require('../utils/destroyMesh');
+
 var Stars = function( poem, properties ) {
 	
 	properties = _.isObject( properties ) ? properties : {};
@@ -46,7 +48,6 @@ Stars.prototype = {
 		
 		geometry = this.generateGeometry();
 		
-		
 		this.object = new THREE.PointCloud(
 			geometry,
 			new THREE.PointCloudMaterial({
@@ -57,6 +58,6 @@ Stars.prototype = {
 		) );
 		
 		this.poem.scene.add( this.object ) ;
-		
+		this.poem.on( 'destroy', destroyMesh( this.object ) );
 	}
 };

@@ -1,5 +1,6 @@
 var HID = require('./components/Hid');
 var Damage = require('./components/Damage');
+var destroyMesh = require('./utils/destroyMesh');
 
 var Ship = function( poem ) {
 	
@@ -95,10 +96,12 @@ Ship.prototype = {
 			THREE.LineStrip
 		);
 		this.object.position.z += this.poem.r;
-		
+
 		this.polarObj.add( this.object );
 		this.reset();
 		this.scene.add( this.polarObj );
+		this.poem.on('destroy', destroyMesh( this.object ) );
+		
 	},
 	
 	disable : function() {
@@ -317,7 +320,11 @@ Ship.prototype = {
 			
 		};
 		
-	}()
+	}(),
 	
+	destroy : function() {
+		this.object.geometry.dispose();
+		this.object.material.dispose();
+	}
 	
 };

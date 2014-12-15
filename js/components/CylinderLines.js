@@ -2,7 +2,7 @@ var twoπ = Math.PI * 2;
 var cos = Math.cos;
 var sin = Math.sin;
 var random = require('../utils/random.js');
-
+var destroyMesh = require('../utils/destroyMesh');
 
 var CylinderLines = function( poem, properties ) {
 	
@@ -46,6 +46,7 @@ var CylinderLines = function( poem, properties ) {
 	);
 	
 	this.poem.scene.add( this.object );
+	this.poem.on('destroy', destroyMesh( this.object) );
 	
 	this.poem.on('update', function( e ) {
 
@@ -53,8 +54,8 @@ var CylinderLines = function( poem, properties ) {
 		material.color.setHSL( h, s, l );
 
 	}.bind(this));
-	
 };
+
 
 function _multipleCylinderWaveVertices( iterations, vertices, sides, radius, height, eccentricity ) {
 	

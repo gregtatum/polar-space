@@ -10,7 +10,9 @@ body {
 canvas {
 	width:100%;
 	height:100%;
-	/*cursor: pointer;*/
+	transition: opacity 1000ms;
+	position: absolute;
+	z-index: -1;
 }
 h1 {
 	font-weight: 800;
@@ -144,7 +146,6 @@ a:hover {
     position: absolute;
     top: 50%;
     color: #fff;
-    opacity: 0;
 	display:none;
     margin-top: -3em;
     font-size: 1.5em;
@@ -206,13 +207,13 @@ h1.blink {}
     font-size: 1.3em;
 	display:none;
 }
-.title-transition {
+.transform-transition {
 	transition: transform 1000ms, opacity 1000ms;
 }
 .title a {
     text-decoration: none;
 }
-.title.hide {
+.hide {
 	transform: scale(2);
 	opacity: 0;
 }

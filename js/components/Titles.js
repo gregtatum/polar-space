@@ -60,9 +60,9 @@ Titles.prototype = {
 		clearTimeout( titleHideTimeout );
 		
 		$('#title')
-			.removeClass('title-transition')
+			.removeClass('transform-transition')
 			.addClass('hide')
-			.addClass('title-transition')
+			.addClass('transform-transition')
 			.show();
 			
 		setTimeout(function() {
@@ -77,7 +77,7 @@ Titles.prototype = {
 	hideDomElements : function() {
 		
 		$('#title')
-			.addClass('title-transition')
+			.addClass('transform-transition')
 			.addClass('hide');
 			
 		$('.score').css('opacity', 1);

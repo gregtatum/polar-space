@@ -26,6 +26,7 @@ var ScoringAndWinning = function( poem, properties ) {
 	properties = _.isObject( properties ) ? properties : {};
 	
 	this.poem = poem;
+	
 	this.$score = $('#score');
 	this.$enemiesCount = $('#enemies-count');
 	this.$win = $('.win');
@@ -33,6 +34,8 @@ var ScoringAndWinning = function( poem, properties ) {
 	this.$winText = this.$win.find('h1:first');
 	this.$scoreMessage = $('#score-message');
 	this.$nextLevel = $('#next-level');
+	this.$canvas = $( this.poem.getCanvas() );
+	
 	this.score = 0;
 	this.enemiesCount = 0;
 	this.scoreMessageId = 0;
@@ -77,7 +80,7 @@ ScoringAndWinning.prototype = {
 			
 			this.poem.ship.disable();
 			this.won = true;
-			this.showWinScreen();
+			this.conditionsCompleted();
 			
 		}
 		
@@ -132,23 +135,50 @@ ScoringAndWinning.prototype = {
 		
 	},
 	
-	showWinScreen : function() {
-				
+	conditionsCompleted : function() {
+		
+		this.$canvas.css('opacity', 0.3);
+		
 		this.$winScore.text( this.score );
-		this.$win.show();
-		this.$win.css({
-			opacity: 1
-		});
 		this.$winText.html( this.message );
+		
+		this.showWinScreen();
+		
 		this.$nextLevel.one( 'click', function( e ) {
 			
 			e.preventDefault();
 			
 			hasher.setHash("level/" + this.nextLevel );
 			
-			this.$win.hide();
+			this.$canvas.css('opacity', 1);
+			this.hideWinScreen();
+			
 			
 		}.bind(this));
-	}
+	},
+	
+	showWinScreen : function() {
+		
+		this.$win
+			.removeClass('transform-transition')
+			.addClass('hide')
+			.addClass('transform-transition')
+			.show();
+		
+		setTimeout(function() {
+			this.$win.removeClass('hide');
+		}.bind(this), 1);
+		
+	},
+	
+	hideWinScreen : function() {
+		
+		this.$win.addClass('hide');
+		
+		setTimeout(function() {
+			this.$win.hide();
+		}.bind(this), 1000);
+		
+	},
 	
 };

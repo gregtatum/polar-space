@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var context = window.AudioContext || window.webkitAudioContext || null;
+var muter = require('./muter');
 
 var SoundGenerator = function() {
 	
@@ -7,13 +8,31 @@ var SoundGenerator = function() {
 	
 	if(!this.enabled) return;
 	
+	this.lastGainValue = null;
+	
 	this.totalCreated++;
 	this.totalCreatedSq = this.totalCreated * this.totalCreated;
+	
+	muter.on('mute', this.handleMute.bind(this));
+	muter.on('unmute', this.handleUnMute.bind(this));
+	
 };
 
 module.exports = SoundGenerator;
 
 SoundGenerator.prototype = {
+	
+	handleMute : function() {
+		if( this.gain ) {
+			this.gain.gain.value = 0;
+		}
+	},
+	
+	handleUnMute : function() {
+		if( this.gain && _.isNumber( this.lastGainValue ) ) {
+			this.gain.gain.value = this.lastGainValue;
+		}
+	},
 	
 	context : context ? new context() : undefined,
 	
@@ -69,7 +88,7 @@ SoundGenerator.prototype = {
 	makeGain : function() {
 		var node = this.gain = this.context.createGain();
 		
-		node.gain.value = 1;
+		node.gain.value = 0;
 		
 		return node;
 	},
@@ -131,8 +150,9 @@ SoundGenerator.prototype = {
 	
 	setGain : function ( gain, delay, speed ) {
 		
-		if(!this.enabled) return;
+		this.lastGainValue = gain;
 		
+		if( !this.enabled || muter.muted ) return;
 		// Math.max( Math.abs( gain ), 1);
 		// gain / this.totalCreatedSq;
 				

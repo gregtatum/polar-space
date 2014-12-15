@@ -75,6 +75,12 @@ Poem.prototype = {
 		this.div.appendChild( renderer.domElement );
 	},
 	
+	getCanvas : function() {
+		if( renderer ) {
+			return renderer.domElement;
+		}
+	},
+	
 	addStats : function() {
 		this.stats = new Stats();
 		this.stats.domElement.style.position = 'absolute';

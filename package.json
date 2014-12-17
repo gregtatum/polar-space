@@ -14,6 +14,7 @@
     "gulp-util": "^3.0.0",
     "hasher": "^1.2.0",
     "jshint-stylish": "^0.4.0",
+    "localforage": "^1.2.0",
     "minifyify": "^4.0.4",
     "reactify": "^0.14.0",
     "soundcloud-badge": "0.0.0",

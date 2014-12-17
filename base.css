@@ -267,6 +267,104 @@ h1.blink {}
 	position: relative;
 	z-index: 1;
 }
+.menu {
+    transform: translateX(-300px);
+    transition: 500ms;
+    width: 300px;
+    position: absolute;
+    height: 100%;
+    border-right: 3px solid #324250;
+    background: #222627;
+    padding: 1em;
+	z-index:1;
+}
+.menu-open .menu {
+    transform: translateX(0);
+}
+.menu-open .burger-wrapper {
+    transform: translateX(0);
+}
+.menu-open .container {
+    transform: translateX(300px);
+    opacity: 0.3;
+}
+.container {
+	transform: translateX(0);
+	height: 100%;
+	transition: transform 500ms, opacity 500ms;
+	width: 100%;
+	position: absolute;
+	z-index:0;
+}
+.burger-wrapper {
+	padding: 1.5em 0.5em;
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	transform: translate(3.4em, 0.4em);
+	transition: transform 500ms;
+}
+.burger {
+	display:block;
+	height:0.3em;
+	width:2em;
+	background:#fff;
+	position:relative;
+	transition: all 0.66s;
+	cursor: pointer;
+}
+.burger:after {
+	content:'';
+	position:absolute;
+	top:0.8em;
+	width:2em;
+	height:0.3em;
+	background:#fff;
+	transition: all 0.66s;
+}
+.burger:before {
+	content:'';
+	position:absolute;
+	top:-0.8em;
+	width:2em;
+	height:0.3em;
+	background:#fff;
+	transition: all 0.66s;
+}
+.npm-scb-white {
+	position: absolute;
+	width: 100%;
+	left: 3em;
+	transition: transform 500ms;
+}
+.menu-open .npm-scb-white {
+    transform: translateX(300px);
+}
+.menu-open .burger {
+	background:transparent;
+}
+.menu-open .burger:before {
+	transform:rotate(225deg);
+	top:0;
+}
+.menu-open .burger:after {
+	transform:rotate(-225deg);
+	top:0;
+}
+.menu-bottom {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	left: 0;
+	padding: 1em;
+}
+.menu-bottom-mute {
+	text-align:right;
+}
+.menu-bottom-mute img {
+	width:75px;
+}
 .blink {
   animation: blink 1s steps(5, start) infinite;
   -webkit-animation: blink 1s steps(5, start) infinite;
@@ -379,6 +477,9 @@ h1.blink {}
 	    left: 0;
 		right: auto;
 	}	
+	.npm-scb-now-playing {
+		display:none;
+	}
 }
 @-webkit-keyframes grow {  
 	0% {transform: scale(0.7);}

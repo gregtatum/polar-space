@@ -10,7 +10,7 @@ crossroads.addRoute( '/', function showMainTitles() {
 	
 	_gaq.push( [ '_trackPageview', baseUrl ] );
 	
-	levelLoader( defaultLevel );
+	levelLoader.load( defaultLevel );
 	
 });
 
@@ -18,10 +18,10 @@ crossroads.addRoute( 'level/{name}', function loadUpALevel( levelName ) {
 	
 	_gaq.push( [ '_trackPageview', baseUrl+'/#level/'+levelName ] );
 	
-	var levelFound = levelLoader( levelName );
+	var levelFound = levelLoader.load( levelName );
 	
 	if( !levelFound ) {
-		levelLoader( defaultLevel );
+		levelLoader.load( defaultLevel );
 	}
 	
 });

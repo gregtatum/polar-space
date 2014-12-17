@@ -105,6 +105,12 @@ Poem.prototype = {
 		this.update();
 
 	},
+	
+	pause : function() {
+		
+		window.cancelAnimationFrame( this.requestedFrame );
+		
+	},
 			
 	update : function() {
 		

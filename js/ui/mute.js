@@ -21,7 +21,17 @@ module.exports = {
 		$mute = $('#mute');
 		$img = $mute.find('img');
 		
-		$mute.click( function( e ) {
+		muter.on('mute', function() {
+			$img.attr( 'src', mutedSrc );
+		});
+		
+		muter.on('unmute', function() {
+			$img.attr( 'src', unMutedSrc );
+		});
+		
+		$img.attr( 'src', muter.muted ? mutedSrc : unMutedSrc );
+		
+		$mute.off().click( function( e ) {
 			
 			e.preventDefault();
 		
@@ -36,6 +46,7 @@ module.exports = {
 				muter.mute();
 			
 			}
+			e.stopImmediatePropagation();
 		
 		});
 
@@ -60,10 +71,6 @@ module.exports = {
 			}		
 		});
 		
-		
-
-		
-		$img.attr( 'src', muter.muted ? mutedSrc : unMutedSrc );
 	}
 	
 }

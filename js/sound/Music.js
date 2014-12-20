@@ -20,10 +20,11 @@ var Music = function( poem, properties ) {
 			dark: false,
 			getFonts: false
 			
-		}, function(err, src, data, div) {
+		}, function( err, src, data, div ) {
 			
 			//Nullify callbacks that are out of order
 			if( currentTime !== timesCalledSoundcloud ) return;
+			if( muter.muted ) return;
 
 			if( err ) throw err;
 
@@ -42,7 +43,7 @@ var Music = function( poem, properties ) {
 	
 		poem.on('destroy', function() {
 			
-			if(audio) {
+			if( audio ) {
 				audio.pause();
 				audio = null;
 			}

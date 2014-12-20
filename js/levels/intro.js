@@ -1,4 +1,10 @@
+var numberOfJellies = 5;
+
 module.exports = {
+	name : "Intro",
+	description : "Invasion of the Jellies",
+	order : 1,
+	maxScore : 13 * numberOfJellies,
 	config : {
 		r : 120,
 		height : 60,
@@ -34,7 +40,7 @@ module.exports = {
 			object: require("../managers/EntityManager"),
 			properties: {
 				entityType: require('../entities/Jellyship'),
-				count: 5
+				count: numberOfJellies
 			}
 		},
 		music : {

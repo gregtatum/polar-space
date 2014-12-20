@@ -22,14 +22,12 @@ var Muter = function() {
 Muter.prototype = {
 	
 	mute : function() {
-		console.log('mute');
 		this.muted = true;
 		this.dispatchChanged();
 		this.save();
 	},
 	
 	unmute : function() {
-		console.log('unmute');
 		this.muted = false;
 		this.dispatchChanged();
 		this.save();

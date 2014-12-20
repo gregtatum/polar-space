@@ -49,7 +49,7 @@ a {
     color: #4A9DE7;
 }
 a:hover {
-    color: #007BE9;
+    color: #54AFFF;
     text-decoration: none;
 }
 
@@ -280,9 +280,23 @@ h1.blink {}
 }
 .menu-open .menu {
     transform: translateX(0);
+    box-shadow: 0 0 2em rgba(0, 0, 0, 0.19);
+}
+.container-blocker {
+	display:none;
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:10;
+	cursor: pointer;
+}
+.menu-open .container-blocker {
+	display:block;
 }
 .menu-open .burger-wrapper {
-    transform: translateX(0);
+    /* transform: translateX(0); */
 }
 .menu-open .container {
     transform: translateX(300px);
@@ -363,7 +377,12 @@ h1.blink {}
 	text-align:right;
 }
 .menu-bottom-mute img {
-	width:75px;
+	width:60px;
+}
+.menu-bottom-reset {
+	position: absolute;
+	bottom:1.3em;
+	left:1em;
 }
 .blink {
   animation: blink 1s steps(5, start) infinite;
@@ -500,4 +519,83 @@ h1.blink {}
 @keyframes grow {  
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
+}
+
+.menu-title {
+    color: rgba(74, 157, 231, 0.38);
+    font-size: 6em;
+    text-align: center;
+    font-weight: normal;
+    line-height: 0.7;
+}
+.menu-middle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 6.4em;
+    bottom: 5em;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 1em;
+    background: rgba(39, 46, 52, 1);
+    border-top: 1px solid #1B1E1F;
+    border-bottom: 1px solid rgba(74, 157, 231, 0.09);
+}
+.menu-level-name {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1.9em;
+}
+.menu-level-description {
+    color: rgba(74, 157, 231, 0.66);
+}
+
+.menu-level-score {
+    position: relative;
+    border: 1px solid rgba(74, 157, 231, 0.56);
+    padding: 0.15em 0.15em;
+    margin-top: 0.5em;
+    background: #202727;
+}
+
+.menu-level-score-bar {
+    background: #C44F4F;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.menu-level-score-number {
+    position: relative;
+    padding: 0.1em 0.3em;
+    font-size: 0.9em;
+}
+a.menu-level {
+    display: block;
+    border: 1px solid rgba(57, 91, 118, 1);
+    margin: 1.3em 0;
+    padding: 0.5em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 0 0.9em rgba(0, 0, 0, 0.22);
+    background: #273844;
+    transition: transform 200ms;
+    transform: scale(1);
+}
+a.menu-level-titles {
+	text-align: center;
+	padding: 0.4em;
+	margin-top: 0.5em;
+}
+.menu-level-score-bar-wrapper {
+    position: relative;
+}
+
+.menu-level-score-left {
+    color: rgba(34, 38, 39, 0.75);
+}
+
+a.menu-level:hover {
+    transform: scale(1.015);
 }

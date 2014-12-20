@@ -1,5 +1,6 @@
-var EventDispatcher = require('../utils/EventDispatcher');
-var levelLoader = require('../levelLoader');
+var	EventDispatcher	= require('../utils/EventDispatcher');
+var	levelLoader		= require('../levelLoader');
+var	scores			= require('../components/scores');
 
 var poem;
 var isOpen = false;
@@ -18,32 +19,58 @@ var menu = {
 		
 		$body = $('body');
 		
-		$('#menu-button').click( this.toggleMenu );
+		$('#menu a, #container-blocker').click( menu.close );
+		
+		$('#menu-button').off().click( this.toggle );
+		$('#menu-reset-score').off().click( this.resetScores );
+		
+		levelLoader.on( 'newLevel', menu.close );
+		
+		$(window).on('keydown', function toggleMenuHandler( e ) {
+	
+			if( e.keyCode !== 27 ) return;
+			menu.toggle(e);
+	
+		});
+		
 		
 	},
 	
-	toggleMenu : function( e ) {
+	resetScores : function(e) {
 		
 		e.preventDefault();
+		
+		if( confirm( "Are you sure you want to reset your scores?" ) ) {
+			scores.reset();
+		}
+		
+	},
+	
+	toggle : function( e ) {
 
+		e.preventDefault();
+		
 		if( isOpen ) {
-			
-			$body.removeClass('menu-open');
-			if( poem ) poem.loop();
-			
+			menu.close();
 		} else {
-			
-			$body.addClass('menu-open');
-			if( poem ) poem.pause();
-			
+			menu.open();
 		}
 		
 		isOpen = !isOpen;
 		
+	},
+	
+	close : function() {
+		$body.removeClass('menu-open');
+		if( poem ) poem.start();
+	},
+	
+	open : function() {
+		$body.addClass('menu-open');
+		if( poem ) poem.pause();
 	}
 	
 }
 
 EventDispatcher.prototype.apply( menu );
-
 module.exports = menu;

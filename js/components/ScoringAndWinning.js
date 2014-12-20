@@ -20,6 +20,7 @@
 
 */
 var hasher = require('hasher');
+var scores = require('./scores');
 
 var ScoringAndWinning = function( poem, properties ) {
 	
@@ -27,9 +28,9 @@ var ScoringAndWinning = function( poem, properties ) {
 	
 	this.poem = poem;
 	
-	this.$score = $('#score');
+	this.$score = $('#score-value');
 	this.$enemiesCount = $('#enemies-count');
-	this.$win = $('.win');
+	this.$win = $('#win');
 	this.$winScore = $('#win-score');
 	this.$winText = this.$win.find('h1:first');
 	this.$scoreMessage = $('#score-message');
@@ -49,7 +50,6 @@ var ScoringAndWinning = function( poem, properties ) {
 	this.poem.on('levelParsed', function() {
 		this.setConditions( properties.conditions )
 	}.bind(this));
-	
 	
 };
 
@@ -74,16 +74,19 @@ ScoringAndWinning.prototype = {
 	
 	reportConditionCompleted : function() {
 		
-		this.conditionsRemaining--;
-		
-		if( this.conditionsRemaining === 0 ) {
+		_.defer(function() {
 			
-			this.poem.ship.disable();
-			this.won = true;
-			this.conditionsCompleted();
-			
-		}
+			this.conditionsRemaining--;
 		
+			if( this.conditionsRemaining === 0 ) {
+			
+				this.poem.ship.disable();
+				this.won = true;
+				this.conditionsCompleted();
+			
+			}
+			
+		}.bind(this));		
 	},
 	
 	adjustEnemies : function( count ) {
@@ -136,9 +139,7 @@ ScoringAndWinning.prototype = {
 	},
 	
 	conditionsCompleted : function() {
-		
-		this.$canvas.css('opacity', 0.3);
-		
+				
 		this.$winScore.text( this.score );
 		this.$winText.html( this.message );
 		
@@ -150,7 +151,6 @@ ScoringAndWinning.prototype = {
 			
 			hasher.setHash("level/" + this.nextLevel );
 			
-			this.$canvas.css('opacity', 1);
 			this.hideWinScreen();
 			
 			
@@ -165,15 +165,22 @@ ScoringAndWinning.prototype = {
 			.addClass('transform-transition')
 			.show();
 		
+		this.$canvas.css('opacity', 0.3);
+		
+		scores.set( this.poem.slug, this.score );
+		
 		setTimeout(function() {
 			this.$win.removeClass('hide');
 		}.bind(this), 1);
+		
+		this.poem.on( 'destroy', this.hideWinScreen.bind(this) );
 		
 	},
 	
 	hideWinScreen : function() {
 		
 		this.$win.addClass('hide');
+		this.$canvas.css('opacity', 1);
 		
 		setTimeout(function() {
 			this.$win.hide();

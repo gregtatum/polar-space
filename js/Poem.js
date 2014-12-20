@@ -13,18 +13,20 @@ var Clock = require('./utils/Clock');
 
 var renderer;
 
-var Poem = function( level ) {
+var Poem = function( level, slug ) {
 
 	this.circumference = level.config.circumference || 750;
 	this.height = level.config.height || 120;
 	this.r = level.config.r || 240;
 	this.circumferenceRatio = (2 * Math.PI) / this.circumference; //Map 2d X coordinates to polar coordinates
 	this.ratio = window.devicePixelRatio >= 1 ? window.devicePixelRatio : 1;
+	this.slug = slug;	
 	
 	this.controls = undefined;
 	this.div = document.getElementById( 'container' );
 	this.scene = new THREE.Scene();
 	this.requestedFrame = undefined;
+	this.started = false;
 
 	this.clock = new Clock();
 	this.coordinates = new Coordinates( this );
@@ -48,7 +50,7 @@ var Poem = function( level ) {
 //	this.addStats();
 	this.addEventListeners();
 	
-	this.loop();
+	this.start();
 	
 };
 
@@ -98,7 +100,14 @@ Poem.prototype = {
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 	},
-			
+	
+	start : function() {
+		if( !this.started ) {
+			this.loop();
+		}
+		this.started = true;
+	},
+	
 	loop : function() {
 
 		this.requestedFrame = requestAnimationFrame( this.loop.bind(this) );
@@ -109,6 +118,7 @@ Poem.prototype = {
 	pause : function() {
 		
 		window.cancelAnimationFrame( this.requestedFrame );
+		this.started = false;
 		
 	},
 			

@@ -4,19 +4,67 @@ var Poem = require('./Poem')
 
 var currentLevel = null;
 var currentPoem = null;
+var titleHideTimeout = null;
+
+function showTitles() {
+	
+	clearTimeout( titleHideTimeout );
+	
+	$('#title')
+		.removeClass('transform-transition')
+		.addClass('hide')
+		.addClass('transform-transition')
+		.show();
+	
+	setTimeout(function() {
+		$('#title').removeClass('hide');;
+	}, 1);
+	
+	$('.score').css('opacity', 0);
+	
+}
+
+function hideTitles() {
+
+	$('.score').css('opacity', 1);
+	
+	if( $('#title:visible').length > 0 ) {		
+	
+		$('#title')
+			.addClass('transform-transition')
+			.addClass('hide');
+
+			titleHideTimeout = setTimeout(function() {
+		
+				$('#title').hide();
+		
+			}, 1000);
+	}
+			
+	
+}
 
 var levelLoader = {
 	
-	load : function( name ) {
+	load : function( slug ) {
 		
-		if( !_.isObject(levels[name]) ) {
+		if( !_.isObject(levels[slug]) ) {
 			return false;
 		}
-	
+		
+		if( menu && menu.close ) menu.close();
+		
 		if(currentPoem) currentPoem.destroy();
-	
-		currentLevel = levels[name];
-		currentPoem = new Poem( currentLevel );
+		
+		currentLevel = levels[slug];
+		currentPoem = new Poem( currentLevel, slug );
+		
+		if( slug === "titles" ) {
+			showTitles();
+		} else {
+			hideTitles();
+		}
+		
 		
 		this.dispatch({
 			type: "newLevel",

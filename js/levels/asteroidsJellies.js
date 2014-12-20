@@ -1,4 +1,10 @@
+var numberOfJellies = 25;
+
 module.exports = {
+	name : "Polar Rocks",
+	description : "Flight into the asteroid field",
+	order : 2,
+	maxScore : numberOfJellies * 13,
 	config : {
 		scoringAndWinning: {
 			message: "No jellies detected within 5 parsecs.<br/> Follow me on <a href='https://twitter.com/tatumcreative'>Twitter</a> for updates on new levels.",
@@ -17,13 +23,13 @@ module.exports = {
 			object: require("../managers/AsteroidField"),
 			properties: {
 				count : 20
-			} 
+			}
 		},
 		jellyManager : {
 			object: require("../managers/EntityManager"),
 			properties: {
 				entityType: require('../entities/Jellyship'),
-				count: 25
+				count: numberOfJellies
 			}
 		},
 		music : {

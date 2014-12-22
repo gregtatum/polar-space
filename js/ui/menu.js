@@ -70,7 +70,7 @@ var menu = {
 		if( poem ) poem.pause();
 	}
 	
-}
+};
 
 EventDispatcher.prototype.apply( menu );
 module.exports = menu;

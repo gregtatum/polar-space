@@ -3,8 +3,10 @@
 		"THREE": true,
 		"webkitAudioContext": true,
 		"AudioContext": true,
-		"_": true
+		"_": true,
+		"_gaq": true
 	},
+  "laxcomma": true,
 	"node": true,
 	"devel": true,
 	"jquery": true,

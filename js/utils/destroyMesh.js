@@ -3,4 +3,4 @@ module.exports = function destroyMesh( obj ) {
 		if( obj.geometry ) obj.geometry.dispose();
 		if( obj.material ) obj.material.dispose();
 	};
-}
+};

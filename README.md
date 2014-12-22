@@ -15,7 +15,7 @@ Play it right now at http://gregtatum.com/polar/
 
 #### Development installation
 
-This project uses npm modules, Browserify, and Gulp. To get started from the terminal run the following.
+This project uses npm modules, Browserify, and Gulp. You need npm installed before you can run the following from terminal:
 
 To install the npm modules:
 

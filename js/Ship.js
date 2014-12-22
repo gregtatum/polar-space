@@ -13,7 +13,7 @@ var Ship = function( poem ) {
 	this.linewidth = 2 * this.poem.ratio;
 	this.radius = 3;
 	
-	this.position = new THREE.Vector2();
+	this.position = new THREE.Vector2();	
 	
 	this.dead = false;
 	this.lives = 3;
@@ -51,7 +51,7 @@ Ship.prototype = {
 		
 		var geometry, verts, manhattanLength, center;
 		
-		geometry = new THREE.Geometry(),
+		geometry = new THREE.Geometry();
 		
 		verts = [[50,36.9], [39.8,59.6], [47.1,53.9], [50,57.5], [53,53.9], [60.2,59.6], [50,36.9]];
 

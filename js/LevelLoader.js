@@ -17,7 +17,7 @@ function showTitles() {
 		.show();
 	
 	setTimeout(function() {
-		$('#title').removeClass('hide');;
+		$('#title').removeClass('hide');
 	}, 1);
 	
 	$('.score').css('opacity', 0);
@@ -51,8 +51,6 @@ var levelLoader = {
 		if( !_.isObject(levels[slug]) ) {
 			return false;
 		}
-		
-		if( menu && menu.close ) menu.close();
 		
 		if(currentPoem) currentPoem.destroy();
 		

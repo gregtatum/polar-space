@@ -1,5 +1,6 @@
 var EventDispatcher = require('../utils/EventDispatcher');
 var localforage = require('localforage');
+var muter;
 
 var Muter = function() {
 	
@@ -51,24 +52,20 @@ Muter.prototype = {
 		}
 	}
 	
-}
+};
 
 EventDispatcher.prototype.apply( Muter.prototype );
 
-var muter = new Muter();
+muter = new Muter();
 
 $(window).on('keydown', function muteAudioOnHittingS( e ) {
 	
 	if( e.keyCode !== 83 ) return;
 	
 	if( muter.muted ) {
-		
-		muter.unmute()
-		
+		muter.unmute();
 	} else {
-		
-		muter.mute()
-		
+		muter.mute();
 	}
 	
 });

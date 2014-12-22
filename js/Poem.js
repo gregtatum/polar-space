@@ -59,7 +59,7 @@ module.exports = Poem;
 Poem.prototype = {
 	
 	parseLevel : function( level ) {
-		_.each( level.objects, function( value, key ) {
+		_.each( level.objects, function loadComponent( value, key ) {
 			if(_.isObject( value )) {
 				this[ key ] = new value.object( this, value.properties );
 			} else {

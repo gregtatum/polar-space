@@ -37,7 +37,8 @@ var exports = {
 	
 	set : function( slug, score ) {
 		
-		scores[slug] = score;
+		//Only save the higher score
+		scores[slug] = Math.max( scores[slug], score );
 		localforage.setItem( 'scores', scores );
 		dispatchChange();
 		

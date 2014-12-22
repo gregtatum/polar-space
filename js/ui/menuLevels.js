@@ -1,7 +1,5 @@
 var scores = require('../components/scores');
-var levelKeyPairs = sortAndFilterLevels( require('../levels') );
-
-function sortAndFilterLevels( levels ) {
+var levelKeyPairs = (function sortAndFilterLevels( levels ) {
 		
 	return _.chain(levels)
 		.pairs()
@@ -13,7 +11,7 @@ function sortAndFilterLevels( levels ) {
 		})
 	.value();
 	
-}
+})( require('../levels') );
 
 function reactiveLevels( $scope, template ) {
 	
@@ -51,7 +49,7 @@ function reactiveLevels( $scope, template ) {
 	
 	function updateReactiveLevels() {
 		reactiveLevels( $scope, template );
-	};
+	}
 	
 	scores.on( 'change', updateReactiveLevels );
 	updateReactiveLevels();

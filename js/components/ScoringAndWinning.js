@@ -48,7 +48,7 @@ var ScoringAndWinning = function( poem, properties ) {
 	this.conditionsRemaining = this.conditionsCount;
 	
 	this.poem.on('levelParsed', function() {
-		this.setConditions( properties.conditions )
+		this.setConditions( properties.conditions );
 	}.bind(this));
 	
 };
@@ -64,9 +64,9 @@ ScoringAndWinning.prototype = {
 		_.each( conditions, function( condition ) {
 		
 			var component = this.poem[condition.component];
-			var arguments = _.union( this, condition.properties );
+			var args = _.union( this, condition.properties );
 		
-			component.watchForCompletion.apply( component, arguments );
+			component.watchForCompletion.apply( component, args );
 		
 		}.bind(this));
 		

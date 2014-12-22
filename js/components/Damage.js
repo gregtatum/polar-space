@@ -34,7 +34,7 @@ Damage.prototype = {
 		
 		var vertex, bullet;
 		
-		geometry = new THREE.Geometry();
+		var geometry = new THREE.Geometry();
 		
 		for(var i=0; i < this.count; i++) {
 			

@@ -1,5 +1,6 @@
 module.exports = {
 	asteroidsJellies : require("./asteroidsJellies"),
 	titles : require("./titles"),
-	intro : require("./intro")
+	intro : require("./intro"),
+	web : require("./web")
 };

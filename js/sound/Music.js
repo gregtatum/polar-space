@@ -56,7 +56,7 @@ var Music = function( poem, properties ) {
 	
 	if( !muter.muted ) {
 		
-		fetchAndPlaySong()
+		fetchAndPlaySong();
 		fetchAndPlaySong = null;
 		
 	}

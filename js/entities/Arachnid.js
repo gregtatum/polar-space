@@ -1,7 +1,7 @@
-var Damage = require('../components/Damage');
 var random = require('../utils/random');
 var destroyMesh = require('../utils/destroyMesh');
 var twoπ = Math.PI * 2;
+var color = 0xBC492A;
 
 var Arachnid = function( poem, manager, x, y ) {
 
@@ -37,12 +37,6 @@ var Arachnid = function( poem, manager, x, y ) {
 	this.radius = 3;
 
 	this.addObject();
-	this.damage = new Damage(this.poem, this, {
-		transparent: true,
-		opacity: 0.5,
-		retainExplosionsCount: 3,
-		perExplosion: 20
-	});
 	
 	this.handleUpdate = this.update.bind(this);
 	this.manager.on('update', this.handleUpdate );
@@ -57,6 +51,14 @@ var Arachnid = function( poem, manager, x, y ) {
 module.exports = Arachnid;
 
 Arachnid.prototype = {
+	
+	damageSettings : {
+		color: 0xBC492A,
+		transparent: true,
+		opacity: 0.5,
+		retainExplosionsCount: 3,
+		perExplosion: 20
+	},
 	
 	initSharedAssets : function( manager ) {
 		
@@ -152,7 +154,7 @@ Arachnid.prototype = {
 	kill : function() {
 		this.dead = true;
 		this.object.visible = false;
-		this.damage.explode();
+		this.damage.explode( this.position );
 		
 		var spiderlings = random.rangeInt( 2, 5 );
 		var θ;

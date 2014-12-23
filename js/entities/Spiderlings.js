@@ -1,6 +1,6 @@
-var Damage = require('../components/Damage');
 var random = require('../utils/random');
 var destroyMesh = require('../utils/destroyMesh');
+var color = 0xff0000;
 
 var Spiderling = function( poem, manager, x, y, theta ) {
 
@@ -11,7 +11,7 @@ var Spiderling = function( poem, manager, x, y, theta ) {
 	this.object = null;
 
 	this.name = "Spiderling";
-	this.color = 0xff0000;
+	this.color = color;
 	this.cssColor = "#ff0000";
 	this.linewidth = 2 * this.poem.ratio;
 	this.scoreValue = -2;
@@ -31,12 +31,7 @@ var Spiderling = function( poem, manager, x, y, theta ) {
 	this.thetaJitter = random.range( -Math.PI * 0.2, Math.PI * 0.2 );
 
 	this.addObject();
-	this.damage = new Damage(this.poem, this, {
-		transparent: true,
-		opacity: 0.5,
-		retainExplosionsCount: 3,
-		perExplosion: 5
-	});
+	this.damage = manager.damage;
 	
 	this.handleUpdate = this.update.bind(this);
 	this.manager.on('update', this.handleUpdate );
@@ -46,6 +41,14 @@ var Spiderling = function( poem, manager, x, y, theta ) {
 module.exports = Spiderling;
 
 Spiderling.prototype = {
+	
+	damageSettings : {
+		color: color,
+		transparent: true,
+		opacity: 0.5,
+		retainExplosionsCount: 3,
+		perExplosion: 5
+	},
 	
 	initSharedAssets : function( manager ) {
 		
@@ -61,7 +64,7 @@ Spiderling.prototype = {
 		return function( e ) {
 
 			var time = (e.time / 100);
-			var interval = Math.PI * 6 / geometry.waveyVerts.length
+			var interval = Math.PI * 6 / geometry.waveyVerts.length;
 			_.each( geometry.waveyVerts, function( vec, i ) {
 				
 				var unitI = Math.sin( i * interval + time ) * 0.8 + 0.2;
@@ -157,7 +160,7 @@ Spiderling.prototype = {
 	kill : function() {
 		this.dead = true;
 		this.object.visible = false;
-		this.damage.explode();
+		this.damage.explode( this.position );
 	},
 
 	reset : function() {

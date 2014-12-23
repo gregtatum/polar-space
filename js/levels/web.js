@@ -52,7 +52,7 @@ module.exports = {
 		music : {
 			object: require("../sound/Music"),
 			properties: {
-				url: "https://soundcloud.com/theelectrochippers/the-sun-is-rising-chip-music"
+				url: "https://soundcloud.com/theelectrochippers/electrochip-artillery"
 			}
 		}
 	}

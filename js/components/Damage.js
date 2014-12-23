@@ -4,10 +4,10 @@ var Bullet = require('../entities/Bullet');
 var SoundGenerator = require('../sound/SoundGenerator');
 var destroyMesh = require('../utils/destroyMesh');
 
-var Damage = function( poem, ship, settings ) {
+var Damage = function( poem, settings ) {
 	
 	this.poem = poem;
-	this.ship = ship;
+	this.color = null;
 	this.perExplosion = 100;
 	this.retainExplosionsCount = 3;
 	this.bullets = [];
@@ -62,7 +62,7 @@ Damage.prototype = {
 			geometry,
 			new THREE.PointCloudMaterial({
 				 size: 1 * this.poem.ratio,
-				 color: this.ship.color,
+				 color: this.color,
 				 transparent: this.transparent,
 				 opacity: this.opacity
 			}
@@ -95,7 +95,7 @@ Damage.prototype = {
 		
 	},
 	
-	explode : function() {
+	explode : function( position ) {
 		
 		this.playExplosionSound();
 		
@@ -105,7 +105,7 @@ Damage.prototype = {
 			var r = random.rangeLow( 0, this.explodeSpeed );
 			
 			bullet.alive = true;
-			bullet.position.copy( this.ship.position );
+			bullet.position.copy( position );
 			
 			bullet.speed.x = r * Math.cos( theta );
 			bullet.speed.y = r * Math.sin( theta );

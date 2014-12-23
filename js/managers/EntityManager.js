@@ -1,6 +1,7 @@
 var Collider = require('../utils/Collider');
 var DefaultJellyShip = require('../entities/JellyShip');
 var EventDispatcher = require('../utils/EventDispatcher');
+var Damage = require('../components/Damage');
 
 var EntityManager = function( poem, properties ) {
 	
@@ -14,12 +15,15 @@ var EntityManager = function( poem, properties ) {
 	this.winCheck = null;
 		
 	_.extend( this, properties );
+
+	this.damage = new Damage( this.poem, this.entityType.prototype.damageSettings );
 	
 	if( _.isFunction( this.entityType.prototype.initSharedAssets ) ) {
 		this.entityType.prototype.initSharedAssets( this );
 	}
 	this.generate( this.count );
 	this.configureCollider();
+	
 
 	this.boundUpdate = this.update.bind(this);
 	
@@ -43,6 +47,7 @@ EntityManager.prototype = {
 			y = Math.random() * height - (height / 2);
 			
 			entity = new this.entityType( this.poem, this, x, y );
+			entity.damage = this.damage;
 			
 			this.entities.push( entity );
 			this.liveEntities.push( entity );

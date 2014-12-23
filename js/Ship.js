@@ -37,7 +37,9 @@ var Ship = function( poem ) {
 	this.maxSpeed = 500;
 
 	this.addObject();
-	this.damage = new Damage(this.poem, this);
+	this.damage = new Damage(this.poem, {
+		color: this.color
+	});
 	
 	this.poem.on('update', this.update.bind(this) );
 	
@@ -115,7 +117,7 @@ Ship.prototype = {
 			this.dead = true;
 			this.object.visible = false;
 			
-			this.damage.explode();
+			this.damage.explode( this.position );
 			
 			var lostPoints = Math.ceil( this.poem.scoringAndWinning.score / -2 );
 			

@@ -1,6 +1,7 @@
 var Damage = require('../components/Damage');
 var random = require('../utils/random');
 var destroyMesh = require('../utils/destroyMesh');
+var color = 0xcb36ea;
 
 var Jellyship = function( poem, manager, x, y ) {
 
@@ -11,7 +12,7 @@ var Jellyship = function( poem, manager, x, y ) {
 	this.object = null;
 
 	this.name = "Jellyship";
-	this.color = 0xcb36ea;
+	this.color = color;
 	this.cssColor = "#CB36EA";
 	this.linewidth = 2 * this.poem.ratio;
 	this.scoreValue = 13;
@@ -36,12 +37,6 @@ var Jellyship = function( poem, manager, x, y ) {
 	this.radius = 3;
 
 	this.addObject();
-	this.damage = new Damage(this.poem, this, {
-		transparent: true,
-		opacity: 0.5,
-		retainExplosionsCount: 3,
-		perExplosion: 50
-	});
 	
 	this.handleUpdate = this.update.bind(this);
 	this.manager.on('update', this.handleUpdate );
@@ -51,6 +46,10 @@ var Jellyship = function( poem, manager, x, y ) {
 module.exports = Jellyship;
 
 Jellyship.prototype = {
+	
+	damageSettings : {
+		color: 0xcb36ea
+	},
 	
 	initSharedAssets : function( manager ) {
 		
@@ -157,7 +156,7 @@ Jellyship.prototype = {
 	kill : function() {
 		this.dead = true;
 		this.object.visible = false;
-		this.damage.explode();
+		this.damage.explode( this.position );
 	},
 
 	reset : function() {

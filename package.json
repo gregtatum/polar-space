@@ -33,10 +33,9 @@
     "glsl-noise": "0.0.0",
     "glslify": "^1.6.0",
     "gulp": "^3.8.7",
-    "gulpfile": "git://github.com/TatumCreative/gulpfile.git#v1.1.0",
+    "gulpfile": "git://github.com/TatumCreative/gulpfile.git#v1.2.1",
     "hasher": "^1.2.0",
     "localforage": "^1.2.0",
-    "reactify": "^0.14.0",
     "soundcloud-badge": "0.0.0",
     "three-glslify": "^2.0.1",
     "underscore": "^1.7.0"

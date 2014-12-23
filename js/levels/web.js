@@ -1,28 +1,28 @@
-var numberOfJellies = 100;
+var numberOfArachnids = 20;
 
 module.exports = {
 	name : "Stuck in the Web",
 	description : "Free the stuck alliance ships",
-	maxScore : 13 * numberOfJellies,
+	maxScore : 13 * numberOfArachnids,
 	config : {
-		// r : 200,
+		r : 110,
 		// height : 60,
 		// circumference : 900,
-		// cameraMultiplier : 2,
+		cameraMultiplier : 2,
 		scoringAndWinning: {
 			message: "You saved this sector<br/>on to the next level.",
 			nextLevel: "intro",
 			conditions: [
 				{
-					//Jelly manager has 0 live ships
-					component: "jellyManager",
+					//No arachnids left
+					component: "arachnids",
 					properties: null
 				}
 			]
 		},
-		// stars: {
-		// 	count: 3000
-		// }
+		stars: {
+	 		 count: 3000
+		}
 	},
 	objects : {
 		web : {
@@ -35,11 +35,18 @@ module.exports = {
 		// 		speed : 0.989
 		// 	}
 		// },
-		jellyManager : {
+		spiderlings : {
 			object: require("../managers/EntityManager"),
 			properties: {
-				entityType: require('../entities/Jellyship'),
-				count: numberOfJellies
+				entityType: require('../entities/Spiderlings'),
+				count: 0
+			}
+		},
+		arachnids : {
+			object: require("../managers/EntityManager"),
+			properties: {
+				entityType: require('../entities/Arachnid'),
+				count: numberOfArachnids
 			}
 		},
 		music : {

@@ -53,6 +53,22 @@ EntityManager.prototype = {
 		
 	},
 	
+	add : function( x, y, θ ) {
+		
+		var entity = new this.entityType( this.poem, this, x, y );
+		
+		entity.bank = θ;
+		entity.update({
+			dt: 0
+		});
+		
+		this.entities.push( entity );
+		this.liveEntities.push( entity );
+		
+		this.poem.scoringAndWinning.adjustEnemies( 1 );
+		
+	},
+	
 	update : function( e ) {
 		
 		this.dispatch( e );
@@ -94,13 +110,20 @@ EntityManager.prototype = {
 				this.killEntity( entity );
 				this.poem.gun.killBullet( bullet );
 				
-				this.poem.scoringAndWinning.adjustScore(
-					entity.scoreValue,
-					"+" + entity.scoreValue + " " + entity.name, 
-					{
-						"color" : entity.cssColor
-					}
-				);
+				var sign = (entity.scoreValue > 0) ? "+" : "";
+				var color = (entity.scoreValue > 0) ? entity.cssColor : "#ff0000";
+				
+				if( entity.scoreValue !== 0 ) {
+					
+					this.poem.scoringAndWinning.adjustScore(
+						entity.scoreValue,
+						sign + entity.scoreValue + " " + entity.name, 
+						{
+							"color" : color
+						}
+					);
+					
+				}
 				this.poem.scoringAndWinning.adjustEnemies( -1 );
 				
 			}.bind(this)

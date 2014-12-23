@@ -44,8 +44,7 @@ var ScoringAndWinning = function( poem, properties ) {
 	this.nextLevel = properties.nextLevel ? properties.nextLevel : null;
 	this.won = false;
 	
-	this.conditionsCount = _.isArray( properties.conditions ) ? properties.conditions.length : 0;
-	this.conditionsRemaining = this.conditionsCount;
+	this.conditionsRemaining = [];
 	
 	this.poem.on('levelParsed', function() {
 		this.setConditions( properties.conditions );
@@ -67,18 +66,24 @@ ScoringAndWinning.prototype = {
 			var args = _.union( this, condition.properties );
 		
 			component.watchForCompletion.apply( component, args );
+			
+			this.conditionsRemaining.push( component );
 		
 		}.bind(this));
 		
 	},
 	
-	reportConditionCompleted : function() {
+	reportConditionCompleted : function( component ) {
+		
+		if( this.won ) return;
 		
 		_.defer(function() {
 			
-			this.conditionsRemaining--;
+			this.conditionsRemaining = _.filter( this.conditionsRemaing, function( condition ) {
+				return condition !== component;
+			});
 		
-			if( this.conditionsRemaining === 0 ) {
+			if( this.conditionsRemaining.length === 0 ) {
 			
 				this.poem.ship.disable();
 				this.won = true;
@@ -88,6 +93,22 @@ ScoringAndWinning.prototype = {
 			
 		}.bind(this));		
 	},
+
+	reportConditionIncomplete : function( component ) {
+
+		if( this.won ) return;
+				
+		_.defer(function() {
+			
+			var index = this.conditionsRemaining.indexOf( component ) ;
+			
+			if( index === -1 ) {
+				this.conditionsRemaining.push( component );
+			}
+					
+		}.bind(this));		
+	},
+	
 	
 	adjustEnemies : function( count ) {
 		

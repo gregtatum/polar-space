@@ -61,7 +61,7 @@ var Web = function( poem, properties ) {
 	
 	var material = new THREE.ShaderMaterial( shader );
 	var geometry = createWebGeometry(
-		128,				//sides
+		64,				//sides
 		12,				//levels
 		poem.r,			//radius
 		poem.height		//height

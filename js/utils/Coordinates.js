@@ -82,8 +82,18 @@ Coordinates.prototype = {
 	
 	keepInRange : function( vector ) {
 		vector.x = this.keepInRangeX( vector.x );
-		vector.y = this.keepInRangeX( vector.y );
+		vector.y = this.keepInRangeY( vector.y );
 		return vector;
+	},
+	
+	keepDiffInRange : function( diff ) {
+		
+		var xWidth = this.poem.circumference;
+		
+		while( diff <= xWidth / -2 ) diff += xWidth;
+		while( diff > xWidth / 2 ) diff -= xWidth;
+		
+		return diff;
 	},
 	
 	twoXToTheta : function( x ) {

@@ -23,14 +23,15 @@ function reactiveLevels( $scope, template ) {
 		var level = keypair[1];
 		
 		var score = scores.get( slug );
+		
 		return {
 			name : level.name,
 			description : level.description,
 			slug : slug,
-			percent : score.percent,
-			score : score.value,
-			total : score.total,
-			leftOrRight : score.unitI < 0.5 ? "right" : "left"
+			percent : score ? score.percent : 0,
+			score : score ? score.value : 0,
+			total : score ? score.total : 1,
+			leftOrRight : score && score.unitI < 0.5 ? "right" : "left"
 		};
 		
 	});

@@ -4,11 +4,10 @@ var createWebGeometry = require('./geometry');
 var Coordinates = require('../../utils/Coordinates');
 
 
-function worldPositionVelocityUpdater( poem, fromPolarPosition, toWorldPosition, toVelocity ) {
+function worldPositionVelocityUpdater( coordinates, fromPolarPosition, toWorldPosition, toVelocity ) {
 	
 	var newWorldPosition = new THREE.Vector3();
 	var newVelocity = new THREE.Vector3();
-	var coordinates = new Coordinates( poem );
 	coordinates.setVector( toWorldPosition, fromPolarPosition );
 	
 	return function() {
@@ -17,13 +16,23 @@ function worldPositionVelocityUpdater( poem, fromPolarPosition, toWorldPosition,
 		coordinates.setVector( newWorldPosition, fromPolarPosition );
 		newVelocity.subVectors( newWorldPosition, toWorldPosition );
 		
-		//Ease the changes in
-		newWorldPosition.lerp( toWorldPosition, 0.5 );
-		newVelocity.lerp( toVelocity, 0.95 );
+		//Crudely detect velocity jump
+		if( newVelocity.lengthSq() > 2500 ) {
+			
+			newVelocity.set( 0, 0, 0 );
+			
+		} else {
+		
+			//Ease the changes in
+			newWorldPosition.lerp( toWorldPosition, 0.5 );
+			newVelocity.lerp( toVelocity, 0.95 );
+		
+		}
 		
 		//Save them
 		toVelocity.copy( newVelocity );		
 		toWorldPosition.copy( newWorldPosition );
+		
 		
 	};
 }
@@ -38,7 +47,7 @@ function shipPositionUniforms( poem, shader, shipPosition ) {
 	shader.uniforms.time = { type: "f", value: 0 };
 	
 	poem.on( 'update', worldPositionVelocityUpdater(
-		poem,
+		poem.coordinates,
 		poem.ship.position,
 		shipWorldPosition,
 		shipWorldVelocity
@@ -76,8 +85,3 @@ var Web = function( poem, properties ) {
 };
 
 module.exports = Web;
-
-Web.prototype = {
-	
-	
-};

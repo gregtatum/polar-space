@@ -14,20 +14,23 @@ var Spiderling = function( poem, manager, x, y, theta ) {
 	this.color = color;
 	this.cssColor = "#ff0000";
 	this.linewidth = 2 * this.poem.ratio;
-	this.scoreValue = -2;
+	this.scoreValue = -5;
 
 	this.spawnPoint = new THREE.Vector2(x,y);
 	this.position = new THREE.Vector2(x,y);
-	this.pPosition = new THREE.Vector2();
+	this.unitDirection = new THREE.Vector2(
+		Math.cos( theta ),
+		Math.sin( theta )
+	);
+	this.list = random.range( -Math.PI / 8, Math.PI / 8 );
 	
 	this.dead = false;
 
 	
-	this.velocity = new THREE.Vector2();
 
 	this.speed = 0.02;
 	
-	this.radius = 3;
+	this.radius = 1.5;
 	this.thetaJitter = random.range( -Math.PI * 0.2, Math.PI * 0.2 );
 
 	this.addObject();
@@ -182,26 +185,32 @@ Spiderling.prototype = {
 
 	updatePosition : function() {
 	
-		var movement = new THREE.Vector3();
+		var unitSeek = new THREE.Vector2();
+		var velocity = new THREE.Vector2();
 	
 		return function( e ) {
 
-			var shipTheta = Math.atan2(
+			var theta = Math.atan2(
 				this.poem.ship.position.y - this.position.y,
 				this.poem.coordinates.keepDiffInRange(
 					this.poem.ship.position.x - this.position.x
 				)
 			);
 			
-			var rotationEasing = 0.99;
+			unitSeek.x = Math.cos( theta + this.list );
+			unitSeek.y = Math.sin( theta + this.list );
 			
-			shipTheta += this.thetaJitter;
+			velocity
+				.copy( this.unitDirection )
+				.lerp( unitSeek, 0.02 )
+				.normalize()
+			;
 			
-			this.object.rotation.z *= rotationEasing;
-			this.object.rotation.z += shipTheta * ( 1 - rotationEasing );
+			this.unitDirection.copy( velocity );
 			
-			this.position.x += e.dt * this.speed * Math.cos( this.object.rotation.z );
-			this.position.y += e.dt * this.speed * Math.sin( this.object.rotation.z );
+			velocity.multiplyScalar( this.speed * e.dt );
+			
+			this.position.add( velocity );
 			
 			this.object.position.y = this.position.y;
 			this.polarObj.rotation.y = this.position.x * this.poem.circumferenceRatio;

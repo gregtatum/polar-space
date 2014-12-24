@@ -12,11 +12,15 @@ function dispatchChange() {
 	
 }
 
+function isRealNumber( number ) {
+	return _.isNumber( number ) && !_.isNaN( number );
+}
+
 var exports = {
 	
 	get : function( slug ) {
-		
-		var value = _.isNumber( scores[slug] ) ? scores[slug] : 0;
+
+		var value = isRealNumber( scores[slug] ) ? scores[slug] : 0;
 		var total = _.isNumber( levels[slug].maxScore ) ? levels[slug].maxScore : 1;
 		var unitI = 1;
 		
@@ -26,21 +30,36 @@ var exports = {
 		
 		var percent = Math.round(unitI * 100);
 		
-		return {
+		var obj = {
 			value	: value,
 			total	: total,
 			unitI	: unitI,
 			percent	: percent
 		};
 		
+		_.each( obj, function(val) {
+			if( _.isNaN( val ) ) {
+				debugger;
+			}
+		});
+		return obj;
+		
 	},
 	
 	set : function( slug, score ) {
 		
-		//Only save the higher score
-		scores[slug] = Math.max( scores[slug], score );
-		localforage.setItem( 'scores', scores );
-		dispatchChange();
+		if( isRealNumber( score ) ) {
+			
+			//Only save the higher score
+			
+			scores[slug] = isRealNumber( scores[slug] ) ?
+				Math.max( scores[slug], score ) :
+				score
+			;
+			localforage.setItem( 'scores', scores );
+			dispatchChange();
+			
+		}
 		
 	},
 	

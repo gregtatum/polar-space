@@ -15,7 +15,7 @@ var Arachnid = function( poem, manager, x, y ) {
 	this.color = 0xBC492A;
 	this.cssColor = "#BC492A";
 	this.linewidth = 2 * this.poem.ratio;
-	this.scoreValue = 13;
+	this.scoreValue = 23;
 
 	this.spawnPoint = new THREE.Vector2(x,y);
 	this.position = new THREE.Vector2(x,y);
@@ -155,18 +155,28 @@ Arachnid.prototype = {
 		this.dead = true;
 		this.object.visible = false;
 		this.damage.explode( this.position );
-		
+
 		var spiderlings = random.rangeInt( 2, 5 );
-		var θ;
+		var shipTheta = Math.atan2(
+			this.poem.ship.position.y - this.position.y,
+			this.poem.coordinates.keepDiffInRange(
+				this.poem.ship.position.x - this.position.x
+			)
+		);
 		
+		
+		var spiderlingTheta;
+		
+		var thetaSpread = Math.PI * 0.25;
+		var thetaStep = thetaSpread / spiderlings;
+		var reverseShipTheta = shipTheta + Math.PI;
+
 		for( var i=0; i < spiderlings; i++ ) {
 			
-			θ = i * (twoπ / spiderlings);
-			
 			this.poem.spiderlings.add(
-				this.position.x + Math.cos( θ ) * this.radius,
-				this.position.y + Math.sin( θ ) * this.radius,
-				this.object.rotation.z + random.range( 0.1, 0.1 )
+				this.position.x,
+				this.position.y,
+				reverseShipTheta + random.range(0, 1) * (i * thetaStep - (thetaSpread / 2) )
 			);
 			
 		}

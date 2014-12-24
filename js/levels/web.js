@@ -2,8 +2,9 @@ var numberOfArachnids = 20;
 
 module.exports = {
 	name : "Stuck in the Web",
-	description : "Free the stuck alliance ships",
-	maxScore : 13 * numberOfArachnids,
+	description : "Don't hurt the babies",
+	maxScore : 23 * numberOfArachnids,
+	order: 3,
 	config : {
 		r : 110,
 		// height : 60,

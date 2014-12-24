@@ -24,7 +24,6 @@ var EntityManager = function( poem, properties ) {
 	this.generate( this.count );
 	this.configureCollider();
 	
-
 	this.boundUpdate = this.update.bind(this);
 	
 	this.poem.on('update', this.boundUpdate );
@@ -58,11 +57,11 @@ EntityManager.prototype = {
 		
 	},
 	
-	add : function( x, y, θ ) {
+	add : function( x, y, theta ) {
 		
-		var entity = new this.entityType( this.poem, this, x, y );
+		var entity = new this.entityType( this.poem, this, x, y, theta );
 		
-		entity.bank = θ;
+		entity.bank = theta;
 		entity.update({
 			dt: 0
 		});

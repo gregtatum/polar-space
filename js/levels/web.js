@@ -12,7 +12,7 @@ module.exports = {
 		cameraMultiplier : 2,
 		scoringAndWinning: {
 			message: "You saved this sector<br/>on to the next level.",
-			nextLevel: "intro",
+			nextLevel: "titles",
 			conditions: [
 				{
 					//No arachnids left

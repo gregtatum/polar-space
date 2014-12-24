@@ -7,7 +7,7 @@ module.exports = {
 	maxScore : numberOfJellies * 13,
 	config : {
 		scoringAndWinning: {
-			message: "No jellies detected within 5 parsecs.<br/> Follow me on <a href='https://twitter.com/tatumcreative'>Twitter</a> for updates on new levels.",
+			message: "Arachnids detected in the next sector. Please spare their babies.<br/>",
 			nextLevel: "web",
 			conditions: [
 				{

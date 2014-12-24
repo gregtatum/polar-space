@@ -11,7 +11,7 @@ module.exports = {
 		// circumference : 900,
 		cameraMultiplier : 2,
 		scoringAndWinning: {
-			message: "You saved this sector<br/>on to the next level.",
+			message: "Hopefully the spiderlings will grow into pleasant individuals. Follow me on <a href='https://twitter.com/tatumcreative'>Twitter</a> for updates on new levels.",
 			nextLevel: "titles",
 			conditions: [
 				{

@@ -1,12 +1,12 @@
 var	EventDispatcher	= require('../utils/EventDispatcher');
-var	levelLoader		= require('../levelLoader');
+var	routing		= require('../routing');
 var	scores			= require('../components/scores');
 
 var poem;
 var isOpen = false;
 var $body;
 
-levelLoader.on( 'newLevel', function( e ) {
+routing.on( 'newLevel', function( e ) {
 
 	poem = e.poem;
 	
@@ -24,7 +24,7 @@ var menu = {
 		$('#menu-button').off().click( this.toggle );
 		$('#menu-reset-score').off().click( this.resetScores );
 		
-		levelLoader.on( 'newLevel', menu.close );
+		routing.on( 'newLevel', menu.close );
 		
 		$(window).on('keydown', function toggleMenuHandler( e ) {
 	

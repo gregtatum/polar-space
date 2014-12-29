@@ -112,16 +112,6 @@ a:hover {
 	opacity:0;
 	transition:1s;
 }
-.score strong {
-	color: #4A9DE7;
-	font-weight:100;
-}
-.score span {
-	color:#fff;
-	text-shadow: 0.07em 0.06em 0 #1E6DB3;
-	font-size: 1.2em;
-	line-height: 1;
-}
 .score-message {
 	display:block;
 	-webkit-transform: translateX( 0 );
@@ -164,7 +154,7 @@ a:hover {
     text-align: center;
     width: 100%;
     position: absolute;
-    top: 50%;
+    top: 43%;
     color: #fff;
 	display:none;
     margin-top: -3em;
@@ -175,7 +165,7 @@ a:hover {
          -o-transition: opacity 1000ms;
             transition: opacity 1000ms;
 }
-.win h1 {
+.win-text {
     font-weight: 400;
     font-size: 1.6em;
     max-width: 80%;
@@ -185,12 +175,13 @@ a:hover {
 .win strong {
     color: #4A9DE7;
 }
-.next-level {
+.win-button {
     border: 4px solid #4a9de7;
     padding: 0.5em 1.2em;
     display: inline-block;
-    margin: 1.4em;
+    margin: 1.4em 0.3em;
     text-transform: uppercase;
+    width: 7em;
     text-decoration: none;
     font-size: 1em;
     -webkit-transition: -webkit-transform 500ms;
@@ -204,7 +195,7 @@ a:hover {
          -o-transform: scale(1);
             transform: scale(1);
 }
-.next-level:hover {
+.win-button:hover {
     background: #4a9de7;
     color: #222;
     -webkit-transform: scale(1.2);
@@ -559,6 +550,16 @@ h1.blink {}
 }
 
 @media screen and (max-width: 600px) {
+	.win-text {
+	    font-size: 1em;
+	}
+	.win {
+	    top: 4em;
+	    margin-top: 0;
+	}
+	.win-button {
+	    font-size: 0.8em;
+	}
 	.score {
 		text-align: left;
 		width:100%;
@@ -639,23 +640,45 @@ h1.blink {}
     color: rgba(74, 157, 231, 0.66);
 }
 
-.menu-level-score {
+.score-bar {
     position: relative;
     border: 1px solid rgba(74, 157, 231, 0.56);
     padding: 0.15em 0.15em;
     margin-top: 0.5em;
     background: #202727;
 }
-
-.menu-level-score-bar {
+.score-bar-game {
+	width: 250px;
+	color: #4A9DE7;
+	font-size: 0.75em;
+}
+.score-bar-bar {
     background: #C44F4F;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+	-webkit-transition: width 1000ms, background-color 500ms;
+	   -moz-transition: width 1000ms, background-color 500ms;
+	    -ms-transition: width 1000ms, background-color 500ms;
+	     -o-transition: width 1000ms, background-color 500ms;
+	        transition: width 1000ms, background-color 500ms;
+	-webkit-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
+	   -moz-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
+	     -o-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
+	        transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005);
 }
-
-.menu-level-score-number {
+.score-enemies-label {
+       color: #4A9DE7;
+       font-weight:100;
+}
+.score-enemies-value {
+       color:#fff;
+       text-shadow: 0.07em 0.06em 0 #1E6DB3;
+       font-size: 1.2em;
+       line-height: 1;
+}
+.score-bar-number {
     position: relative;
     padding: 0.1em 0.3em;
     font-size: 0.9em;
@@ -685,14 +708,14 @@ a.menu-level-titles {
 	padding: 0.4em;
 	margin-top: 0.5em;
 }
-.menu-level-score-bar-wrapper {
+.score-bar-bar-wrapper {
     position: relative;
 }
 
-.menu-level-score-left {
+.score-bar-left {
     color: rgba(34, 38, 39, 0.75);
 }
-.menu-level-score-right {
+.score-bar-right {
 	text-align:right;
 }
 
@@ -727,4 +750,10 @@ a.menu-level:hover {
 	    position: relative;
 	    top: 4px;
 	}
+}
+
+.win-cta {
+    text-transform: none;
+    margin: 1em;
+    font-size: 0.8em;
 }

@@ -1,6 +1,6 @@
-var Poem = require('./Poem')
-  , levels = require('./levels')
-  , EventDispatcher = require('./utils/EventDispatcher');
+var Poem = null;
+var levels = require('./levels');
+var EventDispatcher = require('./utils/EventDispatcher');
 
 var currentLevel = null;
 var currentPoem = null;
@@ -34,17 +34,21 @@ function hideTitles() {
 			.addClass('transform-transition')
 			.addClass('hide');
 
-			titleHideTimeout = setTimeout(function() {
-		
-				$('#title').hide();
-		
-			}, 1000);
+		titleHideTimeout = setTimeout(function() {
+	
+			$('#title').hide();
+	
+		}, 1000);
 	}
 			
 	
 }
 
 var levelLoader = {
+	
+	init : function( PoemClass ) {
+		Poem = PoemClass;
+	},
 	
 	load : function( slug ) {
 		
@@ -62,7 +66,6 @@ var levelLoader = {
 		} else {
 			hideTitles();
 		}
-		
 		
 		this.dispatch({
 			type: "newLevel",

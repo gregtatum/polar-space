@@ -49,10 +49,10 @@
 			<a href='#/level/<%- slug %>' class='menu-level'>
 				<h2 class='menu-level-name'><%- name %></h1>
 				<div class='menu-level-description'><%- description %></div>
-				<div class='menu-level-score'>
-					<div class='menu-level-score-bar-wrapper'>
-						<div class='menu-level-score-bar' style='width:<%- percent %>%'></div>
-						<div class='menu-level-score-number menu-level-score-<%- leftOrRight %>'>
+				<div class='score-bar'>
+					<div class='score-bar-bar-wrapper'>
+						<div class='score-bar-bar' style='width:<%- percent %>%'></div>
+						<div class='score-bar-number score-bar-<%- leftOrRight %>'>
 							<%- score %>/<%- total %> points
 						</div>
 					</div>
@@ -76,14 +76,36 @@
 	<div class='container' id='container'>
 		
 		<div class='score' id='score'>
-			<p id='score-message' class='score-message'></p>
-			<p><strong>Score:</strong> <span id='score-value'>0</span></p>
-			<p><strong>Enemies:</strong> <span id='enemies-count'>0</span></p>
+			<p class='score-message'></p>
+			<p>
+				<strong class='score-enemies-label'>Enemies:</strong>
+				<span class='score-enemies-value enemies-count'>0</span>
+			</p>
+			<div class='score-bar score-bar-game'>
+				<div class='score-bar-bar-wrapper'>
+					<div class='score-bar-bar'></div>
+					<div class='score-bar-number'>
+						<span class='score-value'>0</span>/<span class='score-total'>1</span> points
+					</div>
+				</div>
+			</div>
 		</div>
+		
 		<div class='win' id='win'>
-			<h1 class='blink'>You Win</h1>
-			<strong>Score:</strong> <span id='win-score'>0</span>
-			<div><a href='#next' id='next-level' class='next-level'>Continue</a></div>
+			<h1 class='blink win-text'>You Win</h1>
+			<div class='win-final-score'>
+				<strong>Final Score:</strong>
+				<span class='win-score'>0</span> / 
+				<span class='win-max-score'>0</span>
+			</div>
+			<div>
+				<a href='#restart' class='win-button win-restart'>Restart</a>
+				<a href='#next' class='win-button win-next-level'>Continue</a>
+			</div>
+			<p class='win-cta'>
+				<a href='//gregtatum.com/category/interactive/'>Check out other interactive works</a> by
+				<a href='//gregtatum.com/'>Greg Tatum</a>
+			</p>
 		</div>
 		
 		<div class='title' id='title'>
@@ -105,7 +127,7 @@
 				<p><a href='http://get.webgl.org/'>Find out more about WebGL support here.</a></p>
 			</div>
 			<div class='title-credits'>
-				A WebGL game by <a href='http://gregtatum.com/'>Greg Tatum</a>
+				A WebGL game by <a href='//gregtatum.com/'>Greg Tatum</a>
 			</div>
 		</div>
 		

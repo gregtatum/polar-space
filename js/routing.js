@@ -1,46 +1,58 @@
 var crossroads = require('crossroads');
 var hasher = require('hasher');
+var routing = require('./routing');
 var levelLoader = require('./levelLoader');
 
 var baseUrl = '/polar';
 var defaultLevel = "titles";
 var currentLevel = "";
 
-crossroads.addRoute( '/', function showMainTitles() {
+var routing = {
 	
-	_gaq.push( [ '_trackPageview', baseUrl ] );
+	start : function( Poem ) {
+		
+		levelLoader.init( Poem );
+		
+		function parseHash( newHash, oldHash ){
+			crossroads.parse( newHash );
+		}
+		
+		crossroads.addRoute( '/',				routing.showMainTitles );
+		crossroads.addRoute( 'level/{name}',	routing.loadUpALevel );
 	
-	levelLoader.load( defaultLevel );
+		crossroads.addRoute( /.*/, function reRouteToMainTitlesIfNoMatch() {
+			hasher.replaceHash('');
+		});
 	
-});
+		hasher.initialized.add(parseHash); // parse initial hash
+		hasher.changed.add(parseHash); //parse hash changes
+		hasher.init(); //start listening for history change
+		
+	},
+	
+	showMainTitles : function() {
 
-crossroads.addRoute( 'level/{name}', function loadUpALevel( levelName ) {
+		_gaq.push( [ '_trackPageview', baseUrl ] );
 	
-	_gaq.push( [ '_trackPageview', baseUrl+'/#level/'+levelName ] );
-	
-	var levelFound = levelLoader.load( levelName );
-	
-	if( !levelFound ) {
-		levelLoader.load( defaultLevel );
-	}
-	
-});
+		levelLoader.load( defaultLevel );		
 
-crossroads.addRoute( /.*/, function reRouteToMainTitlesIfNoMatch() {
-	
-	hasher.replaceHash('');
-	
-});
+	},
 
-$(function startWatchingRoutes() {
+	loadUpALevel : function( levelName ) {
+
+		_gaq.push( [ '_trackPageview', baseUrl+'/#level/'+levelName ] );
 	
-	function parseHash(newHash, oldHash){
-		crossroads.parse(newHash);
-	}
+		var levelFound = levelLoader.load( levelName );
 	
-	hasher.initialized.add(parseHash); // parse initial hash
-	hasher.changed.add(parseHash); //parse hash changes
+		if( !levelFound ) {
+			levelLoader.load( defaultLevel );
+		}
+		
+	},
 	
-	hasher.init(); //start listening for history change
+	on : levelLoader.on,
+	off : levelLoader.off
 	
-});
+};
+
+module.exports = routing;

@@ -1,2 +1,4 @@
-require('./ui');
-require('./routing');
+var routing = require('./routing');
+var ui = require('./ui');
+
+routing.start( require('./Poem') );

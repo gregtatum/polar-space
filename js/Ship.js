@@ -16,6 +16,7 @@ var Ship = function( poem ) {
 	this.position = new THREE.Vector2();	
 	
 	this.dead = false;
+	this.killTimeout = null;
 	this.lives = 3;
 	this.invulnerable = true;
 	this.invulnerableLength = 3000;
@@ -33,6 +34,7 @@ var Ship = function( poem ) {
 	this.thrust = 0;
 	
 	this.bankSpeed = 0.06;
+	this.bankSpeed = 0.0075;
 	this.bank = 0;
 	this.maxSpeed = 500;
 
@@ -107,6 +109,7 @@ Ship.prototype = {
 	},
 	
 	disable : function() {
+		clearTimeout( this.killTimeout );
 		this.dead = true;
 		this.object.visible = false;
 	},
@@ -130,7 +133,7 @@ Ship.prototype = {
 				}
 			);
 		
-			setTimeout(function() {
+			this.killTimeout = setTimeout(function() {
 		
 				this.dead = false;
 				this.invulnerable = true;
@@ -166,7 +169,7 @@ Ship.prototype = {
 		}
 		this.damage.update( e );
 		this.hid.update( e );
-
+		
 	},
 	
 	updateInvulnerability : function( e ) {
@@ -214,11 +217,11 @@ Ship.prototype = {
 			}
 		
 			if( pressed.left ) {
-				this.bank = this.bankSpeed;
+				this.bank += this.bankSpeed;
 			}
 		
 			if( pressed.right ) {
-				this.bank = this.bankSpeed * -1;
+				this.bank += this.bankSpeed * -1;
 			}
 			
 		} else {

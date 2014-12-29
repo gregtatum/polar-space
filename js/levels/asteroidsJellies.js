@@ -7,7 +7,7 @@ module.exports = {
 	maxScore : numberOfJellies * 13,
 	config : {
 		scoringAndWinning: {
-			message: "Arachnids detected in the next sector. Please spare their babies.<br/>",
+			message: "Arachnids detected in the next sector.<br/>Please spare their babies.<br/>",
 			nextLevel: "web",
 			conditions: [
 				{

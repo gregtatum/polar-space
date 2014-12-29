@@ -19,7 +19,6 @@
 		scoringAndWinning.reportConditionCompleted();
 
 */
-var hasher = require('hasher');
 var routing = require('../routing');
 var scores = require('./scores');
 var selectors = require('../utils/selectors');
@@ -209,7 +208,7 @@ ScoringAndWinning.prototype = {
 			
 			e.preventDefault();
 			
-			hasher.setHash("level/" + this.nextLevel );
+			routing.loadUpALevel( this.nextLevel );
 			
 			this.hideWinScreen();
 			

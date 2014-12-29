@@ -1,5 +1,5 @@
 var Poem = null;
-var levels = require('./levels');
+var levels = null;
 var EventDispatcher = require('./utils/EventDispatcher');
 
 var currentLevel = null;
@@ -46,8 +46,9 @@ function hideTitles() {
 
 var levelLoader = {
 	
-	init : function( PoemClass ) {
+	init : function( PoemClass, levelsObject ) {
 		Poem = PoemClass;
+		levels = levelsObject;
 	},
 	
 	load : function( slug ) {

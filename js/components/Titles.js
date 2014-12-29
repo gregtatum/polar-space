@@ -1,5 +1,5 @@
 var HID = require('../Components/Hid');
-var hasher = require('hasher');
+var routing = require('../routing');
 
 var Titles = function( poem, properties ) {
 	this.poem = poem;
@@ -43,7 +43,7 @@ Titles.prototype = {
 	
 	nextLevel : function() {
 		
-		hasher.setHash("level/intro");
+		routing.loadUpALevel("intro");
 		
 	},
 	

@@ -1,6 +1,5 @@
 var crossroads = require('crossroads');
 var hasher = require('hasher');
-var routing = require('./routing');
 var levelLoader = require('./levelLoader');
 
 var baseUrl = '/polar';
@@ -9,9 +8,9 @@ var currentLevel = "";
 
 var routing = {
 	
-	start : function( Poem ) {
+	start : function( Poem, levels ) {
 		
-		levelLoader.init( Poem );
+		levelLoader.init( Poem, levels );
 		
 		function parseHash( newHash, oldHash ){
 			crossroads.parse( newHash );
@@ -50,8 +49,8 @@ var routing = {
 		
 	},
 	
-	on : levelLoader.on,
-	off : levelLoader.off
+	on : levelLoader.on.bind( levelLoader ),
+	off : levelLoader.off.bind( levelLoader )
 	
 };
 

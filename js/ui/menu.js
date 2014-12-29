@@ -1,5 +1,5 @@
 var	EventDispatcher	= require('../utils/EventDispatcher');
-var	routing		= require('../routing');
+var	routing			= require('../routing');
 var	scores			= require('../components/scores');
 
 var poem;

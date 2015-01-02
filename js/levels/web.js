@@ -9,7 +9,9 @@ module.exports = {
 		r : 110,
 		// height : 60,
 		// circumference : 900,
-		cameraMultiplier : 2,
+		camera: {
+			multiplier : 2
+		},
 		scoringAndWinning: {
 			message: "Hopefully the spiderlings will grow into pleasant individuals. Follow me on <a href='https://twitter.com/tatumcreative'>Twitter</a> for updates on new levels.",
 			nextLevel: "titles",

@@ -9,7 +9,9 @@ module.exports = {
 		r : 120,
 		height : 60,
 		circumference : 900,
-		cameraMultiplier : 2,
+		camera: {
+			multiplier : 2
+		},
 		scoringAndWinning: {
 			message: "You saved this sector<br/>on to the next level.",
 			nextLevel: "asteroidsJellies",

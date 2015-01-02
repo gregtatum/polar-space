@@ -52,7 +52,9 @@ a:hover {
     color: #54AFFF;
     text-decoration: none;
 }
-
+#stats {
+	right: 0;
+}
 .info {
 	padding: 0 2em;
 	text-align:center;

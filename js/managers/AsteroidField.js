@@ -1,10 +1,12 @@
 var Asteroid = require('../entities/Asteroid');
+var random = require('../utils/random.js');
 
 var AsteroidField = function( poem, properties ) {
 	
 	this.poem = poem;
 	this.asteroids = [];
 	this.maxRadius = 50;
+	this.range = [ 0.2, 1 ];
 	this.originClearance = 30;
 	this.count = 20;
 	
@@ -31,10 +33,10 @@ AsteroidField.prototype = {
 			
 			do {
 				
-				x = Math.random() * width;
-				y = Math.random() * height - (height / 2);
-			
-				radius = Math.random() * this.maxRadius;
+				x = random.range( 0, width );
+				y = random.range( -height / 2, height / 2 );
+
+				radius = random.range( this.range[0], this.range[1] ) * this.maxRadius;
 				
 			} while(
 				this.checkCollision( x, y, radius ) &&

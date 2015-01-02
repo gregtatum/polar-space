@@ -1,7 +1,6 @@
 var glslify = require('glslify');
 var createShader = require('three-glslify')(THREE);
 var createWebGeometry = require('./geometry');
-var Coordinates = require('../../utils/Coordinates');
 
 
 function worldPositionVelocityUpdater( coordinates, fromPolarPosition, toWorldPosition, toVelocity ) {

@@ -2,7 +2,9 @@ var CameraIntro = function( poem, properties ) {
 	
 	this.poem = poem;
 	
-	this.poem.camera.object.position.y = this.poem.height * 5;
+	var height = properties.heightMultiplier ? properties.heightMultiplier : 5;
+	
+	this.poem.camera.object.position.y = this.poem.height * height;
 	this.origin = properties.origin ? properties.origin : new THREE.Vector3();
 	this.speed = properties.speed ? properties.speed : 0.98;
 	

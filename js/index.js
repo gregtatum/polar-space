@@ -1,3 +1,5 @@
+require('./utils/ThreeConsole');
+
 var routing = require('./routing');
 var ui = require('./ui');
 

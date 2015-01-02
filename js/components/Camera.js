@@ -7,13 +7,13 @@ var Camera = function( poem, properties ) {
 	this.speed = 0.032;
 	
 	this.object = new THREE.PerspectiveCamera(
-		50,										// fov
-		window.innerWidth / window.innerHeight,	// aspect ratio
-		3,										// near frustum
-		1000									// far frustum
+		50,														// fov
+		window.innerWidth / window.innerHeight,					// aspect ratio
+		properties.nearFrustum ? properties.nearFrustum : 3,	// near frustum
+		properties.farFrustum ? properties.farFrustum : 1000	// far frustum
 	);
 	
-	var multiplier = properties.cameraMultiplier ? properties.cameraMultiplier : 1.5;
+	var multiplier = properties.multiplier ? properties.multiplier : 1.5;
 	this.object.position.z = this.poem.r * multiplier;
 	
 	this.polarObj.add( this.object );

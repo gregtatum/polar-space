@@ -13,14 +13,30 @@ var Clock = require('./utils/Clock');
 
 var renderer;
 
+function createFog( config, cameraPositionZ ) {
+	
+	var fog = _.extend({
+		color : 0x222222,
+		nearFactor : 0.5,
+		farFactor : 2
+	}, config );
+	
+	return new THREE.Fog(
+		fog.color,
+		cameraPositionZ * fog.nearFactor,
+		cameraPositionZ * fog.farFactor
+	);
+}
+
 var Poem = function( level, slug ) {
+	
 
 	this.circumference = level.config.circumference || 750;
 	this.height = level.config.height || 120;
 	this.r = level.config.r || 240;
 	this.circumferenceRatio = (2 * Math.PI) / this.circumference; //Map 2d X coordinates to polar coordinates
 	this.ratio = window.devicePixelRatio >= 1 ? window.devicePixelRatio : 1;
-	this.slug = slug;	
+	this.slug = slug;
 	
 	this.controls = undefined;
 	this.div = document.getElementById( 'container' );
@@ -30,8 +46,8 @@ var Poem = function( level, slug ) {
 
 	this.clock = new Clock();
 	this.coordinates = new Coordinates( this );
-	this.camera = new Camera( this, level.config );
-	this.scene.fog = new THREE.Fog( 0x222222, this.camera.object.position.z / 2, this.camera.object.position.z * 2 );
+	this.camera = new Camera( this, level.config.camera || {} );
+	this.scene.fog = createFog( level.config.fog, this.camera.object.position.z );
 	
 	this.gun = new Gun( this );
 	this.ship = new Ship( this );
@@ -47,7 +63,7 @@ var Poem = function( level, slug ) {
 	if(!renderer) {
 		this.addRenderer();
 	}
-//	this.addStats();
+	this.addStats();
 	this.addEventListeners();
 	
 	this.start();
@@ -124,7 +140,7 @@ Poem.prototype = {
 			
 	update : function() {
 		
-		// this.stats.update();
+		this.stats.update();
 		
 		this.dispatch({
 			type: "update",

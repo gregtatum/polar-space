@@ -40,6 +40,10 @@ module.exports = {
 				rotation: Math.PI / 2
 			}
 		},
+		rails : {
+			object: require("../components/Rails"),
+			properties : {}
+		},
 		// cloudsTop : {
 		// 	object: require("../components/Clouds"),
 		// 	properties: {

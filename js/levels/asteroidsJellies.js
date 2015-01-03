@@ -16,9 +16,17 @@ module.exports = {
 					properties: null
 				}		
 			]
+		},
+		fog : {
+			nearFactor : 0.25,
+			farFactor : 1.7,
 		}
 	},
 	objects : {
+		rails : {
+			object: require("../components/Rails"),
+			properties : {}
+		},
 		asteroidField : {
 			object: require("../managers/AsteroidField"),
 			properties: {
@@ -30,6 +38,13 @@ module.exports = {
 			properties: {
 				entityType: require('../entities/Jellyship'),
 				count: numberOfJellies
+			}
+		},
+		cameraIntro : {
+			object: require("../components/CameraIntro"),
+			properties: {
+				speed : 0.975,
+				heightMultiplier : 2
 			}
 		},
 		music : {

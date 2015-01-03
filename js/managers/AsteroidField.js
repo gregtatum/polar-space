@@ -33,7 +33,7 @@ AsteroidField.prototype = {
 			
 			do {
 				
-				x = random.range( 0, width );
+				x = random.range( width * 0.1, width * 0.9 );
 				y = random.range( -height / 2, height / 2 );
 
 				radius = random.range( this.range[0], this.range[1] ) * this.maxRadius;

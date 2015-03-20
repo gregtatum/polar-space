@@ -52,8 +52,8 @@ module.exports = {
 		// 		offset: new THREE.Vector2(0.5,0.8)
 		// 	}
 		// },
-		splinePathCenter : {
-			object: require("../components/SplinePathCenter"),
+		energySwarm : {
+			object: require("../components/EnergyBall/Swarm"),
 			properties: {}
 		},
 		asteroidField : {

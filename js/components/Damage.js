@@ -61,7 +61,7 @@ Damage.prototype = {
 		this.object = new THREE.PointCloud(
 			geometry,
 			new THREE.PointCloudMaterial({
-				 size: 1 * this.poem.ratio,
+				 size: 1,
 				 color: this.color,
 				 transparent: this.transparent,
 				 opacity: this.opacity
@@ -122,7 +122,7 @@ Damage.prototype = {
 		var freq = 450;
 		var sound = this.explosionSound;
 
-		//Start sound
+		//Start
 		sound.setGain(0.5, 0, 0.001);
 		sound.setFrequency(freq, 0, 0);
 
@@ -144,10 +144,15 @@ Damage.prototype = {
 
 	update : function( e )  {
 
-		_.each( this.bullets, function( bullet ) {
+		var bullet;
+
+		for( var i=0, il = this.bullets.length; i < il; i++ ) {
+
+			bullet = this.bullets[i];
 			bullet.update( e );
 			bullet.speed.multiplyScalar(0.999);
-		});
+
+		}
 
 		this.object.geometry.verticesNeedUpdate = true;
 

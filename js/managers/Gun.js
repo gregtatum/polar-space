@@ -2,6 +2,7 @@ var Bullet = require('../entities/Bullet');
 var Collider = require('../utils/Collider');
 var SoundGenerator = require('../sound/SoundGenerator');
 var destroyMesh = require('../utils/destroyMesh');
+
 var Gun = function( poem ) {
 	this.poem = poem;
 	this.object = null;
@@ -111,7 +112,7 @@ Gun.prototype = {
 		this.object = new THREE.PointCloud(
 			geometry,
 			new THREE.PointCloudMaterial({
-				 size: 1 * this.poem.ratio,
+				 size: 2,
 				 color: 0xff0000
 			}
 		));

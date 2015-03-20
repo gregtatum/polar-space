@@ -58,13 +58,13 @@ HID.prototype = {
 		$(window).on( 'deviceorientation.HID', this.handleTilt.bind(this) );
 		// window.addEventListener('deviceorientation', this.handleTilt.bind(this), false);
 		
-		$("canvas").on( 'touchstart.HID', this.handleTouchStart.bind(this) );
-		$("canvas").on( 'touchend.HID', this.handleTouchEnd.bind(this) );
+		$(".hit-target").on( 'touchstart.HID', this.handleTouchStart.bind(this) );
+		$(".hit-target").on( 'touchend.HID', this.handleTouchEnd.bind(this) );
 
 		this.poem.on( "destroy", function() {
 			$(window).off( 'deviceorientation.HID' );
-			$("canvas").off( 'touchstart.HID' );
-			$("canvas").off( 'touchend.HID' );
+			$(".hit-target").off( 'touchstart.HID' );
+			$(".hit-target").off( 'touchend.HID' );
 		});
 		
 	},

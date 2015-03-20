@@ -11,8 +11,9 @@
 	"devel": true,
 	"jquery": true,
 	"browser": true,
+	"sub": true,
 	"debug": true, //allow debug statements
 	"eqeqeq": true, //must use ===
-	"latedef": true, //variables must be defined before use
+	"latedef": "nofunc", //variables must be defined before use
 	"undef": true //all variables must be declared
 }

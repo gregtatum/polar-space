@@ -10,10 +10,11 @@ var Ship = function( poem ) {
 	this.object = null;
 	this.hid = new HID( this.poem );
 	this.color = 0x4A9DE7;
-	this.linewidth = 2 * this.poem.ratio;
+	this.linewidth = 3;
 	this.radius = 3;
 	
-	this.position = new THREE.Vector2();	
+	this.position = new THREE.Vector2();
+	this.position3d = new THREE.Vector3();
 	
 	this.dead = false;
 	this.killTimeout = null;
@@ -323,6 +324,7 @@ Ship.prototype = {
 			//Polar coordinates
 			this.polarObj.rotation.y = this.position.x * this.poem.circumferenceRatio;
 			
+			this.object.getWorldPosition( this.position3d );
 		};
 		
 	}(),

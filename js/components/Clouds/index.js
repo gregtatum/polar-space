@@ -48,6 +48,7 @@ var Clouds = function( poem, properties ) {
 	
 	var mesh = new THREE.Mesh( geometry, material );
 	
+	mesh.frustumCulled = false;
 	mesh.rotation.x = properties.rotation;
 	mesh.position.y = properties.height;
 	mesh.scale.multiplyScalar( 10 );

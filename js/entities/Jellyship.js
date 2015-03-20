@@ -14,7 +14,7 @@ var Jellyship = function( poem, manager, x, y ) {
 	this.name = "Jellyship";
 	this.color = color;
 	this.cssColor = "#CB36EA";
-	this.linewidth = 2 * this.poem.ratio;
+	this.linewidth = 2;
 	this.scoreValue = 13;
 
 	this.spawnPoint = new THREE.Vector2(x,y);

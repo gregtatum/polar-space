@@ -1,7 +1,7 @@
 var soundcloud = require('soundcloud-badge');
 var muter = require('./muter');
 
-var soundOff = false;
+var Off = false;
 
 var audio = null;
 var fetchAndPlaySong = null;

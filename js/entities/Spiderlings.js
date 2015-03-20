@@ -13,7 +13,7 @@ var Spiderling = function( poem, manager, x, y, theta ) {
 	this.name = "Spiderling";
 	this.color = color;
 	this.cssColor = "#ff0000";
-	this.linewidth = 2 * this.poem.ratio;
+	this.linewidth = 2;
 	this.scoreValue = -5;
 
 	this.spawnPoint = new THREE.Vector2(x,y);

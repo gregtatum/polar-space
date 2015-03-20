@@ -39,11 +39,11 @@ function createGeometry( radius, poemHeight ) {
 	return geometry;
 }
 
-function createMaterial( color, pixelRatio ) {
+function createMaterial( color ) {
 	
 	return new THREE.LineBasicMaterial({
 		color: color,
-		linewidth : 2 * pixelRatio
+		linewidth : 2
 	});
 		
 }
@@ -66,7 +66,7 @@ var Rails = function( poem, properties ) {
 	
 	createAndAddObject(
 		createGeometry( poem.r, poem.height ),
-		createMaterial( 0x445555, poem.ratio ),
+		createMaterial( 0x445555 ),
 		poem.scene
 	);
 	

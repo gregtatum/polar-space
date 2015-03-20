@@ -14,7 +14,7 @@ var Arachnid = function( poem, manager, x, y ) {
 	this.name = "Arachnid";
 	this.color = 0xBC492A;
 	this.cssColor = "#BC492A";
-	this.linewidth = 2 * this.poem.ratio;
+	this.linewidth = 1.5;
 	this.scoreValue = 23;
 
 	this.spawnPoint = new THREE.Vector2(x,y);

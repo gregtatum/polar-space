@@ -51,7 +51,7 @@ Stars.prototype = {
 		this.object = new THREE.PointCloud(
 			geometry,
 			new THREE.PointCloudMaterial({
-				 size: 0.5 * this.poem.ratio,
+				 size: 0.5,
 				 color: this.color,
 				 fog: false
 			}

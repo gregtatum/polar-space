@@ -1,8 +1,11 @@
-body {
-	font-family: 'VT323', sans-serif;
-	background-color: #222;
-	margin: 0px;
-	overflow: hidden;
+html, body {
+    font-family: 'VT323', sans-serif;
+    background-color: #222;
+    margin: 0px;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 *, *:before, *:after {
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
@@ -26,7 +29,7 @@ h1 {
 .info {
 	position: absolute;
 	bottom: 2.1em;
-	right: 1em;	
+	right: 1em;
 }
 p {
     margin: 0;
@@ -587,28 +590,28 @@ h1.blink {}
 	.arrow-next:after {
 	    left: 0;
 		right: auto;
-	}	
+	}
 	.npm-scb-now-playing {
 		display:none;
 	}
 }
-@-webkit-keyframes grow {  
+@-webkit-keyframes grow {
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
 }
-@-moz-keyframes grow {  
+@-moz-keyframes grow {
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
 }
-@-ms-keyframes grow {  
+@-ms-keyframes grow {
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
 }
-@-o-keyframes grow {  
+@-o-keyframes grow {
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
 }
-@keyframes grow {  
+@keyframes grow {
 	0% {transform: scale(0.7);}
 	100% {transform: scale(1);}
 }
@@ -665,9 +668,9 @@ h1.blink {}
 	    -ms-transition: width 1000ms, background-color 500ms;
 	     -o-transition: width 1000ms, background-color 500ms;
 	        transition: width 1000ms, background-color 500ms;
-	-webkit-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
-	   -moz-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
-	     -o-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005); 
+	-webkit-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005);
+	   -moz-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005);
+	     -o-transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005);
 	        transition-timing-function: cubic-bezier(0.545, 1.385, 0.510, 1.005);
 }
 .score-enemies-label {
